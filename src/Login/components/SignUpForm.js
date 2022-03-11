@@ -114,10 +114,10 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => setShowSignUp(false)}>
-          Close
+          Cancel
         </Button>
         <Button variant="primary" onClick={() => setShowSignUp(false)}>
-          Save Changes
+          Create Account
         </Button>
       </Modal.Footer>
     </Modal>

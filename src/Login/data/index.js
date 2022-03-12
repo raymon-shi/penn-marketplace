@@ -6,3 +6,8 @@ export const data = {
   schools: ['School of Arts and Sciences', 'The Wharton School', 'School of Engineering and Applied Sciences', 'School of Nursing', 'Anneberg School of Communication', 'School of Dental Medicine', 'Stuart Weitzman School of Design', 'Graduate School of Education', 'Penn Carey Law', 'Perelman School of Medicine', 'School of Social Policy and Practice', 'School of Veterinary Medicine'],
   schoolYears: Array.from({ length: 50 }, (x, i) => i + 1980),
 };
+
+export const apiData = {
+  username: 'UPENN_OD_enPs_1005844',
+  password: 'gi2md86hljr7tgm7fcbp79np2n',
+};

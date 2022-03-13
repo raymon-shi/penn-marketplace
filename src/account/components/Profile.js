@@ -3,7 +3,7 @@ import '../assets/Profile.css';
 import ExclamationIcon from '../assets/exclamation-mark.png';
 import DarkModeOffIcone from '../assets/dark-mode-off.png';
 
-const Profile = () => (
+const Profile = (userData) => (
   <div style={{ width: '100%' }}>
     <div className="flex">
       <h1>Profile</h1>

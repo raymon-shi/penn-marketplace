@@ -1,6 +1,8 @@
 import React from 'react';
 import './assets/Account.css';
 import Profile from './components/Profile';
+import Reviews from './components/Reviews';
+import user from './assets/testUser.json';
 
 const Account = () => {
   const i = 0;
@@ -19,7 +21,7 @@ const Account = () => {
         </div>
       </div>
       <div>
-        <Profile />
+        <Reviews userData={user.user} />
       </div>
     </div>
   );

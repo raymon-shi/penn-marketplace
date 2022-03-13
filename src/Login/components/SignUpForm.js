@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Form, Button, Container, Modal,
 } from 'react-bootstrap';
@@ -15,6 +15,32 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
   const [newYear, setNewYear] = useState(0);
   const [newSchool, setNewSchool] = useState('');
   const [newSchoolYear, setNewSchoolYear] = useState(0);
+  const [validFirstName, setValidFirstName] = useState(false);
+  const [validLastName, setValidLastName] = useState(false);
+  const [validEmail, setValidEmail] = useState(false);
+
+  const baseURL = `https://esb.isc-seo.upenn.edu/8091/open_data/directory?first_name=${newFirstName}&last_name=${newLastName}&email=${newPennEmail}`;
+  const proxy = 'https://cors-anywhere.herokuapp.com/';
+
+  const init = {
+    method: 'GET',
+    headers: {
+      'Authorization-Bearer': 'UPENN_OD_enPs_1005844',
+      'Authorization-Token': 'gi2md86hljr7tgm7fcbp79np2n',
+    },
+  };
+
+  const lookupPennUser = async () => {
+    const response = await fetch(new Request(proxy + baseURL), init);
+    const userInfo = await response.json();
+    if (userInfo.result_data.length) {
+      // set true
+      console.log('Valid User');
+    } else {
+      // set false
+      console.log('Invalid User');
+    }
+  };
 
   return (
     <Modal show={showSignUp} onHide={() => setShowSignUp(false)}>
@@ -29,153 +55,64 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
           id="signup-form"
           onSubmit={() => {
             setShowSignUp(false);
+            lookupPennUser();
           }}
         >
-          <Form.Group
-            className="mb-3"
-            controlId="signUpFormName"
-            style={{ display: 'flex', flexDirection: 'row' }}
-          >
-            <Form.Control
-              type="text"
-              placeholder="First Name"
-              value={newFirstName}
-              onChange={(e) => setNewFirstName(e.target.value)}
-              required
-            />
-            <Form.Control
-              type="text"
-              placeholder="Last Name"
-              value={newLastName}
-              onChange={(e) => setNewLastName(e.target.value)}
-              required
-            />
+          <Form.Group className="mb-3" controlId="signUpFormName" style={{ display: 'flex', flexDirection: 'row' }}>
+            <Form.Control type="text" placeholder="First Name" value={newFirstName} onChange={(e) => setNewFirstName(e.target.value)} required />
+            <Form.Control type="text" placeholder="Last Name" value={newLastName} onChange={(e) => setNewLastName(e.target.value)} required />
           </Form.Group>
-          <Form.Group
-            className="mb-3"
-            controlId="signUpFormPennEmail"
-          >
-            <Form.Control
-              type="email"
-              placeholder="Penn Email"
-              value={newPennEmail}
-              onChange={(e) => setNewPennEmail(e.target.value)}
-              required
-            />
+          <Form.Group className="mb-3" controlId="signUpFormPennEmail">
+            <Form.Control type="email" placeholder="Penn Email" value={newPennEmail} onChange={(e) => setNewPennEmail(e.target.value)} required />
           </Form.Group>
-          <Form.Group
-            className="mb-3"
-            controlId="signUpFormPassword"
-          >
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              required
-            />
+          <Form.Group className="mb-3" controlId="signUpFormPassword">
+            <Form.Control type="password" placeholder="Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
           </Form.Group>
-          <Form.Group
-            className="mb-3"
-            controlId="signUpFormBirthday"
-          >
-            <Form.Label
-              className="text-muted"
-            >
-              Birthday
-            </Form.Label>
-            <Form.Group
-              className="mb-3"
-              controlId="signUpFormBirthdaySelect"
-              style={{ display: 'flex', flexDirection: 'row' }}
-            >
-              <Form.Select
-                required
-                defaultValue="Month"
-                value={newMonth}
-                onChange={(e) => setNewMonth(e.target.value)}
-              >
+          <Form.Group className="mb-3" controlId="signUpFormBirthday">
+            <Form.Label className="text-muted">Birthday</Form.Label>
+            <Form.Group className="mb-3" controlId="signUpFormBirthdaySelect" style={{ display: 'flex', flexDirection: 'row' }}>
+              <Form.Select value={newMonth} onChange={(e) => setNewMonth(e.target.value)} required>
                 <option value="">Month</option>
-                {data.months.map(
-                  (month) => <option key={uuidv4()} value={{ month }}>{month}</option>,
-                )}
+                {data.months.map((month) => <option key={uuidv4()}>{month}</option>)}
               </Form.Select>
-              <Form.Select
-                required
-                defaultValue="Day"
-                value={newDay}
-                onChange={(e) => setNewDay(e.target.value)}
-              >
+              <Form.Select value={newDay} onChange={(e) => setNewDay(e.target.value)} required>
                 <option value="">Day</option>
-                {data.days.map(
-                  (day) => <option key={uuidv4()} value={{ day }}>{day}</option>,
-                )}
+                {data.days.map((day) => <option key={uuidv4()}>{day}</option>)}
               </Form.Select>
-              <Form.Select
-                required
-                defaultValue="Year"
-                value={newYear}
-                onChange={(e) => setNewYear(e.target.value)}
-              >
+              <Form.Select value={newYear} onChange={(e) => setNewYear(e.target.value)} required>
                 <option value="">Year</option>
-                {data.years.map(
-                  (year) => <option key={uuidv4()} value={{ year }}>{year}</option>,
-                )}
+                {data.years.map((year) => <option key={uuidv4()}>{year}</option>)}
               </Form.Select>
             </Form.Group>
           </Form.Group>
-          <Form.Group
-            className="mb-3"
-            controlId="signUpFormSchoolClassYear"
-          >
-            <Form.Label
-              className="text-muted"
-            >
-              School and Class Year
-            </Form.Label>
-            <Form.Group
-              className="mb-3"
-              controlId="signUpFormSchoolSelect"
-              style={{ display: 'flex', flexDirection: 'row' }}
-            >
+          <Form.Group className="mb-3" controlId="signUpFormSchoolAndYear">
+            <Form.Label className="text-muted">School and Class Year</Form.Label>
+            <Form.Group className="mb-3" controlId="signUpFormSchoolAndYearSelect" style={{ display: 'flex', flexDirection: 'row' }}>
               <Form.Select
-                required
-                defaultValue="School"
                 value={newSchool}
                 onChange={(e) => setNewSchool(e.target.value)}
+                required
               >
                 <option value="">School</option>
-                {data.schools.map(
-                  (school) => <option key={uuidv4()} value={{ school }}>{school}</option>,
-                )}
+                {data.schools.map((school) => <option key={uuidv4()}>{school}</option>)}
               </Form.Select>
               <Form.Select
-                required
-                defaultValue="Class Year"
                 value={newSchoolYear}
                 onChange={(e) => setNewSchoolYear(e.target.value)}
+                required
               >
                 <option value="">Class Year</option>
-                {data.years.map(
-                  (year) => <option key={uuidv4()} value={{ year }}>{year}</option>,
-                )}
+                {data.schoolYears.map((schoolYear) => <option key={uuidv4()}>{schoolYear}</option>)}
               </Form.Select>
             </Form.Group>
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          variant="secondary"
-          onClick={() => setShowSignUp(false)}
-        >
+        <Button variant="secondary" onClick={() => setShowSignUp(false)}>
           Cancel
         </Button>
-        <Button
-          variant="primary"
-          type="submit"
-          form="signup-form"
-        >
+        <Button variant="primary" type="submit" form="signup-form">
           Create Account
         </Button>
       </Modal.Footer>

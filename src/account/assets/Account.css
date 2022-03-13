@@ -1,0 +1,20 @@
+.container {
+  display: grid;
+  grid-template-columns: 2fr 3fr 2fr;
+  margin-top: 3%;
+}
+
+.flex {
+  display:flex;
+}
+
+#side-nav {
+  justify-content: right;
+  margin-right: 5%;
+}
+
+.side-nav-button {
+  border: none;
+  background: none;
+  margin-bottom: 2%;
+}

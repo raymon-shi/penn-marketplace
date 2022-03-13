@@ -7,8 +7,8 @@ const Account = () => {
 
   return (
     <div className="container">
-      <div id="side-nav" className="flex">
-        <div>
+      <div id="side-nav" className="flex-account">
+        <div style={{ width: '40%' }}>
           <button type="button" className="side-nav-button">Profile</button>
           <hr />
           <button type="button" className="side-nav-button">Reviews</button>
@@ -18,7 +18,7 @@ const Account = () => {
           <button type="button" className="side-nav-button">Blocked</button>
         </div>
       </div>
-      <div className="flex">
+      <div>
         <Profile />
       </div>
     </div>

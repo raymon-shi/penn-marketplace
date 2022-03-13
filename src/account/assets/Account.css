@@ -1,16 +1,19 @@
+hr {
+  margin-right: 10%;
+}
+
 .container {
   display: grid;
-  grid-template-columns: 2fr 3fr 2fr;
+  grid-template-columns: 2fr 4fr 1fr;
   margin-top: 3%;
 }
 
-.flex {
-  display:flex;
-}
-
 #side-nav {
+  display:flex;
+  align-items: center;
   justify-content: right;
   margin-right: 5%;
+  border-right: 1px solid black;
 }
 
 .side-nav-button {

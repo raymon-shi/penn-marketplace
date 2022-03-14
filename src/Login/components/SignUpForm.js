@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Form, Button, Container, Modal,
+  Form, Button, Modal, Alert,
 } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
-import { apiData, data } from '../data/index';
+import { data } from '../data/index';
 
 const SignUpForm = ({ showSignUp, setShowSignUp }) => {
   const [newFirstName, setNewFirstName] = useState('');
@@ -18,6 +18,7 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
   const [validFirstName, setValidFirstName] = useState(false);
   const [validLastName, setValidLastName] = useState(false);
   const [validEmail, setValidEmail] = useState(false);
+  const [formError, setFormError] = useState(false);
 
   const baseURL = `https://esb.isc-seo.upenn.edu/8091/open_data/directory?first_name=${newFirstName}&last_name=${newLastName}&email=${newPennEmail}`;
   const proxy = 'https://cors-anywhere.herokuapp.com/';
@@ -42,6 +43,42 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
     }
   };
 
+  const checkValidNameHandler = () => {
+    if ((newFirstName && !newFirstName.match(/^[a-zA-Z]+$/)) || (newLastName && !newLastName.match(/^[a-zA-Z]+$/))) {
+      return (
+        <Alert variant="danger">
+          Please enter an alphabetic name only!
+        </Alert>
+      );
+    }
+    return null;
+  };
+
+  const checkStrongPassword = () => {
+    // if (newPassword && newPassword.search([/[A-Z]/i]) < 1) {
+    //   return (
+    //     <Alert variant="danger">
+    //       Your password must contain a capital letter!
+    //     </Alert>
+    //   );
+    // }
+    // if (newPassword && newPassword.search([/[~!@#$%^&*()-=_+?>]/i]) < 0) {
+    //   return (
+    //     <Alert variant="danger">
+    //       Your password must contain a special character from: [~!@#$%^&*()-=_+?&gt;
+    //     </Alert>
+    //   );
+    // }
+    if (newPassword && newPassword.length < 8) {
+      return (
+        <Alert variant="danger">
+          Your password must be at least 8 characters long!
+        </Alert>
+      );
+    }
+    return null;
+  };
+
   return (
     <Modal show={showSignUp} onHide={() => setShowSignUp(false)}>
       <Modal.Header closeButton>
@@ -50,6 +87,8 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {checkValidNameHandler()}
+        {checkStrongPassword()}
         <Form
           className="card p-3 bg-light"
           id="signup-form"
@@ -112,7 +151,7 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
         <Button variant="secondary" onClick={() => setShowSignUp(false)}>
           Cancel
         </Button>
-        <Button variant="primary" type="submit" form="signup-form">
+        <Button variant="primary" type="submit" form="signup-form" disabled={checkValidNameHandler() || checkStrongPassword()}>
           Create Account
         </Button>
       </Modal.Footer>

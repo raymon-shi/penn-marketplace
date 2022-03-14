@@ -10,17 +10,10 @@ import imgIcon from '../assets/image.svg';
 const PriceListing = ({ onSubmit }) => {
   const [product, setProduct] = useState('');
   const [productDescr, setProductDescr] = useState('');
-  const [price, setPrice] = useState(toString(NaN));
+  const [price, setPrice] = useState('');
   const [img, setImg] = useState('');
   const [tag, setTag] = useState('');
   const [invalidImgAlert, setInvalidImgAlert] = useState(false);
-
-  const options = [
-    { value: 'Textbooks', label: 'Textbooks' },
-    { value: 'Services', label: 'Services' },
-    { value: 'Clothes', label: 'Clothes' },
-    { value: 'Housing & Furniture', label: 'Housing & Furniture' },
-  ];
 
   return (
     <div className="reg-listing pb-5">
@@ -32,7 +25,7 @@ const PriceListing = ({ onSubmit }) => {
           setProduct('');
           setImg('');
           setProductDescr('');
-          setPrice(null);
+          setPrice('');
           setTag('');
           onSubmit();
         }}
@@ -79,7 +72,20 @@ const PriceListing = ({ onSubmit }) => {
 
           <Form.Group className="mb-3">
             <Form.Label className="required">Price</Form.Label>
-            <Form.Control type="number" pattern="^-?[0-9]\d*\.?\d*$" min="0" step="any" name="product-price" value={price} placeholder="Set a price" onChange={(e) => setPrice(Number(e.target.value))} />
+            <Form.Control
+              type="number"
+              min="0"
+              step="any"
+              name="product-price"
+              value={price}
+              placeholder="Set a price"
+              onKeyPress={(e) => {
+                if (!/[0-9]|./.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
+              onChange={(e) => setPrice(e.target.value)}
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -93,7 +99,7 @@ const PriceListing = ({ onSubmit }) => {
             </Form.Select>
           </Form.Group>
 
-          <Button className="w-50 mt-3" type="submit" disabled={product === '' || productDescr === '' || !price}>Submit</Button>
+          <Button className="w-50 mt-3" type="submit" disabled={product === '' || productDescr === '' || price === '' || Number(price) <= 0}>Submit</Button>
         </Form>
       </Card>
     </div>

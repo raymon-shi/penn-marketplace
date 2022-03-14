@@ -14,13 +14,6 @@ const BidListing = ({ onSubmit }) => {
   const [tag, setTag] = useState('');
   const [invalidImgAlert, setInvalidImgAlert] = useState(false);
 
-  const options = [
-    { value: 'Textbooks', label: 'Textbooks' },
-    { value: 'Services', label: 'Services' },
-    { value: 'Clothes', label: 'Clothes' },
-    { value: 'Housing & Furniture', label: 'Housing & Furniture' },
-  ];
-
   return (
     <div className="reg-listing pb-5">
       <h1 className="title">Bid Listing</h1>

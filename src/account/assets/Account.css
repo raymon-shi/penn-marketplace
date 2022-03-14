@@ -20,4 +20,7 @@ hr {
   border: none;
   background: none;
   margin-bottom: 2%;
+  width: 80%;
+  border-radius: 5px;
+  text-align: left;
 }

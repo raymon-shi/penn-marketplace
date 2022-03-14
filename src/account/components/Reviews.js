@@ -20,7 +20,7 @@ const Reviews = ({ userData }) => {
       <div id="reviews">
         <div style={{ padding: '1% 2%' }}>
           {userData.reviews.map((review) => (
-            <div className="review">
+            <div className="review" key={review.pennID}>
               <div style={{ margin: '1%' }}>
                 <div className="flex">
                   <div className="rating">

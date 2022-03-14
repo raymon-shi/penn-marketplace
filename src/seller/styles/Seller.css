@@ -42,6 +42,10 @@ body {
   justify-content: center;
 }
 
+.seller-page .reg-listing p, .seller-page .bid-listing p {
+  margin: 0;
+}
+
 .seller-page img {
   object-fit: cover;
   border-radius: 5%;

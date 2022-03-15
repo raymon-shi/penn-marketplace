@@ -1,0 +1,26 @@
+h1 {
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 35px;
+  letter-spacing: 0em;
+  text-align: left;
+  display: inline;
+}
+
+.rating {
+  display: inline-flex;
+}
+
+#reviews {
+  margin-top: 3%;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.review {
+  background-color: #EFF0F0;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  border-radius: 5px;
+}

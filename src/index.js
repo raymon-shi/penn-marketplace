@@ -2,11 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Account from './account/Account';
 import reportWebVitals from './reportWebVitals';
+
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>,
+//   document.getElementById('root'),
+// );
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Account />
   </React.StrictMode>,
   document.getElementById('root'),
 );

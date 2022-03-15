@@ -1,26 +1,20 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Seller from './seller/components/Seller';
+import Item from './buyer/components/Item.js';
+import Checkout from './buyer/components/Checkout.js';
+import Login from './Login/components/Login';
 
 const App = () => {
-  <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Edit
-        <code>src/App.js</code>
-        and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React
-      </a>
-    </header>
-  </div>;
+  return (
+    <div className="App">
+      <Seller />
+      <Item />
+      <Checkout />
+      <Login />
+    </div>
+  );
 };
 
 export default App;

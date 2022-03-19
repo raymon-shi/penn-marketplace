@@ -35,6 +35,13 @@ body {
   color: #33425B;
 }
 
+.seller-page .start-page h1,
+.seller-page .reg-listing .title,
+.seller-page .bid-listing .title {
+  display: flex;
+  align-self: center;
+}
+
 .seller-page .reg-listing, .seller-page .bid-listing {
   min-height: 100vh;
   display: flex;

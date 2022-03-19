@@ -80,7 +80,7 @@ const PriceListing = ({ onSubmit }) => {
               value={price}
               placeholder="Set a price"
               onKeyPress={(e) => {
-                if (!/[0-9]|./.test(e.key)) {
+                if (!/[0-9]|\./.test(e.key)) {
                   e.preventDefault();
                 }
               }}

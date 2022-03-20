@@ -2,6 +2,16 @@ hr {
   margin-right: 10%;
 }
 
+h1 {
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 35px;
+  letter-spacing: 0em;
+  text-align: left;
+  display: inline;
+}
+
 .container {
   display: grid;
   grid-template-columns: 2fr 4fr 1fr;

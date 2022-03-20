@@ -1,13 +1,3 @@
-h1 {
-  font-size: 30px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 35px;
-  letter-spacing: 0em;
-  text-align: left;
-  display: inline;
-}
-
 .rating {
   display: inline-flex;
 }

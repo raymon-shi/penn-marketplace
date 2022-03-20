@@ -13,32 +13,32 @@ const Seller = () => {
 
   return (
     <div className="seller-page">
-      {!priceListing && !bidListing && !successPage
-        && (
+      {!priceListing && !bidListing && !successPage && (
         <Start
           setPriceListing={() => setPriceListing(true)}
           setBidListing={() => setBidListing(true)}
         />
-        )}
+      )}
 
       {priceListing && (
-      <PriceListing onSubmit={() => {
-        setPriceListing(false);
-        setSuccessPage(true);
-      }}
-      />
+        <PriceListing
+          onSubmit={() => {
+            setPriceListing(false);
+            setSuccessPage(true);
+          }}
+        />
       )}
 
       {bidListing && (
-      <BidListing onSubmit={() => {
-        setBidListing(false);
-        setSuccessPage(true);
-      }}
-      />
+        <BidListing
+          onSubmit={() => {
+            setBidListing(false);
+            setSuccessPage(true);
+          }}
+        />
       )}
 
-      {successPage && (
-      <Success setSuccessPage={setSuccessPage} />)}
+      {successPage && <Success setSuccessPage={setSuccessPage} />}
     </div>
   );
 };

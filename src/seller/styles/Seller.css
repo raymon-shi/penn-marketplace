@@ -3,7 +3,7 @@ body {
 }
 
 .seller-page .start-page, .seller-page .success-page {
-  height: 100vh;
+  height: calc(100vh - 115px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,7 +43,7 @@ body {
 }
 
 .seller-page .reg-listing, .seller-page .bid-listing {
-  min-height: 100vh;
+  min-height: calc(100vh - 115px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,7 +55,9 @@ body {
 
 .seller-page img {
   object-fit: cover;
-  border-radius: 5%;
+  border-radius: 2%;
+  -webkit-border-radius: 2%; 
+  -moz-border-radius: 2%; 
 }
 
 .seller-page .form-control {
@@ -86,6 +88,8 @@ body {
   background-color: white;
   padding: 0.5rem 2rem;
   border-radius: 0.2rem;
+  -webkit-border-radius: 0.2rem; 
+  -moz-border-radius: 0.2rem; 
   cursor: pointer;
 }
 

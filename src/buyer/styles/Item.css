@@ -91,7 +91,7 @@
 .background {
   background-color: #F0F2F5;
   background-size: cover;
-  min-height: 100vh;
+  min-height: calc(100vh - 115px);
 }
 
 .item-back {

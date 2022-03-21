@@ -1,0 +1,80 @@
+.header {
+  min-width: 700px;
+}
+
+.header .top {
+  background-color: #33425B;
+  height: 75px;
+}
+
+.header .bottom {
+  background-color: white;
+  color: black;
+  height: 39px;
+}
+
+.header button {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.header button.login, .header button.login:hover,
+.header a.btn.profile, .header a.btn.profile:hover {
+  background-color: #011F5B;
+  border: #011F5B;
+  box-shadow: none;
+}
+
+.header a.btn.profile {
+  color: white;
+  text-decoration: none;
+}
+
+.header button.sign-up, .header button.sign-up:hover {
+  background-color: #990000;
+  border: #990000;
+  box-shadow: none;
+}
+
+.header .form-control:focus {
+  outline: 0 !important;
+  border-color: initial;
+  box-shadow: none;
+}
+
+.header .input-group .input-group-text { 
+  outline: 0;
+  border:0;
+  background:white;
+}
+
+.header .right-side {
+  display: flex;
+}
+
+.header .right-side a.shopping-cart  {
+  height: fit-content;
+  align-self: center;
+  color: white;
+}
+
+.header .right-side #basic-nav-dropdown {
+  color: white;
+}
+
+.header .dropdown-menu .dropdown-item {
+  background-color: #fff;
+  color: black;
+}
+
+.header .dropdown-menu .dropdown-item:hover {
+  background-color: #F0F2F5;
+  -webkit-transition: background-color 0.2s ease-in;
+  -moz-transition: background-color 0.2s ease-in;
+  -o-transition: background-color 0.2s ease-in;
+  transition: background-color 0.2s ease-in;
+}
+
+.header .bottom .navbar-nav .nav-link {
+  color: black;
+}

@@ -1,6 +1,8 @@
 .homepage img {
   object-fit: cover;
   border-radius: 3%;
+  -webkit-border-radius: 3%; 
+  -moz-border-radius: 3%; 
 }
 
 .homepage .carousel-wrapper {

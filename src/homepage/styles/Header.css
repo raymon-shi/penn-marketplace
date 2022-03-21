@@ -63,6 +63,9 @@
 
 .header .dropdown-menu .dropdown-item:hover {
   background-color: #F0F2F5;
+  -webkit-transition: background-color 0.2s ease-in;
+  -moz-transition: background-color 0.2s ease-in;
+  -o-transition: background-color 0.2s ease-in;
   transition: background-color 0.2s ease-in;
 }
 

@@ -8,7 +8,7 @@ import links from '../assets/productimages.json';
 import '../styles/Homepage.css';
 
 const Homepage = () => (
-  <div className="homepage" style={{ paddingTop: '150px' }}>
+  <div className="homepage pt-5">
     <div className="carousel-wrapper">
       <h1>Today&apos;s listings</h1>
       <CarouselProvider
@@ -19,11 +19,9 @@ const Homepage = () => (
         visibleSlides={5}
       >
         <Slider>
-          {links.map((link) => (
-            <Slide key={uuidv4()}>
-              <Image>
-                <img src={link} alt="product pic" width="100%" height="100%" />
-              </Image>
+          {links.map((link, idx) => (
+            <Slide index={idx} key={uuidv4()}>
+              <Image src={link} alt="product pic" hasMasterSpinner={false} />
               <p>$5.99</p>
             </Slide>
           ))}
@@ -45,11 +43,9 @@ const Homepage = () => (
         visibleSlides={5}
       >
         <Slider>
-          {links.map((link) => (
-            <Slide key={uuidv4()}>
-              <Image>
-                <img src={link} alt="product pic" width="100%" height="100%" />
-              </Image>
+          {links.map((link, idx) => (
+            <Slide index={idx} key={uuidv4()}>
+              <Image src={link} alt="product pic" hasMasterSpinner={false} />
               <p>$5.99</p>
             </Slide>
           ))}
@@ -71,11 +67,9 @@ const Homepage = () => (
         visibleSlides={5}
       >
         <Slider>
-          {links.map((link) => (
-            <Slide key={uuidv4()}>
-              <Image>
-                <img src={link} alt="product pic" width="100%" height="100%" />
-              </Image>
+          {links.map((link, idx) => (
+            <Slide index={idx} key={uuidv4()}>
+              <Image src={link} alt="product pic" hasMasterSpinner={false} />
               <p>$5.99</p>
             </Slide>
           ))}
@@ -86,6 +80,7 @@ const Homepage = () => (
         </div>
       </CarouselProvider>
     </div>
+    <div className="spacer" />
   </div>
 );
 

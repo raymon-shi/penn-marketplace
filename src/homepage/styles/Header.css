@@ -42,6 +42,30 @@
   background:white;
 }
 
+.header .right-side {
+  display: flex;
+}
+
+.header .right-side a.shopping-cart  {
+  height: fit-content;
+  align-self: center;
+  color: white;
+}
+
+.header .right-side #basic-nav-dropdown {
+  color: white;
+}
+
+.header .dropdown-menu .dropdown-item {
+  background-color: #fff;
+  color: black;
+}
+
+.header .dropdown-menu .dropdown-item:hover {
+  background-color: #F0F2F5;
+  transition: background-color 0.2s ease-in;
+}
+
 .header .bottom .navbar-nav .nav-link {
   color: black;
 }

@@ -18,10 +18,16 @@
   padding-right: 16px;
 }
 
-.header button.login, .header button.login:hover {
+.header button.login, .header button.login:hover,
+.header a.btn.profile, .header a.btn.profile:hover {
   background-color: #011F5B;
   border: #011F5B;
   box-shadow: none;
+}
+
+.header a.btn.profile {
+  color: white;
+  text-decoration: none;
 }
 
 .header button.sign-up, .header button.sign-up:hover {

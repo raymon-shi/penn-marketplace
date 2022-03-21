@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 import pennLogo from '../assets/UniversityofPennsylvania_Shield_RGB.png';
 import '../styles/Header.css';
+import Searchbar from '../../searchbar/components/Searchbar';
 
 const Header = () => {
   const [search, setSearch] = useState('');
@@ -15,7 +16,8 @@ const Header = () => {
           <img src={pennLogo} alt="penn logo" className="me-2 my-auto" width="25px" height="100%" />
           <Navbar.Brand href="/">PENN MARKETPLACE</Navbar.Brand>
         </div>
-        <Form
+        <Searchbar />
+        {/* <Form
           className="d-flex"
           style={{ width: '40%', minWidth: '250px' }}
           onSubmit={(e) => {
@@ -36,7 +38,7 @@ const Header = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </InputGroup>
-        </Form>
+        </Form> */}
         <div className="right-side">
           <a className="profile btn me-3" href="/account" aria-label="link to account page">Account</a>
           <a className="shopping-cart" target="_self" href="/item" aria-label="link to shopping cart">

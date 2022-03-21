@@ -5,17 +5,18 @@ import UnblockIcon from '../assets/Unblock.png';
 
 const Blocked = ({ userData }) => {
   const [blockedUsers, setBlockedUsers] = useState(userData.blocked);
-  const [page, setPage] = useState(1);
+  const [blockedUsersPage, setBlockedUsersPage] = useState(1);
+  const blockedUsersItems = blockedUsers.slice((blockedUsersPage - 1) * 10, blockedUsersPage * 10);
 
-  function handleBackClick() {
-    if (page > 1) {
-      setPage(page - 1);
+  function prevBlockedUsersPage() {
+    if (blockedUsersPage > 1) {
+      setBlockedUsersPage(blockedUsersPage - 1);
     }
   }
 
-  function handleNextClick() {
-    if (page * 10 < blockedUsers.length) {
-      setPage(page + 1);
+  function nextBlockedUsersPage() {
+    if (blockedUsersPage * 10 < blockedUsers.length) {
+      setBlockedUsersPage(blockedUsersPage + 1);
     }
   }
 
@@ -27,7 +28,12 @@ const Blocked = ({ userData }) => {
     } else {
       indexToDelete = e.target.value;
     }
-    setBlockedUsers(blockedUsers.splice(indexToDelete, 1));
+    const newBlockedUsers = [...blockedUsers];
+    newBlockedUsers.splice(indexToDelete, 1);
+    setBlockedUsers(newBlockedUsers);
+    if (newBlockedUsers.length < blockedUsersPage * 10 - 9 && blockedUsersPage > 1) {
+      setBlockedUsersPage(blockedUsersPage - 1);
+    }
   }
 
   return (
@@ -36,13 +42,14 @@ const Blocked = ({ userData }) => {
         <div className="flex">
           <h1>Blocked</h1>
           <div className="flex pagination-bar">
-            <button type="button" onClick={handleBackClick}>
+            <button type="button" onClick={prevBlockedUsersPage}>
               <img src={BackIcon} alt="Back Arrow Icon" />
             </button>
-            &nbsp;{(page - 1) * 10 + 1} -&nbsp;
-            {page * 10 > blockedUsers.length ? blockedUsers.length : page * 10}&nbsp;
+            &nbsp;{(blockedUsersPage - 1) * 10 + 1} -&nbsp;
+            {blockedUsersPage * 10 > blockedUsers.length
+              ? blockedUsers.length : blockedUsersPage * 10}&nbsp;
             of {blockedUsers.length}&nbsp;
-            <button type="button" onClick={handleNextClick}>
+            <button type="button" onClick={nextBlockedUsersPage}>
               <img src={NextIcon} alt="Next Arrow Icon" />
             </button>
           </div>
@@ -58,7 +65,7 @@ const Blocked = ({ userData }) => {
                 Unblock
               </div>
             </div>
-            {blockedUsers.map((blockedUser, index) => (
+            {blockedUsersItems.map((blockedUser, index) => (
               <div key={blockedUser.pennID} className="table-row">
                 <p>
                   {blockedUser.name}

@@ -20,7 +20,6 @@ h1 {
 
 #side-nav {
   display:flex;
-  align-items: center;
   justify-content: right;
   margin-right: 5%;
   border-right: 1px solid black;

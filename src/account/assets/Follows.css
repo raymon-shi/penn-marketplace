@@ -9,9 +9,17 @@
   flex-grow: 5;
 }
 
-
 .box {
-  margin-top: 3%;
   background-color: white;
   border: 1px solid black;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 4fr 1fr 1fr;
+  white-space: nowrap;
+}
+
+.table-item {
+  text-align: center;
 }

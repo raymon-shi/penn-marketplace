@@ -23,3 +23,8 @@
 .table-item {
   text-align: center;
 }
+
+button {
+  border: none;
+  background: none;
+}

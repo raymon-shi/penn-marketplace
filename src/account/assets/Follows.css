@@ -1,0 +1,30 @@
+.flex {
+  display:flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.pagination-bar {
+  justify-content: right;
+  flex-grow: 5;
+}
+
+.box {
+  background-color: white;
+  border: 1px solid black;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 4fr 1fr 1fr;
+  white-space: nowrap;
+}
+
+.table-item {
+  text-align: center;
+}
+
+button {
+  border: none;
+  background: none;
+}

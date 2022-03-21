@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './assets/Account.css';
 import Profile from './components/Profile';
 import Reviews from './components/Reviews';
+import Follows from './components/Follows';
+import Blocked from './components/Blocked';
 import user from './assets/testUser.json';
 
 const Account = () => {
@@ -11,7 +13,13 @@ const Account = () => {
     if (tab === 'Profile') {
       return <Profile userData={user.user} />;
     }
-    return <Reviews userData={user.user} />;
+    if (tab === 'Reviews') {
+      return <Reviews userData={user.user} />;
+    }
+    if (tab === 'Follows') {
+      return <Follows userData={user.user} />;
+    }
+    return <Blocked userData={user.user} />;
   }
 
   function handleClick(e) {

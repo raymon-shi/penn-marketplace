@@ -12,7 +12,7 @@ const Searchbar = () => {
   return (
     <div className="wrapper">
       <div className="searchBar">
-        <form style={{ width: '400px' }} onSubmit={handleSubmit}>
+        <form style={{ width: '400px', margin: '0 auto' }} onSubmit={handleSubmit}>
           <input id="searchQueryInput" type="text" name="searchQueryInput" placeholder="Explore the Penn Marketplace" />
           <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
             <svg style={{ width: '24px', height: '24px' }} viewBox="0 0 24 24">

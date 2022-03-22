@@ -9,6 +9,7 @@ import Login from './Login/components/Login';
 import Account from './account/Account';
 import Homepage from './homepage/components/Homepage';
 import Header from './homepage/components/Header';
+import Cart from './buyer/components/Cart';
 
 const App = () => (
   <div className="App">
@@ -18,6 +19,7 @@ const App = () => (
       <Route path="/seller" element={<Seller />} />
       <Route path="/item" element={<Item />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Rout path ="/cart" element={<Cart />} />
       <Route path="/login" element={<Login />} />
       <Route path="/account" element={<Account />} />
     </Routes>

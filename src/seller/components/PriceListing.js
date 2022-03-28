@@ -7,7 +7,7 @@ import Alert from 'react-bootstrap/Alert';
 import uploadIcon from '../assets/upload.svg';
 import imgIcon from '../assets/image.svg';
 
-const PriceListing = ({ onSubmit }) => {
+const PriceListing = ({ onSubmit, onBack }) => {
   const [product, setProduct] = useState('');
   const [productDescr, setProductDescr] = useState('');
   const [price, setPrice] = useState('');
@@ -99,7 +99,10 @@ const PriceListing = ({ onSubmit }) => {
             </Form.Select>
           </Form.Group>
 
-          <Button className="w-50 mt-3" type="submit" disabled={product === '' || productDescr === '' || price === '' || Number(price) <= 0}>Submit</Button>
+          <div className="mt-4 back-submit-btns">
+            <Button type="submit" disabled={product === '' || productDescr === '' || price === '' || Number(price) <= 0}>Post</Button>
+            <Button onClick={onBack}>Back</Button>
+          </div>
         </Form>
       </Card>
     </div>

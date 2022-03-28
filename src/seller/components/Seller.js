@@ -26,6 +26,7 @@ const Seller = () => {
             setPriceListing(false);
             setSuccessPage(true);
           }}
+          onBack={() => setPriceListing(false)}
         />
       )}
 
@@ -35,6 +36,7 @@ const Seller = () => {
             setBidListing(false);
             setSuccessPage(true);
           }}
+          onBack={() => setBidListing(false)}
         />
       )}
 

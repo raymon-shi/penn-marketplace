@@ -17,6 +17,21 @@ body {
   padding-bottom: 10%;
 }
 
+.seller-page .back-submit-btns {
+  display: flex;
+  justify-content: space-around;
+}
+
+.seller-page .back-submit-btns button {
+  width: 45%;
+}
+
+.seller-page .back-btn {
+  border-color: #33425B;
+  background-color: #33425B;
+  color: white;
+}
+
 .seller-page .start-page button.btn-primary {
   background-color: white;
   border-color: black;

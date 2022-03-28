@@ -57,7 +57,7 @@ const Cart = () => {
           <p style={{ float: 'left' }}>Items ({cart.length}):</p>
           <p style={{ float: 'right' }}>${subTotal}</p>
           <div className="cart-center">
-            <input className="payButton" form="ccinfo" type="submit" value="Go to Checkout" />
+            <a className="checkoutButton" href="/checkout" aria-label="link to checkout">Go to Checkout</a>
           </div>
         </div>
       </div>

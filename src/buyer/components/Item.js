@@ -25,19 +25,13 @@ const Item = () => {
     </div>
   );
 
-  const handleBuy = (event) => {
-    event.preventDefault();
-    console.log('Buy!');
-  };
-
   const handleCart = (event) => {
-    event.preventDefault();
-    console.log('Added to Cart!');
+
   };
 
   return (
     <div className="background">
-      <button type="submit" className="item-back">‹ Back to listings</button>
+      <a className="item-back" href="/" aria-label="link to listings page">Back to listings</a>
       <div className="item-splitScreen">
         <div className="item-leftPane">
           <div className="item-leftPaneCol">
@@ -59,10 +53,10 @@ const Item = () => {
               )
               : <p className="item-desc">Price: <b>US ${price}</b></p>}
             <div>
-              <button type="submit" className="buyButton" onClick={handleBuy}>Buy It Now</button>
+              <a href="/checkout" className="buyButton">Buy It Now</a>
             </div>
             <div>
-              <button type="submit" className="cartButton" onClick={handleCart}>Add To Cart</button>
+              <a href="/cart" className="cartButton" onClick={handleCart}>Add To Cart</a>
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@ const itemBidSchema = new Schema({
   itemName: { type: String, required: true },
   media: { type: String },
   price: { type: Number, required: true },
-  bidHistory: [{ type: Schema.ObjectID, ref: 'Bid' }],
+  bidHistory: [{ type: Schema.Types.ObjectId, ref: 'Bid' }],
   tags: [{ type: String }],
   created_at: Date,
 });

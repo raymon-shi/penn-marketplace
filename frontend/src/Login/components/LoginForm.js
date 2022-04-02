@@ -14,7 +14,7 @@ const LoginForm = () => {
 
   const login = async () => {
     try {
-      await axios.post('/account/login').then((data) => {
+      await axios.post('http:localhost:8080/account/login').then((data) => {
         useNavigate('/');
       });
     } catch (error) {

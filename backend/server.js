@@ -4,6 +4,7 @@
 const express = require('express');
 const cookieSession = require('cookie-session');
 const cors = require('cors');
+const bodyParserErrorHandler = require('express-body-parser-error-handler');
 
 const app = express();
 
@@ -27,11 +28,11 @@ mongoose.connect(MONGO_URI, {
 // routers
 const accountRouter = require('./routes/account');
 
-// express bodyParser middleware
-app.use(express.json());
-
 // enables cross origin resource sharing
 app.use(cors());
+
+// express bodyParser middleware
+app.use(express.json());
 
 // cookies and sessions
 app.use(
@@ -41,6 +42,8 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
   }),
 );
+
+app.use(bodyParserErrorHandler());
 
 // using routers, all routers will be prefixed with /name-of-prefix-route
 app.use('/account', accountRouter);

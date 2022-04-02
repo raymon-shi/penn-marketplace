@@ -8,6 +8,7 @@ const init = {
   headers: {
     'Authorization-Bearer': 'UPENN_OD_enPs_1005844',
     'Authorization-Token': 'gi2md86hljr7tgm7fcbp79np2n',
+    'Content-Type': 'application/json; charset=utf-8',
   },
 };
 

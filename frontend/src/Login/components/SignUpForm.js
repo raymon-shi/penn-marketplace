@@ -42,11 +42,16 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
     return null;
   };
 
-  const signup = async () => {
+  const signup = async (event) => {
+    event.preventDefault();
+    console.log('signup function triggered');
     try {
-      await axios.post('/account/signup', {
+      console.log('before await');
+      console.log(`${email} | ${firstName} ${lastName} | ${password} | ${month} | ${day} | ${year} | ${major} | ${school} | ${classYear}`);
+      await axios.post('http://localhost:8080/account/signup', {
         email,
-        name: `${firstName} ${lastName}`,
+        firstName,
+        lastName,
         password,
         month,
         day,
@@ -54,10 +59,15 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
         major,
         school,
         classYear,
-      });
-      useNavigate('/');
+      }, {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      }).then((response) => console.log(response)).catch((error) => console.log(error));
     } catch (error) {
-      setErrorMessage(error);
+      // setErrorMessage(error);
+      console.log('catch statement');
+      console.log(error);
     }
   };
 
@@ -69,14 +79,12 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {checkValidNameHandler()}
-        {checkStrongPassword()}
+        {/* {checkValidNameHandler()}
+        {checkStrongPassword()} */}
         <Form
           className="card p-3 bg-light"
           id="signup-form"
-          onSubmit={() => {
-            setShowSignUp(false);
-          }}
+          onSubmit={signup}
         >
           <Form.Group className="mb-3" controlId="signUpFormName" style={{ display: 'flex', flexDirection: 'row' }}>
             <Form.Control type="text" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
@@ -140,7 +148,7 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
         <Button variant="secondary" onClick={() => setShowSignUp(false)}>
           Cancel
         </Button>
-        <Button variant="primary" type="submit" form="signup-form" disabled={(!firstName.match(/^[a-zA-Z]+$/)) || (lastName && !lastName.match(/^[a-zA-Z]+$/)) || (password.length < 8)} onClick={() => signup}>
+        <Button variant="primary" type="submit" form="signup-form" disabled={(!firstName.match(/^[a-zA-Z]+$/)) || (lastName && !lastName.match(/^[a-zA-Z]+$/)) || (password.length < 8)} onClick={signup}>
           Create Account
         </Button>
       </Modal.Footer>

@@ -11,10 +11,10 @@ router.post('/signup', isPennStudent, async (req, res, next) => {
   const {
     email, firstName, lastName, password, month, day, year, major, school, classYear,
   } = req.body;
-
-  if (!firstName.match(/^[a-zA-Z]+$/) || !lastName.match(/^[a-zA-Z]+$/)) {
-    res.send('This is an invalid first name or last name');
-  }
+  console.log('hello signup');
+  // if (!firstName.match(/^[a-zA-Z]+$/) || !lastName.match(/^[a-zA-Z]+$/)) {
+  //   res.send('This is an invalid first name or last name');
+  // }
 
   try {
     const user = await User.create({
@@ -35,6 +35,7 @@ router.post('/signup', isPennStudent, async (req, res, next) => {
       watchlistBid: [],
       reports: [],
     });
+    console.log(user);
     res.send(`The user with name "${user.name}" was successfully created!`);
   } catch (error) {
     next(new Error(`Error inside /signup with error message: ${error}`));

@@ -11,6 +11,11 @@ router.post('/signup', isPennStudent, async (req, res, next) => {
   const {
     email, firstName, lastName, password, month, day, year, major, school, classYear,
   } = req.body;
+
+  if (!firstName.match(/^[a-zA-Z]+$/) || !lastName.match(/^[a-zA-Z]+$/)) {
+    res.send('This is an invalid first name or last name');
+  }
+
   try {
     const user = await User.create({
       email,
@@ -52,6 +57,11 @@ router.post('/login', async (req, res, next) => {
   } catch (error) {
     next(new Error(`Error inside /login with error message: ${error}`));
   }
+});
+
+// route get user session information
+router.get('/user', (req, res, next) => {
+  res.send({ name: req.session.name, email: req.session.email });
 });
 
 // route to log the user out

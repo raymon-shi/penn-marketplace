@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const axios = require('axios');
+const stringSimilarity = require('string-similarity');
 
 // penn api stuff
 const init = {
@@ -12,7 +13,7 @@ const init = {
 
 const isPennStudent = async (req, res, next) => {
   const {
-    firstName, lastName, email, major,
+    firstName, lastName, email, major, school,
   } = req.body;
 
   // check if email ends in upenn.edu, best we can do :(
@@ -25,10 +26,15 @@ const isPennStudent = async (req, res, next) => {
   try {
     const response = await axios.get(baseURL, init);
     if (response.data.result_data.length > 0) {
+      const data = response.data.result_data;
       for (let i = 0; i < response.data.result_data.length; i += 1) {
-        // check if names and majors match
-        if (response.data.result_data[i].list_name.includes(`${lastName}, ${firstName}`) && response.data.result_data[i].list_title_or_major.includes(major)) {
-          console.log(response.data.result_data);
+        // check if names, major, and schools match
+        if (data[i].list_name.includes(`${lastName}, ${firstName}`)
+        && (data[i].list_title_or_major.includes(major)
+        || stringSimilarity.compareTwoStrings(data[i].list_title_or_major, major) > 0.5)
+        && (data[i].list_organization.includes(school)
+        || stringSimilarity.compareTwoStrings(data[i].list_organization, school) > 0.5)) {
+          console.log(data);
           return next();
         }
       }

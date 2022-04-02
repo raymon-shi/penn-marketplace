@@ -3,7 +3,7 @@ const isLoggedIn = require('../middleware/isLoggedIn');
 const isPennStudent = require('../middleware/isPennStudent');
 const User = require('../models/User');
 
-const router = express.router();
+const router = express.Router();
 
 // route to create an account
 router.post('/signup', isPennStudent, async (req, res, next) => {

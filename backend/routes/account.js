@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const isLoggedIn = require('../middleware/isLoggedIn');
 const isPennStudent = require('../middleware/isPennStudent');
 const User = require('../models/User');
@@ -8,7 +9,7 @@ const router = express.Router();
 // route to create an account
 router.post('/signup', isPennStudent, async (req, res, next) => {
   const {
-    email, firstName, lastName, password, month, day, year, school, classYear,
+    email, firstName, lastName, password, month, day, year, major, school, classYear,
   } = req.body;
   try {
     const user = await User.create({
@@ -16,6 +17,7 @@ router.post('/signup', isPennStudent, async (req, res, next) => {
       name: `${firstName} ${lastName}`,
       password,
       birthday: `${month} ${day} ${year}`,
+      major: `${major}`,
       school,
       classYear,
       rating: 0,
@@ -35,6 +37,22 @@ router.post('/signup', isPennStudent, async (req, res, next) => {
 });
 
 // route to login
+router.post('/login', async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    const match = await bcrypt.compare(password, user.password);
+    if (match) {
+      req.session.email = email;
+      req.session.name = user.name;
+      res.send(`The user with name ${user.name} and email ${email} has logged in`);
+    } else {
+      res.send('The user does not exist or the password is incorrect!');
+    }
+  } catch (error) {
+    next(new Error(`Error inside /login with error message: ${error}`));
+  }
+});
 
 // route to log the user out
 router.post('/logout', isLoggedIn, async (req, res, next) => {

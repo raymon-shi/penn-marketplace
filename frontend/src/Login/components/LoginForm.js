@@ -14,6 +14,7 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
+  // login route
   const login = async (event) => {
     event.preventDefault();
     const config = {
@@ -25,7 +26,7 @@ const LoginForm = () => {
     try {
       const response = await axios.post('/account/login', {
         email, password,
-      }).then(() => navigate('/'));
+      }, config).then(() => navigate('/'));
     } catch (error) {
       setErrorMessage('Your email or password is incorrect! Please try again!');
     }

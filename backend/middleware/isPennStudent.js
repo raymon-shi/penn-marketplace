@@ -19,7 +19,7 @@ const isPennStudent = async (req, res, next) => {
 
   // check if email ends in upenn.edu, best we can do :(
   if (!email.endsWith('upenn.edu')) {
-    return res.send(`The user with name: ${firstName} ${lastName} and email: ${email} is not a Penn student or is not saved in the Penn directory`);
+    return res.status(404).send(`The user with name: ${firstName} ${lastName} and email: ${email} is not a Penn student or is not saved in the Penn directory`);
   }
 
   const baseURL = `https://esb.isc-seo.upenn.edu/8091/open_data/directory?first_name=${firstName}&last_name=${lastName}`;

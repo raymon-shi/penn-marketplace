@@ -15,17 +15,20 @@ import Cart from './buyer/components/Cart';
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  // check the user is logged in via the cookies
   const checkUserLoggedIn = async () => {
     try {
       const user = await axios.get('/account/user');
       if (Object.keys(user.data).length > 0) {
-        console.log(`${JSON.stringify(user.data)}if`);
         setLoggedIn(true);
       }
     } catch (error) {
-      console.log('There was an error with getting the user information');
+      Error('There was an error with getting the user information');
     }
   };
+
+  // logs the user out
   const userLoggedOut = async () => {
     try {
       const user = await axios.post('/account/logout');
@@ -34,7 +37,7 @@ const App = () => {
         navigate('/login');
       }
     } catch (error) {
-      console.log('There was an error with logging out');
+      Error('There was an error with logging out');
     }
   };
 

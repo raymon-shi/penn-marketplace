@@ -53,23 +53,29 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
         'Access-Control-Allow-Origin': '*',
       },
     };
+    // signup route -> login route -> navigate to homepage
     try {
-      const response = await axios.post(
-        '/account/signup',
-        {
-          email,
-          firstName,
-          lastName,
-          password,
-          month,
-          day,
-          year,
-          major,
-          school,
-          classYear,
-        },
-        config,
-      ).then(() => navigate('/'));
+      const [signupResponse, loginReponse] = await Promise.all([
+        await axios.post(
+          '/account/signup',
+          {
+            email,
+            firstName,
+            lastName,
+            password,
+            month,
+            day,
+            year,
+            major,
+            school,
+            classYear,
+          },
+          config,
+        ),
+        await axios.post('/account/login', {
+          email, password,
+        }, config),
+      ]).then(() => navigate('/'));
     } catch (error) {
       setErrorMessage(`Your first and last name only contains letters, 
       You are using a Penn email that doesn't already have an account, 
@@ -144,7 +150,9 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
                 required
               >
                 <option value="">Major</option>
-                {data.majors.map((m) => <option key={uuidv4()}>{m.name}</option>)}
+                {data.majors.sort(
+                  (a, b) => a.name > b.name,
+                ).map((m) => <option key={uuidv4()}>{m.name}</option>)}
               </Form.Select>
               <Form.Select
                 value={classYear}

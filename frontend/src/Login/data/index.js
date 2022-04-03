@@ -230,5 +230,8 @@ export const data = {
     { code: 'YDSH', name: 'Yiddish' },
     { code: 'YORB', name: 'Yoruba' },
     { code: 'ZULU', name: 'Zulu' },
+    { code: 'ZULU', name: 'Computer Science' },
+    { code: 'ZULU', name: 'Computer Engineering' },
+
   ],
 };

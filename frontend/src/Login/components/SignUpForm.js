@@ -55,7 +55,7 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
     };
     try {
       const response = await axios.post(
-        'http://localhost:8080/account/signup',
+        '/account/signup',
         {
           email,
           firstName,

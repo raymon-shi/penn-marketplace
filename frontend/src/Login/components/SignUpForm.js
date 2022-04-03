@@ -20,6 +20,8 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
   const [major, setMajor] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const navigate = useNavigate();
+
   const checkValidNameHandler = () => {
     if ((firstName && !firstName.match(/^[a-zA-Z]+$/)) || (lastName && !lastName.match(/^[a-zA-Z]+$/))) {
       return (
@@ -70,6 +72,7 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
       },
       config,
     ).then((r) => r).catch((error) => console.log(error));
+    navigate('/');
     console.log('after');
     console.log(response);
   };

@@ -45,10 +45,18 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
   const signup = async (event) => {
     event.preventDefault();
     console.log('signup function triggered');
-    try {
-      console.log('before await');
-      console.log(`${email} | ${firstName} ${lastName} | ${password} | ${month} | ${day} | ${year} | ${major} | ${school} | ${classYear}`);
-      await axios.post('http://localhost:8080/account/signup', {
+    console.log('before await');
+    console.log(`${email} | ${firstName} ${lastName} | ${password} | ${month} | ${day} | ${year} | ${major} | ${school} | ${classYear}`);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    };
+
+    const response = await axios.post(
+      '/account/signup',
+      {
         email,
         firstName,
         lastName,
@@ -59,16 +67,11 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
         major,
         school,
         classYear,
-      }, {
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }).then((response) => console.log(response)).catch((error) => console.log(error));
-    } catch (error) {
-      // setErrorMessage(error);
-      console.log('catch statement');
-      console.log(error);
-    }
+      },
+      config,
+    ).then((r) => r).catch((error) => console.log(error));
+    console.log('after');
+    console.log(response);
   };
 
   return (
@@ -148,7 +151,7 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
         <Button variant="secondary" onClick={() => setShowSignUp(false)}>
           Cancel
         </Button>
-        <Button variant="primary" type="submit" form="signup-form" disabled={(!firstName.match(/^[a-zA-Z]+$/)) || (lastName && !lastName.match(/^[a-zA-Z]+$/)) || (password.length < 8)} onClick={signup}>
+        <Button variant="primary" type="submit" form="signup-form" disabled={(!firstName.match(/^[a-zA-Z]+$/)) || (lastName && !lastName.match(/^[a-zA-Z]+$/)) || (password.length < 8)}>
           Create Account
         </Button>
       </Modal.Footer>

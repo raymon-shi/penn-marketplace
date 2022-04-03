@@ -12,7 +12,7 @@ const app = express();
 const mongoose = require('mongoose');
 
 const mongodbUsername = 'penn-marketplace';
-const mongodbPassword = '4xVOKKKuMiYDaFkv';
+const mongodbPassword = 'hL7OprFhSxfJ6Sst';
 const mongodbDatabaseName = 'Penn-Marketplace';
 
 const port = process.env.PORT || 8080;

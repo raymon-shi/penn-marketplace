@@ -8,7 +8,7 @@ const init = {
   headers: {
     'Authorization-Bearer': 'UPENN_OD_enPs_1005844',
     'Authorization-Token': 'gi2md86hljr7tgm7fcbp79np2n',
-    'Content-Type': 'application/json; charset=utf-8',
+    // 'Content-Type': 'application/json; charset=utf-8',
   },
 };
 
@@ -23,7 +23,6 @@ const isPennStudent = async (req, res, next) => {
   }
 
   const baseURL = `https://esb.isc-seo.upenn.edu/8091/open_data/directory?first_name=${firstName}&last_name=${lastName}`;
-
   try {
     const response = await axios.get(baseURL, init);
     if (response.data.result_data.length > 0) {
@@ -39,8 +38,9 @@ const isPennStudent = async (req, res, next) => {
           return next();
         }
       }
+      return res.send('There is no match');
     }
-    return undefined;
+    return res.send('There is no match');
   } catch (error) {
     return next(new Error(`There is an error in Penn student verification with error message: ${error}`));
   }

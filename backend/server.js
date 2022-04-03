@@ -4,14 +4,20 @@
 const express = require('express');
 const cookieSession = require('cookie-session');
 const cors = require('cors');
+const bodyParserErrorHandler = require('express-body-parser-error-handler');
 
 const app = express();
 
 // mongodb and mongoose setup
 const mongoose = require('mongoose');
 
+const mongodbUsername = 'penn-marketplace';
+const mongodbPassword = 'hL7OprFhSxfJ6Sst';
+const mongodbDatabaseName = 'Penn-Marketplace';
+
 const port = process.env.PORT || 8080;
-const MONGO_URI = process.env.MONGODB_URI || 'mongodb+srv://penn-marketplace:hL7OprFhSxfJ6Sst@penn-marketplace.6si5d.mongodb.net/Penn-Marketplace?retryWrites=true&w=majority';
+const MONGO_URI = process.env.MONGODB_URI
+|| `mongodb+srv://${mongodbUsername}:${mongodbPassword}@penn-marketplace.6si5d.mongodb.net/${mongodbDatabaseName}?retryWrites=true&w=majority`;
 
 // mongodb connection
 mongoose.connect(MONGO_URI, {
@@ -22,11 +28,11 @@ mongoose.connect(MONGO_URI, {
 // routers
 const accountRouter = require('./routes/account');
 
-// express bodyParser middleware
-app.use(express.json());
-
 // enables cross origin resource sharing
 app.use(cors());
+
+// express bodyParser middleware
+app.use(express.json());
 
 // cookies and sessions
 app.use(
@@ -37,12 +43,17 @@ app.use(
   }),
 );
 
+app.use(bodyParserErrorHandler());
+
 // using routers, all routers will be prefixed with /name-of-prefix-route
 app.use('/account', accountRouter);
 
 // default error handling
 app.use((err, req, res, next) => {
-  res.status(500).send(`There was an error with error message: ${err}!`);
+  if (res.headersSent) {
+    return next(err);
+  }
+  return res.status(500).send(`There was an error with error message: ${err}!`);
 });
 
 // Start listening for requests

@@ -49,9 +49,12 @@ app.use(bodyParserErrorHandler());
 app.use('/account', accountRouter);
 
 // default error handling
-app.use((err, req, res, next) => {
-  res.status(500).send(`There was an error with error message: ${err}!`);
-});
+// app.use((err, req, res, next) => {
+//   if (res.headersSent) {
+//     return next(err);
+//   }
+//   return res.status(500).send(`There was an error with error message: ${err}!`);
+// });
 
 // Start listening for requests
 app.listen(port, () => {

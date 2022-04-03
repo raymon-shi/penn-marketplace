@@ -46,8 +46,6 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
 
   const signup = async (event) => {
     event.preventDefault();
-    console.log('signup function triggered');
-    console.log('before await');
     console.log(`${email} | ${firstName} ${lastName} | ${password} | ${month} | ${day} | ${year} | ${major} | ${school} | ${classYear}`);
     const config = {
       headers: {
@@ -55,26 +53,28 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
         'Access-Control-Allow-Origin': '*',
       },
     };
-
-    const response = await axios.post(
-      '/account/signup',
-      {
-        email,
-        firstName,
-        lastName,
-        password,
-        month,
-        day,
-        year,
-        major,
-        school,
-        classYear,
-      },
-      config,
-    ).then((r) => r).catch((error) => console.log(error));
-    navigate('/');
-    console.log('after');
-    console.log(response);
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/account/signup',
+        {
+          email,
+          firstName,
+          lastName,
+          password,
+          month,
+          day,
+          year,
+          major,
+          school,
+          classYear,
+        },
+        config,
+      ).then(() => navigate('/'));
+    } catch (error) {
+      setErrorMessage(`Your first and last name only contains letters, 
+      You are using a Penn email that doesn't already have an account, 
+      You selected the correct school, major, and class year`);
+    }
   };
 
   return (
@@ -85,8 +85,16 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {/* {checkValidNameHandler()}
-        {checkStrongPassword()} */}
+        {errorMessage ? (
+          <Alert variant="danger">
+            There was an error with creating your account. Please check the following:
+            <ul>
+              {errorMessage.split(', \n').map((bullet) => <li key={bullet}>{bullet}</li>)}
+            </ul>
+          </Alert>
+        ) : null}
+        {checkValidNameHandler()}
+        {checkStrongPassword()}
         <Form
           className="card p-3 bg-light"
           id="signup-form"

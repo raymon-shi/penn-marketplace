@@ -38,9 +38,9 @@ const isPennStudent = async (req, res, next) => {
           return next();
         }
       }
-      return res.send('There is no match');
+      return next(new Error(`The student with the name ${firstName} ${lastName}, major ${major}, and school ${school} is not in the Penn API database`));
     }
-    return res.send('There is no match');
+    return next(new Error(`The student with the name ${firstName} ${lastName}, major ${major}, and school ${school} is not in the Penn API database`));
   } catch (error) {
     return next(new Error(`There is an error in Penn student verification with error message: ${error}`));
   }

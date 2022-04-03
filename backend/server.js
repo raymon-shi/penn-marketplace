@@ -11,7 +11,7 @@ const app = express();
 const mongoose = require('mongoose');
 
 const port = process.env.PORT || 8080;
-const MONGO_URI = process.env.MONGODB_URI || 'mongodb+srv://penn-marketplace:4xVOKKKuMiYDaFkv@penn-marketplace.6si5d.mongodb.net/Penn-Marketplace?retryWrites=true&w=majority';
+const MONGO_URI = process.env.MONGODB_URI || 'mongodb+srv://penn-marketplace:hL7OprFhSxfJ6Sst@penn-marketplace.6si5d.mongodb.net/Penn-Marketplace?retryWrites=true&w=majority';
 
 // mongodb connection
 mongoose.connect(MONGO_URI, {

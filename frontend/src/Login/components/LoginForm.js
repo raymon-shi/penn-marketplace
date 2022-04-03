@@ -25,9 +25,7 @@ const LoginForm = () => {
     try {
       const response = await axios.post('/account/login', {
         email, password,
-      }).then(() => {
-        navigate('/');
-      });
+      }).then(() => navigate('/'));
     } catch (error) {
       setErrorMessage('Your email or password is incorrect! Please try again!');
     }

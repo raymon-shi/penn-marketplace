@@ -53,7 +53,7 @@ router.post('/login', async (req, res, next) => {
       req.session.name = user.name;
       res.send(`The user with name ${user.name} and email ${email} has logged in`);
     } else {
-      res.send('The user does not exist or the password is incorrect!');
+      res.status(404).send('The user does not exist or the password is incorrect!');
     }
   } catch (error) {
     next(new Error(`Error inside /login with error message: ${error}`));

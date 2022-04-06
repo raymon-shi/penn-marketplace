@@ -9,6 +9,7 @@ import Login from './Login/components/Login';
 import Account from './account/Account';
 import Homepage from './homepage/components/Homepage';
 import Header from './homepage/components/Header';
+import SearchResults from './searchbar/components/SearchResults';
 
 const App = () => (
   <div className="App">
@@ -20,6 +21,7 @@ const App = () => (
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/login" element={<Login />} />
       <Route path="/account" element={<Account />} />
+      <Route path="/results" element={<SearchResults />} />
     </Routes>
   </div>
 );

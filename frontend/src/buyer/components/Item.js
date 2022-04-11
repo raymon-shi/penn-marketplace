@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import chair from '../assets/chair.png';
 import '../styles/Item.css';
 
@@ -12,6 +13,11 @@ const Item = () => {
   const sellerRating = 90;
   let button = '';
   const isBid = false;
+
+  // retrieve information about the specific item
+  const { state } = useLocation();
+  const { itemId } = state;
+  console.log(itemId);
 
   if (isBid) {
     button = 'Place Bid';

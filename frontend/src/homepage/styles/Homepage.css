@@ -33,6 +33,10 @@
   background-color: white;
 }
 
+.homepage .carousel__inner-slide:hover {
+  cursor: pointer;
+}
+
 .homepage .spacer {
   height: 75px;
 }

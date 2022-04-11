@@ -29,6 +29,9 @@ mongoose.connect(MONGO_URI, {
 const accountRouter = require('./routes/account');
 const itemRouter = require('./routes/item');
 
+// makes userUploads public
+app.use('/userUploads', express.static('userUploads'));
+
 // enables cross origin resource sharing
 app.use(cors());
 

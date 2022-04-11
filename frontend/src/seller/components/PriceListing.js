@@ -30,7 +30,7 @@ const PriceListing = ({ onSubmit, onBack }) => {
             formData.append('price', price);
             formData.append('tag', tag);
             formData.append('imageFile', imageFile.current);
-            axios.post('/sell/addRegListingPic', formData).then(() => {
+            axios.post('/item/addRegListingPic', formData).then(() => {
               setProduct('');
               setImgLink('');
               setProductDescr('');
@@ -39,7 +39,7 @@ const PriceListing = ({ onSubmit, onBack }) => {
               onSubmit();
             }).catch((err) => alert('Error in posting! Please try again.'));
           } else {
-            axios.post('/sell/addRegListing', {
+            axios.post('/item/addRegListing', {
               product, productDescr, price, tag,
             }).then(() => {
               setProduct('');

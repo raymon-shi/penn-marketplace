@@ -28,7 +28,7 @@ const BidListing = ({ onSubmit, onBack }) => {
             formData.append('productDescr', productDescr);
             formData.append('tag', tag);
             formData.append('imageFile', imageFile.current);
-            axios.post('/sell/addBidListingPic', formData).then(() => {
+            axios.post('/item/addBidListingPic', formData).then(() => {
               setProduct('');
               setImgLink('');
               setProductDescr('');
@@ -36,7 +36,7 @@ const BidListing = ({ onSubmit, onBack }) => {
               onSubmit();
             }).catch((err) => alert('Error in posting! Please try again.'));
           } else {
-            axios.post('/sell/addBidListing', {
+            axios.post('/item/addBidListing', {
               product, productDescr, tag,
             }).then(() => {
               setProduct('');

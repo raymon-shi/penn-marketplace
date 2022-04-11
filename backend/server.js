@@ -27,7 +27,7 @@ mongoose.connect(MONGO_URI, {
 
 // routers
 const accountRouter = require('./routes/account');
-const sellRouter = require('./routes/sell');
+const itemRouter = require('./routes/item');
 
 // enables cross origin resource sharing
 app.use(cors());
@@ -48,7 +48,7 @@ app.use(bodyParserErrorHandler());
 
 // using routers, all routers will be prefixed with /name-of-prefix-route
 app.use('/account', accountRouter);
-app.use('/sell', sellRouter);
+app.use('/item', itemRouter);
 
 // default error handling
 app.use((err, req, res, next) => {

@@ -17,6 +17,26 @@ const ItemBid = require('../models/ItemBid');
 
 const router = express.Router();
 
+// route to retrieve regular listings
+router.get('/getRegListings', async (req, res, next) => {
+  try {
+    const regListings = await ItemRegular.find();
+    res.json(regListings);
+  } catch (error) {
+    next(new Error('Error with retrieving regular listings'));
+  }
+});
+
+// route to retrieve bid listings
+router.get('/getBidListings', async (req, res, next) => {
+  try {
+    const bidListings = await ItemBid.find();
+    res.json(bidListings);
+  } catch (error) {
+    next(new Error('Error with retrieving bid listings'));
+  }
+});
+
 // route to list a regular listing
 router.post('/addRegListing', async (req, res, next) => {
   const {
@@ -32,7 +52,7 @@ router.post('/addRegListing', async (req, res, next) => {
     });
     res.status(201).send('Regular listing was successfully posted!');
   } catch (error) {
-    next(new Error(error));
+    next(new Error('Error with creating a regular listing'));
   }
 });
 
@@ -53,7 +73,7 @@ router.post('/addRegListingPic', upload.single('imageFile'), async (req, res, ne
     });
     res.status(201).send('Regular listing was successfully posted!');
   } catch (error) {
-    next(new Error(error));
+    next(new Error('Error with creating a regular listing'));
   }
 });
 

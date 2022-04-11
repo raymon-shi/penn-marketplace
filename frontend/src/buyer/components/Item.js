@@ -14,7 +14,7 @@ const Item = () => {
   let button = '';
   const isBid = false;
 
-  // retrieve information about the specific item
+  // retrieve information about the specific item (from Homepage.js when you click on a slide)
   const { state } = useLocation();
   const { itemId } = state;
   console.log(itemId);

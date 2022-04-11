@@ -6,8 +6,7 @@ const MessageSchema = new Schema({
   sender: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   receiver: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   message: { type: String, required: true },
-  created_at: Date,
-});
+}, { timestamps: true });
 
 const Message = model('Message', MessageSchema);
 

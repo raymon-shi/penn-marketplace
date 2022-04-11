@@ -1,4 +1,5 @@
-import React, { useState, Component } from 'react';
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -11,9 +12,10 @@ const PriceListing = ({ onSubmit, onBack }) => {
   const [product, setProduct] = useState('');
   const [productDescr, setProductDescr] = useState('');
   const [price, setPrice] = useState('');
-  const [img, setImg] = useState('');
+  const [imgLink, setImgLink] = useState('');
   const [tag, setTag] = useState('');
   const [invalidImgAlert, setInvalidImgAlert] = useState(false);
+  const imageFile = useRef(null);
 
   return (
     <div className="reg-listing pb-5">
@@ -21,13 +23,33 @@ const PriceListing = ({ onSubmit, onBack }) => {
       <Card className="shadow rounded mx-auto p-5" border="light" style={{ width: '50%' }}>
         <Form onSubmit={(e) => {
           e.preventDefault();
-          console.log(`product: ${product}, descr: ${productDescr}, price: ${price}, tag: ${tag}`);
-          setProduct('');
-          setImg('');
-          setProductDescr('');
-          setPrice('');
-          setTag('');
-          onSubmit();
+          if (imgLink && imgLink !== '') {
+            const formData = new FormData();
+            formData.append('product', product);
+            formData.append('productDescr', productDescr);
+            formData.append('price', price);
+            formData.append('tag', tag);
+            formData.append('imageFile', imageFile.current);
+            axios.post('/item/addRegListingPic', formData).then(() => {
+              setProduct('');
+              setImgLink('');
+              setProductDescr('');
+              setPrice('');
+              setTag('');
+              onSubmit();
+            }).catch((err) => alert('Error in posting! Please try again.'));
+          } else {
+            axios.post('/item/addRegListing', {
+              product, productDescr, price, tag,
+            }).then(() => {
+              setProduct('');
+              setImgLink('');
+              setProductDescr('');
+              setPrice('');
+              setTag('');
+              onSubmit();
+            }).catch((err) => alert('Error in posting! Please try again.'));
+          }
         }}
         >
           <Form.Group className="mb-3">
@@ -55,14 +77,15 @@ const PriceListing = ({ onSubmit, onBack }) => {
                 const image = e.target.files[0];
                 if (image.name.match(/\.(jpg|jpeg|PNG)$/)) {
                   setInvalidImgAlert(false);
-                  setImg(URL.createObjectURL(image));
+                  setImgLink(URL.createObjectURL(image));
+                  imageFile.current = image;
                 } else {
                   setInvalidImgAlert(true);
                 }
               }}
               hidden
             />
-            {img !== '' && (<img className="mt-2" src={img} alt="product-pic" width="100%" />)}
+            {imgLink !== '' && (<img className="mt-2" src={imgLink} alt="product-pic" width="100%" />)}
           </Form.Group>
 
           <Form.Group className="mb-3">

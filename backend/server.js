@@ -27,6 +27,10 @@ mongoose.connect(MONGO_URI, {
 
 // routers
 const accountRouter = require('./routes/account');
+const itemRouter = require('./routes/item');
+
+// makes userUploads public
+app.use('/userUploads', express.static('userUploads'));
 
 // enables cross origin resource sharing
 app.use(cors());
@@ -47,6 +51,7 @@ app.use(bodyParserErrorHandler());
 
 // using routers, all routers will be prefixed with /name-of-prefix-route
 app.use('/account', accountRouter);
+app.use('/item', itemRouter);
 
 // default error handling
 app.use((err, req, res, next) => {

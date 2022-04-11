@@ -5,12 +5,12 @@ const { Schema, model } = mongoose;
 const itemBidSchema = new Schema({
   posterName: { type: String, required: true },
   itemName: { type: String, required: true },
+  itemDescr: { type: String },
   media: { type: String },
   price: { type: Number, required: true },
   bidHistory: [{ type: Schema.Types.ObjectId, ref: 'Bid' }],
-  tags: [{ type: String }],
-  created_at: Date,
-});
+  tag: { type: String },
+}, { timestamps: true });
 
 const ItemBid = model('ItemBid', itemBidSchema);
 

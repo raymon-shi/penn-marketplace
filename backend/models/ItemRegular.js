@@ -5,11 +5,11 @@ const { Schema, model } = mongoose;
 const itemRegularSchema = new Schema({
   posterName: { type: String, required: true },
   itemName: { type: String, required: true },
+  itemDescr: { type: String },
   media: { type: String },
   price: { type: Number, required: true },
-  tags: [{ type: String }],
-  created_at: Date,
-});
+  tag: { type: String },
+}, { timestamps: true });
 
 const ItemRegular = model('ItemRegular', itemRegularSchema);
 

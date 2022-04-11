@@ -5,8 +5,7 @@ const { Schema, model } = mongoose;
 const bidSchema = new Schema({
   bidderName: { type: String, required: true },
   price: { type: Number, required: true },
-  created_at: Date,
-});
+}, { timestamps: true });
 
 const Bid = model('Bid', bidSchema);
 

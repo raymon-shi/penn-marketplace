@@ -1,4 +1,5 @@
-import React, { useState, Component } from 'react';
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -10,9 +11,10 @@ import imgIcon from '../assets/image.svg';
 const BidListing = ({ onSubmit, onBack }) => {
   const [product, setProduct] = useState('');
   const [productDescr, setProductDescr] = useState('');
-  const [img, setImg] = useState('');
+  const [imgLink, setImgLink] = useState('');
   const [tag, setTag] = useState('');
   const [invalidImgAlert, setInvalidImgAlert] = useState(false);
+  const imageFile = useRef(null);
 
   return (
     <div className="reg-listing pb-5">
@@ -20,12 +22,30 @@ const BidListing = ({ onSubmit, onBack }) => {
       <Card className="shadow rounded mx-auto p-5" border="light" style={{ width: '50%' }}>
         <Form onSubmit={(e) => {
           e.preventDefault();
-          console.log(`product: ${product}, descr: ${productDescr}, tag: ${tag}`);
-          setProduct('');
-          setImg('');
-          setProductDescr('');
-          setTag('');
-          onSubmit();
+          if (imgLink && imgLink !== '') {
+            const formData = new FormData();
+            formData.append('product', product);
+            formData.append('productDescr', productDescr);
+            formData.append('tag', tag);
+            formData.append('imageFile', imageFile.current);
+            axios.post('/sell/addBidListingPic', formData).then(() => {
+              setProduct('');
+              setImgLink('');
+              setProductDescr('');
+              setTag('');
+              onSubmit();
+            }).catch((err) => alert('Error in posting! Please try again.'));
+          } else {
+            axios.post('/sell/addBidListing', {
+              product, productDescr, tag,
+            }).then(() => {
+              setProduct('');
+              setImgLink('');
+              setProductDescr('');
+              setTag('');
+              onSubmit();
+            }).catch((err) => alert('Error in posting! Please try again.'));
+          }
         }}
         >
           <Form.Group className="mb-3">
@@ -53,14 +73,15 @@ const BidListing = ({ onSubmit, onBack }) => {
                 const image = e.target.files[0];
                 if (image.name.match(/\.(jpg|jpeg|PNG)$/)) {
                   setInvalidImgAlert(false);
-                  setImg(URL.createObjectURL(image));
+                  setImgLink(URL.createObjectURL(image));
+                  imageFile.current = image;
                 } else {
                   setInvalidImgAlert(true);
                 }
               }}
               hidden
             />
-            {img !== '' && (<img className="mt-2" src={img} alt="product-pic" width="100%" />)}
+            {imgLink !== '' && (<img className="mt-2" src={imgLink} alt="product-pic" width="100%" />)}
           </Form.Group>
 
           <Form.Group className="mb-3">

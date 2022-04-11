@@ -9,8 +9,7 @@ const reviewSchema = new Schema({
   listingBid: { type: Schema.Types.ObjectId, ref: 'ItemBid' },
   reviewContent: { type: String, required: true },
   reviewRating: { type: Number, required: true },
-  created_at: Date,
-});
+}, { timestamps: true });
 
 const Review = model('Review', reviewSchema);
 

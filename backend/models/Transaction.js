@@ -8,8 +8,7 @@ const transactionSchema = new Schema({
   listingRegular: { type: Schema.Types.ObjectId, ref: 'ItemRegular' },
   listingBid: { type: Schema.Types.ObjectId, ref: 'ItemBid' },
   totalCost: { type: Number, required: true },
-  created_at: Date,
-});
+}, { timestamps: true });
 
 const Transaction = model('Transaction', transactionSchema);
 

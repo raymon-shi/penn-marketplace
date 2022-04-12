@@ -25,16 +25,19 @@ const Account = () => {
   }, []);
 
   function renderTab() {
-    if (tab === 'Profile') {
-      return <Profile user={userProfile} />;
+    if (Object.keys(userProfile) !== 0) {
+      if (tab === 'Profile') {
+        return <Profile user={userProfile} />;
+      }
+      if (tab === 'Reviews') {
+        return <Reviews reviews={userProfile.reviews} />;
+      }
+      if (tab === 'Follows') {
+        return <Follows followersProp={userProfile.followers} following={userProfile.following} />;
+      }
+      return <Blocked blocked={userProfile.blocked} />;
     }
-    if (tab === 'Reviews') {
-      return <Reviews reviews={userProfile.reviews} />;
-    }
-    if (tab === 'Follows') {
-      return <Follows followersProp={userProfile.followers} following={userProfile.following} />;
-    }
-    return <Blocked blocked={userProfile.blocked} />;
+    return null;
   }
 
   function handleClick(e) {

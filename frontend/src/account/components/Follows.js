@@ -5,9 +5,9 @@ import BackIcon from '../assets/Back.png';
 import ReviewIcon from '../assets/Review.png';
 import UnfollowIcon from '../assets/Unfollow.png';
 
-const Follows = ({ userData }) => {
-  const [followedUsers, setFollowedUsers] = useState(userData.following);
-  const [followers, setFollowers] = useState(userData.followers);
+const Follows = ({ followersProp, following }) => {
+  const [followedUsers, setFollowedUsers] = useState(following);
+  const [followers, setFollowers] = useState(followersProp);
   const [followedUsersPage, setFollowedUsersPage] = useState(1);
   const [followersPage, setFollowersPage] = useState(1);
   const followedUsersItems = followedUsers.slice(
@@ -26,7 +26,7 @@ const Follows = ({ userData }) => {
   }
 
   function nextFollowedUsersPage() {
-    if (followedUsersPage * 10 < userData.following.length) {
+    if (followedUsersPage * 10 < followedUsers.length) {
       setFollowedUsersPage(followedUsersPage + 1);
     }
   }
@@ -38,7 +38,7 @@ const Follows = ({ userData }) => {
   }
 
   function nextFollowersPage() {
-    if (followersPage * 10 < userData.followers.length) {
+    if (followersPage * 10 < followers.length) {
       setFollowersPage(followersPage + 1);
     }
   }
@@ -80,91 +80,103 @@ const Follows = ({ userData }) => {
       <div>
         <div className="flex">
           <h1>Followed</h1>
-          <div className="flex pagination-bar">
-            <button type="button" onClick={prevFollowedUsersPage}>
-              <img src={BackIcon} alt="Back Arrow Icon" />
-            </button>
-            &nbsp;{(followedUsersPage - 1) * 10 + 1} -&nbsp;
-            {followedUsersPage * 10 > followedUsers.length
-              ? followedUsers.length : followedUsersPage * 10}&nbsp;
-            of {followedUsers.length}&nbsp;
-            <button type="button" onClick={nextFollowedUsersPage}>
-              <img src={NextIcon} alt="Next Arrow Icon" />
-            </button>
-          </div>
-        </div>
-        <div className="box">
-          <div style={{ padding: '1% 2%' }}>
-            <div className="table-row">
-              <br />
-              <div className="table-item">
-                Review
+          {followedUsers.length === 0 ? null
+            : (
+              <div className="flex pagination-bar">
+                <button type="button" onClick={prevFollowedUsersPage}>
+                  <img src={BackIcon} alt="Back Arrow Icon" />
+                </button>
+                &nbsp;{(followedUsersPage - 1) * 10 + 1} -&nbsp;
+                {followedUsersPage * 10 > followedUsers.length
+                  ? followedUsers.length : followedUsersPage * 10}&nbsp;
+                of {followedUsers.length}&nbsp;
+                <button type="button" onClick={nextFollowedUsersPage}>
+                  <img src={NextIcon} alt="Next Arrow Icon" />
+                </button>
               </div>
-              <div className="table-item">
-                Unfollow
+            )}
+        </div>
+        {followedUsers.length === 0 ? <div>You are not following anyone.</div>
+          : (
+            <div className="box">
+              <div style={{ padding: '1% 2%' }}>
+                <div className="table-row">
+                  <br />
+                  <div className="table-item">
+                    Review
+                  </div>
+                  <div className="table-item">
+                    Unfollow
+                  </div>
+                </div>
+                {followedUsersItems.map((followedUser, index) => (
+                  <div key={followedUser.email} className="table-row">
+                    <p>
+                      {followedUser.name}
+                    </p>
+                    <div className="table-item">
+                      <img src={ReviewIcon} alt="Review icon" />
+                    </div>
+                    <div className="table-item">
+                      <button type="button" onClick={unfollow} value={index + (followedUsersPage - 1) * 10}>
+                        <img src={UnfollowIcon} alt="Unfollow icon" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-            {followedUsersItems.map((followedUser, index) => (
-              <div key={followedUser.pennID} className="table-row">
-                <p>
-                  {followedUser.name}
-                </p>
-                <div className="table-item">
-                  <img src={ReviewIcon} alt="Review icon" />
-                </div>
-                <div className="table-item">
-                  <button type="button" onClick={unfollow} value={index + (followedUsersPage - 1) * 10}>
-                    <img src={UnfollowIcon} alt="Unfollow icon" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+          )}
       </div>
       <div style={{ marginTop: '3%' }}>
         <div className="flex">
           <h1>Followers</h1>
-          <div className="flex pagination-bar">
-            <button type="button" onClick={prevFollowersPage}>
-              <img src={BackIcon} alt="Back Arrow Icon" />
-            </button>
-            {followersPage * 10 > followers.length
-              ? followers.length : followersPage * 10}&nbsp;
-            of {followers.length}&nbsp;
-            <button type="button" onClick={nextFollowersPage}>
-              <img src={NextIcon} alt="Next Arrow Icon" />
-            </button>
-          </div>
-        </div>
-        <div className="box">
-          <div style={{ padding: '1% 2%' }}>
-            <div className="table-row">
-              <br />
-              <div>
-                <br />
+          {followers.length === 0 ? null
+            : (
+              <div className="flex pagination-bar">
+                <button type="button" onClick={prevFollowersPage}>
+                  <img src={BackIcon} alt="Back Arrow Icon" />
+                </button>
+                {followersPage * 10 > followers.length
+                  ? followers.length : followersPage * 10}&nbsp;
+                of {followers.length}&nbsp;
+                <button type="button" onClick={nextFollowersPage}>
+                  <img src={NextIcon} alt="Next Arrow Icon" />
+                </button>
               </div>
-              <div className="table-item">
-                Remove
+            )}
+        </div>
+        {followers.length === 0 ? <div>You have no followers.</div>
+          : (
+            <div className="box">
+              <div style={{ padding: '1% 2%' }}>
+                <div className="table-row">
+                  <br />
+                  <div>
+                    <br />
+                  </div>
+                  <div className="table-item">
+                    Remove
+                  </div>
+                </div>
+                {followersItems.map((follower, index) => (
+                  <div key={follower.email} className="table-row">
+                    <p>
+                      {follower.name}
+                    </p>
+                    <div>
+                      <br />
+                    </div>
+                    <div className="table-item">
+                      <button type="button" onClick={removeFollower} value={index + (followersPage - 1) * 10}>
+                        <img src={UnfollowIcon} alt="Remove icon" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-            {followersItems.map((follower, index) => (
-              <div key={follower.pennID} className="table-row">
-                <p>
-                  {follower.name}
-                </p>
-                <div>
-                  <br />
-                </div>
-                <div className="table-item">
-                  <button type="button" onClick={removeFollower} value={index + (followersPage - 1) * 10}>
-                    <img src={UnfollowIcon} alt="Remove icon" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+          )}
       </div>
     </div>
   );

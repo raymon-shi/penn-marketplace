@@ -21,6 +21,8 @@ const userSchema = new Schema({
   watchlistBid: [{ type: Schema.Types.ObjectId, ref: 'ItemBid' }],
   shoppingCat: [{ type: Schema.Types.ObjectId, ref: 'Cart' }],
   reports: [{ type: Schema.Types.ObjectId, ref: 'Report' }],
+  loginAttempts: { type: Number },
+  lockedOutTime: { type: Date },
 }, { timestamps: true });
 
 // eslint-disable-next-line func-names

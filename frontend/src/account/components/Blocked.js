@@ -3,8 +3,8 @@ import NextIcon from '../assets/Next.png';
 import BackIcon from '../assets/Back.png';
 import UnblockIcon from '../assets/Unblock.png';
 
-const Blocked = ({ userData }) => {
-  const [blockedUsers, setBlockedUsers] = useState(userData.blocked);
+const Blocked = ({ blocked }) => {
+  const [blockedUsers, setBlockedUsers] = useState(blocked);
   const [blockedUsersPage, setBlockedUsersPage] = useState(1);
   const blockedUsersItems = blockedUsers.slice((blockedUsersPage - 1) * 10, blockedUsersPage * 10);
 

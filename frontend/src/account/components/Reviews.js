@@ -3,7 +3,7 @@ import '../assets/Reviews.css';
 import GrayStar from '../assets/gray-star.png';
 import YellowStar from '../assets/yellow-star.png';
 
-const Reviews = ({ userData }) => {
+const Reviews = ({ reviews }) => {
   function generateRatingComponent(numStars) {
     const stars = Array(5).fill(<img src={GrayStar} alt="Yellow star." />);
     for (let i = 0; i < numStars; i += 1) {
@@ -19,7 +19,7 @@ const Reviews = ({ userData }) => {
       </div>
       <div id="reviews">
         <div style={{ padding: '1% 2%' }}>
-          {userData.reviews.map((review) => (
+          {reviews.map((review) => (
             <div className="review" key={review.pennID}>
               <div style={{ margin: '1%' }}>
                 <div className="flex">

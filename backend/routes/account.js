@@ -59,6 +59,12 @@ router.get('/user', (req, res, next) => {
   res.send({ name: req.session.name, email: req.session.email });
 });
 
+// route get user information
+router.get('/getUser', async (req, res, next) => {
+  const user = await User.findOne({ email: req.session.email });
+  res.send({ user });
+});
+
 // route to log the user out
 router.post('/logout', isLoggedIn, async (req, res, next) => {
   const { name } = req.session;

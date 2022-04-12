@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './assets/Account.css';
+import axios from 'axios';
 import Profile from './components/Profile';
 import Reviews from './components/Reviews';
 import Follows from './components/Follows';
@@ -8,18 +9,33 @@ import user from './assets/testUser.json';
 
 const Account = () => {
   const [tab, setTab] = useState('Profile');
+  const [userProfile, setUserProfile] = useState({});
+  const [apiError, setApiError] = useState(false);
+
+  useEffect(async () => {
+    try {
+      const { data } = await axios.get('/account/getUser', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setUserProfile(data.user);
+    } catch (e) {
+      setApiError(true);
+    }
+  }, []);
 
   function renderTab() {
     if (tab === 'Profile') {
-      return <Profile userData={user.user} />;
+      return <Profile user={userProfile} />;
     }
     if (tab === 'Reviews') {
-      return <Reviews userData={user.user} />;
+      return <Reviews reviews={userProfile.reviews} />;
     }
     if (tab === 'Follows') {
-      return <Follows userData={user.user} />;
+      return <Follows followersProp={userProfile.followers} following={userProfile.following} />;
     }
-    return <Blocked userData={user.user} />;
+    return <Blocked blocked={userProfile.blocked} />;
   }
 
   function handleClick(e) {
@@ -55,6 +71,7 @@ const Account = () => {
         </div>
       </div>
       <div>
+        {apiError ? <div>Error retrieving user info.</div> : null }
         {renderTab()}
       </div>
     </div>

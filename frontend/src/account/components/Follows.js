@@ -5,9 +5,9 @@ import BackIcon from '../assets/Back.png';
 import ReviewIcon from '../assets/Review.png';
 import UnfollowIcon from '../assets/Unfollow.png';
 
-const Follows = ({ userData }) => {
-  const [followedUsers, setFollowedUsers] = useState(userData.following);
-  const [followers, setFollowers] = useState(userData.followers);
+const Follows = ({ followersProp, following }) => {
+  const [followedUsers, setFollowedUsers] = useState(following);
+  const [followers, setFollowers] = useState(followersProp);
   const [followedUsersPage, setFollowedUsersPage] = useState(1);
   const [followersPage, setFollowersPage] = useState(1);
   const followedUsersItems = followedUsers.slice(
@@ -26,7 +26,7 @@ const Follows = ({ userData }) => {
   }
 
   function nextFollowedUsersPage() {
-    if (followedUsersPage * 10 < userData.following.length) {
+    if (followedUsersPage * 10 < followedUsers.length) {
       setFollowedUsersPage(followedUsersPage + 1);
     }
   }
@@ -38,7 +38,7 @@ const Follows = ({ userData }) => {
   }
 
   function nextFollowersPage() {
-    if (followersPage * 10 < userData.followers.length) {
+    if (followersPage * 10 < followers.length) {
       setFollowersPage(followersPage + 1);
     }
   }

@@ -19,7 +19,7 @@ const Homepage = () => {
     try {
       const { data } = await axios.get('/item/getRegListings');
       if (data && data.length > 0) {
-        setRegListings(data);
+        setRegListings(data.reverse());
       }
     } catch (err) {
       console.log('Error in retrieving regular listings');
@@ -30,7 +30,7 @@ const Homepage = () => {
     try {
       const { data } = await axios.get('/item/getBidListings');
       if (data && data.length > 0) {
-        setBidListings(data);
+        setBidListings(data.reverse());
       }
     } catch (err) {
       console.log('Error in retrieving bid listings');
@@ -91,7 +91,8 @@ const Homepage = () => {
         >
           <Slider>
             {bidListings.map((item, idx) => (
-              <Slide onClick={() => navigate('/item')} index={idx} key={uuidv4()}>
+              // eslint-disable-next-line no-underscore-dangle
+              <Slide onClick={() => navigate('/item', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>

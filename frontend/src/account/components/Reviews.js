@@ -17,26 +17,29 @@ const Reviews = ({ reviews }) => {
       <div style={{ width: '100%' }}>
         <h1>Reviews</h1>
       </div>
-      <div id="reviews">
-        <div style={{ padding: '1% 2%' }}>
-          {reviews.map((review) => (
-            <div className="review" key={review.author.id}>
-              <div style={{ margin: '1%' }}>
-                <div className="flex">
-                  <div className="rating">
-                    {generateRatingComponent(review.reviewRating)}
+      {reviews.length === 0 ? <div>You have no reviews.</div>
+        : (
+          <div id="reviews">
+            <div style={{ padding: '1% 2%' }}>
+              {reviews.map((review) => (
+                <div className="review" key={review.author.id}>
+                  <div style={{ margin: '1%' }}>
+                    <div className="flex">
+                      <div className="rating">
+                        {generateRatingComponent(review.reviewRating)}
+                      </div>
+                      &nbsp;
+                      {review.author}
+                    </div>
+                    <div>
+                      {review.reviewContent}
+                    </div>
                   </div>
-                  &nbsp;
-                  {review.author}
                 </div>
-                <div>
-                  {review.reviewContent}
-                </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        )}
     </div>
   );
 };

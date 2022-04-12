@@ -41,47 +41,53 @@ const Blocked = ({ blocked }) => {
       <div>
         <div className="flex">
           <h1>Blocked</h1>
-          <div className="flex pagination-bar">
-            <button type="button" onClick={prevBlockedUsersPage}>
-              <img src={BackIcon} alt="Back Arrow Icon" />
-            </button>
-            &nbsp;{(blockedUsersPage - 1) * 10 + 1} -&nbsp;
-            {blockedUsersPage * 10 > blockedUsers.length
-              ? blockedUsers.length : blockedUsersPage * 10}&nbsp;
-            of {blockedUsers.length}&nbsp;
-            <button type="button" onClick={nextBlockedUsersPage}>
-              <img src={NextIcon} alt="Next Arrow Icon" />
-            </button>
-          </div>
-        </div>
-        <div className="box">
-          <div style={{ padding: '1% 2%' }}>
-            <div className="table-row">
-              <br />
-              <div>
-                <br />
+          {blockedUsers.length === 0 ? null
+            : (
+              <div className="flex pagination-bar">
+                <button type="button" onClick={prevBlockedUsersPage}>
+                  <img src={BackIcon} alt="Back Arrow Icon" />
+                </button>
+                &nbsp;{(blockedUsersPage - 1) * 10 + 1} -&nbsp;
+                {blockedUsersPage * 10 > blockedUsers.length
+                  ? blockedUsers.length : blockedUsersPage * 10}&nbsp;
+                of {blockedUsers.length}&nbsp;
+                <button type="button" onClick={nextBlockedUsersPage}>
+                  <img src={NextIcon} alt="Next Arrow Icon" />
+                </button>
               </div>
-              <div className="table-item">
-                Unblock
+            )}
+        </div>
+        {blockedUsers.length === 0 ? <div>You have no one blocked.</div>
+          : (
+            <div className="box">
+              <div style={{ padding: '1% 2%' }}>
+                <div className="table-row">
+                  <br />
+                  <div>
+                    <br />
+                  </div>
+                  <div className="table-item">
+                    Unblock
+                  </div>
+                </div>
+                {blockedUsersItems.map((blockedUser, index) => (
+                  <div key={blockedUser.email} className="table-row">
+                    <p>
+                      {blockedUser.name}
+                    </p>
+                    <div>
+                      <br />
+                    </div>
+                    <div className="table-item">
+                      <button type="button" onClick={handleUnblock} value={index}>
+                        <img src={UnblockIcon} alt="Unblock Icon" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-            {blockedUsersItems.map((blockedUser, index) => (
-              <div key={blockedUser.email} className="table-row">
-                <p>
-                  {blockedUser.name}
-                </p>
-                <div>
-                  <br />
-                </div>
-                <div className="table-item">
-                  <button type="button" onClick={handleUnblock} value={index}>
-                    <img src={UnblockIcon} alt="Unblock Icon" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+          )}
       </div>
     </div>
   );

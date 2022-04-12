@@ -29,6 +29,8 @@ router.post('/signup', isPennStudent, async (req, res, next) => {
       watchlistRegular: [],
       watchlistBid: [],
       reports: [],
+      loginAttempts: 0,
+      lockedOutTime: 0,
     });
     res.status(201).send(`The user with name "${user.name}" was successfully created!`);
   } catch (error) {
@@ -42,14 +44,35 @@ router.post('/login', async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     const match = await bcrypt.compare(password, user.password);
-    if (match) {
-      req.session.email = email;
-      req.session.name = user.name;
-      res.send(`The user with name ${user.name} and email ${email} has logged in`);
+
+    // if past the lockout period
+    if ((new Date().getTime() > user.lockedOutTime)) {
+      // if the passwords match
+      if (match) {
+        req.session.email = email;
+        req.session.name = user.name;
+        // reset the lockout period
+        await User.updateOne({ email }, { loginAttempts: 0 });
+        await User.updateOne({ email }, { lockedOutTime: 0 });
+        res.send(user);
+      } else {
+        // otherwise, increase the login attempt and check if exceed and increase lockout period
+        await User.updateOne({ email }, { loginAttempts: user.loginAttempts + 1 });
+        if (user.loginAttempts >= 3) {
+          await User.updateOne(
+            { email },
+            { lockedOutTime: new Date(new Date().getTime() + (1 * 60000)).getTime() },
+          );
+        }
+        next(new Error('There was not a match!'));
+      }
     } else {
-      res.status(404).send('The user does not exist or the password is incorrect!');
+      // if still in lockout period, increase the attempt
+      await User.updateOne({ email }, { loginAttempts: user.loginAttempts + 1 });
+      next(new Error('There was not a match'));
     }
   } catch (error) {
+    // catch errors
     next(new Error(`Error inside /login with error message: ${error}`));
   }
 });
@@ -65,6 +88,28 @@ router.post('/logout', isLoggedIn, async (req, res, next) => {
   req.session.email = undefined;
   req.session.name = undefined;
   res.send(`The user with name "${name} has been logged out!"`);
+});
+
+// get the login attempts and locked out time
+router.post('/failedLogin', async (req, res, next) => {
+  const { body } = req;
+  const { email } = body;
+  const user = await User.findOne({ email });
+  res.send({ loginAttempts: user.loginAttempts, lockedOutTime: user.lockedOutTime });
+});
+
+router.post('/resetpassword', async (req, res, next) => {
+  const { body } = req;
+  const { email, password } = body;
+
+  try {
+    const passwordSalt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, passwordSalt);
+    await User.updateOne({ email }, { password: hashedPassword });
+    res.send('Password resetted');
+  } catch (error) {
+    next(new Error('Could not reset password'));
+  }
 });
 
 module.exports = router;

@@ -7,10 +7,14 @@ const Profile = ({ user }) => (
   <div style={{ width: '100%' }}>
     <div className="flex">
       <h1>Profile</h1>
-      <button id="edit-btn" type="button">Edit</button>
       <div className="flex" id="reports">
-        <img src={ExclamationIcon} alt="Exclamation mark symbolizing warning." width="18px" height="18px" />
-        &nbsp;3 other users have reported you.
+        {user.reports.length === 0 ? null
+          : (
+            <>
+              <img src={ExclamationIcon} alt="Exclamation mark symbolizing warning." width="18px" height="18px" />
+              &nbsp;{user.reports.length} other users have reported you.
+            </>
+          )}
       </div>
     </div>
     <div id="profile">

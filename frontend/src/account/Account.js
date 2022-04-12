@@ -5,7 +5,6 @@ import Profile from './components/Profile';
 import Reviews from './components/Reviews';
 import Follows from './components/Follows';
 import Blocked from './components/Blocked';
-import user from './assets/testUser.json';
 
 const Account = () => {
   const [tab, setTab] = useState('Profile');

@@ -29,6 +29,7 @@ const SearchUsers = ({ userProfile }) => {
   const ratingInput = useRef();
   const reviewContent = useRef();
   const userToReview = useRef({});
+  const alreadyReviewed = useRef(false);
   const [matchedUsers, setMatchedUsers] = useState([]);
   const [showReview, setShowReview] = useState(false);
 
@@ -59,6 +60,17 @@ const SearchUsers = ({ userProfile }) => {
     }
   }
 
+  function showReviewBox(e) {
+    userToReview.current = matchedUsers[e.target.value];
+    for (let i = 0; i < userToReview.current.reviews.length; i += 1) {
+      if (userToReview.current.reviews[i].author === userProfile.email) {
+        alreadyReviewed.current = true;
+        break;
+      }
+    }
+    setShowReview(true);
+  }
+
   return (
     <div>
       Search for user(s) by name, and give them a review, follow them, or block them.
@@ -70,11 +82,11 @@ const SearchUsers = ({ userProfile }) => {
         : (
           <div className="box" style={{ marginTop: '2%' }}>
             <div style={{ padding: '1% 2%' }}>
-              {matchedUsers.map((user) => (
+              {matchedUsers.map((user, index) => (
                 <div key={user.email} style={tableRow}>
                   <p>{user.name}</p>
                   <div className="table-item">
-                    <button type="button" onClick={() => { userToReview.current = user; setShowReview(true); }}>Review</button>
+                    <button type="button" value={index} onClick={showReviewBox}>Review</button>
                   </div>
                   <div className="table-item">
                     <button type="button">Follow</button>
@@ -91,26 +103,34 @@ const SearchUsers = ({ userProfile }) => {
         <Modal.Header closeButton>
           <Modal.Title>Write a Review for {userToReview.current.name}</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ height: '200%' }}>
-          <div>
-            Enter a rating - 1 through 5:
-            <select ref={ratingInput} style={{ marginLeft: '5%' }} required>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </div>
-          <div style={{ marginTop: '5%' }}>
-            Write your review:
-            <br />
-            <textarea ref={reviewContent} style={{ width: '100%' }} />
-          </div>
+        <Modal.Body>
+          {alreadyReviewed.current ? 'You have already posted a review for this user.'
+            : (
+              <>
+                <div>
+                  Enter a rating - 1 through 5:
+                  <select ref={ratingInput} style={{ marginLeft: '5%' }} required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+                <div style={{ marginTop: '5%' }}>
+                  Write your review:
+                  <br />
+                  <textarea ref={reviewContent} style={{ width: '100%' }} />
+                </div>
+              </>
+            )}
         </Modal.Body>
-        <Modal.Footer>
-          <button type="button" onClick={postReview}>Submit</button>
-        </Modal.Footer>
+        {alreadyReviewed.current ? null
+          : (
+            <Modal.Footer>
+              <button type="button" onClick={postReview}>Submit</button>
+            </Modal.Footer>
+          )}
       </Modal>
     </div>
   );

@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const reviewSchema = new Schema({
-  author: { type: Schema.Types.ObjectId, ref: 'User' },
-  recipient: { type: Schema.Types.ObjectId, ref: 'User' },
+  author: { type: String, required: true },
+  recipient: { type: String, required: true },
   reviewContent: { type: String, required: true },
   reviewRating: { type: Number, required: true },
 }, { timestamps: true });

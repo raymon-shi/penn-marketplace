@@ -118,4 +118,31 @@ router.post('/resetpassword', async (req, res, next) => {
   }
 });
 
+router.post('/findUsersOnName', async (req, res, next) => {
+  const pattern = new RegExp(`${req.body.name}`, 'i');
+  const matchedUsers = await User.find({ name: pattern });
+  res.send(matchedUsers);
+});
+
+router.post('/postReview', async (req, res, next) => {
+  const {
+    author, recipient, reviewRating, reviewContent,
+  } = req.body;
+  const newReview = {
+    author: author.email,
+    recipient: recipient.email,
+    reviewRating,
+    reviewContent,
+  };
+  recipient.reviews.push(newReview);
+  try {
+    const response = await User.updateOne({
+      email: recipient.email,
+    }, { reviews: recipient.reviews });
+    res.status(200).send('Success');
+  } catch (error) {
+    throw new Error(`Error posting review: ${error}`);
+  }
+});
+
 module.exports = router;

@@ -192,4 +192,16 @@ router.post('/block', async (req, res) => {
   }
 });
 
+// Route to unblock another use
+router.post('/unblock', async (req, res) => {
+  const { newBlockedUsers } = req.body;
+  try {
+    await User.updateOne({ email: req.session.email }, { blocked: newBlockedUsers });
+    res.status(200).send('Success.');
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error unblocking user.');
+  }
+});
+
 module.exports = router;

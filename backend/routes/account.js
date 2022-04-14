@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const isLoggedIn = require('../middleware/isLoggedIn');
 const isPennStudent = require('../middleware/isPennStudent');
 const User = require('../models/User');
+const { response } = require('express');
 
 const router = express.Router();
 
@@ -121,8 +122,13 @@ router.post('/resetpassword', async (req, res, next) => {
 // Route find a user(s) filtering on LIKE name
 router.post('/findUsersOnName', async (req, res, next) => {
   const pattern = new RegExp(`${req.body.name}`, 'i');
-  const matchedUsers = await User.find({ name: pattern });
-  res.send(matchedUsers);
+  try {
+    const matchedUsers = await User.find({ name: pattern });
+    res.send(matchedUsers);
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error finding user.');
+  }
 });
 
 // Route post a review
@@ -138,12 +144,32 @@ router.post('/postReview', async (req, res, next) => {
   };
   recipient.reviews.push(newReview);
   try {
-    const response = await User.updateOne({
-      email: recipient.email,
-    }, { reviews: recipient.reviews });
+    await User.updateOne({ email: recipient.email }, { reviews: recipient.reviews });
     res.status(200).send('Success');
   } catch (error) {
-    throw new Error(`Error posting review: ${error}`);
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error posting review.');
+  }
+});
+
+// Route to follow another user
+router.post('/follow', async (req, res) => {
+  const { follower, followedUser } = req.body;
+  const newFollow = {
+    followerName: follower.name,
+    followerEmail: follower.email,
+    followingName: followedUser.name,
+    followingEmail: followedUser.email,
+  };
+  follower.following.push(newFollow);
+  followedUser.followers.push(newFollow);
+  try {
+    await User.updateOne({ email: follower.email }, { following: follower.following });
+    await User.updateOne({ email: followedUser.email }, { followers: followedUser.followers });
+    res.status(200).send('Success');
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error following user.');
   }
 });
 

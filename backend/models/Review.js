@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const reviewSchema = new Schema({
-  author: { type: String, required: true },
+  authorEmail: { type: String, required: true },
+  authorName: { type: String, required: true },
   recipient: { type: String, required: true },
   reviewContent: { type: String, required: true },
   reviewRating: { type: Number, required: true },

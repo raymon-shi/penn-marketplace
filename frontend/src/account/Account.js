@@ -23,7 +23,7 @@ const Account = () => {
     } catch (e) {
       setApiError(true);
     }
-  }, []);
+  }, [tab]);
 
   function renderTab() {
     if (Object.keys(userProfile).length !== 0) {

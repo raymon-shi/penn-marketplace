@@ -58,7 +58,7 @@ const SearchUsers = ({ userProfile }) => {
         setShowReview(false);
       }
     } catch (error) {
-      throw new Error(`Error posting review ${error}`);
+      throw new Error('Error posting review.');
     }
   }
 
@@ -83,6 +83,14 @@ const SearchUsers = ({ userProfile }) => {
         break;
       }
     }
+    try {
+      await axios.post('/account/follow', {
+        follower: userProfile,
+        followedUser: selectedUser.current,
+      });
+    } catch (error) {
+      throw new Error('Error following user.');
+    }
     setShowFollow(true);
   }
 
@@ -94,6 +102,14 @@ const SearchUsers = ({ userProfile }) => {
         alreadyDone.current = true;
         break;
       }
+    }
+    try {
+      await axios.post('/account/block', {
+        blocker: userProfile,
+        blockedUser: selectedUser.current,
+      });
+    } catch (error) {
+      throw new Error('Error blocking user.');
     }
     setShowBlock(true);
   }
@@ -162,14 +178,14 @@ const SearchUsers = ({ userProfile }) => {
       <Modal show={showFollow} onHide={() => { setShowFollow(false); }} backdrop="static" keyboard={false}>
         <Modal.Header closeButton />
         <Modal.Body>
-          {alreadyDone.current ? `You are already following ${selectedUser.current}.` : `You are now following ${selectedUser.current}.`}
+          {alreadyDone.current ? `You are already following ${selectedUser.current.name}.` : `You are now following ${selectedUser.current.name}.`}
         </Modal.Body>
       </Modal>
       <Modal show={showBlock} onHide={() => { setShowBlock(false); }} backdrop="static" keyboard={false}>
         <Modal.Header closeButton />
         <Modal.Body>
-          {alreadyDone.current ? `You have already blocked this ${selectedUser.current}.`
-            : `${selectedUser.current} is now blocked and you will no longer receive any messages or listings from them.`}
+          {alreadyDone.current ? `You have already blocked this ${selectedUser.current.name}.`
+            : `${selectedUser.current.name} is now blocked and you will no longer receive any messages or listings from them.`}
         </Modal.Body>
       </Modal>
     </div>

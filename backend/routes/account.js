@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const isLoggedIn = require('../middleware/isLoggedIn');
 const isPennStudent = require('../middleware/isPennStudent');
 const User = require('../models/User');
-const { response } = require('express');
 
 const router = express.Router();
 
@@ -137,7 +136,8 @@ router.post('/postReview', async (req, res, next) => {
     author, recipient, reviewRating, reviewContent,
   } = req.body;
   const newReview = {
-    author: author.email,
+    authorEmail: author.email,
+    authorName: author.name,
     recipient: recipient.email,
     reviewRating,
     reviewContent,
@@ -174,7 +174,7 @@ router.post('/follow', async (req, res) => {
 });
 
 // Route to block another user
-router.post('block', async (req, res) => {
+router.post('/block', async (req, res) => {
   const { blocker, blockedUser } = req.body;
   const newBlock = {
     blockerName: blocker.name,

@@ -110,9 +110,9 @@ const Follows = ({ followersProp, following }) => {
                   </div>
                 </div>
                 {followedUsersItems.map((followedUser, index) => (
-                  <div key={followedUser.email} className="table-row">
+                  <div key={followedUser.followingEmail} className="table-row">
                     <p>
-                      {followedUser.name}
+                      {followedUser.followingName}
                     </p>
                     <div className="table-item">
                       <img src={ReviewIcon} alt="Review icon" />
@@ -160,9 +160,9 @@ const Follows = ({ followersProp, following }) => {
                   </div>
                 </div>
                 {followersItems.map((follower, index) => (
-                  <div key={follower.email} className="table-row">
+                  <div key={follower.followerEmail} className="table-row">
                     <p>
-                      {follower.name}
+                      {follower.followerName}
                     </p>
                     <div>
                       <br />

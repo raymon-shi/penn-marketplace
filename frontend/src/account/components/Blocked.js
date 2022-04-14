@@ -71,9 +71,9 @@ const Blocked = ({ blocked }) => {
                   </div>
                 </div>
                 {blockedUsersItems.map((blockedUser, index) => (
-                  <div key={blockedUser.email} className="table-row">
+                  <div key={blockedUser.blockedUserEmail} className="table-row">
                     <p>
-                      {blockedUser.name}
+                      {blockedUser.blockedUserName}
                     </p>
                     <div>
                       <br />

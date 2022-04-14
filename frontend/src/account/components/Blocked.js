@@ -31,9 +31,7 @@ const Blocked = ({ blocked }) => {
     const newBlockedUsers = [...blockedUsers];
     newBlockedUsers.splice(indexToDelete, 1);
     try {
-      // Insert API call here
       await axios.post('/account/unblock', { newBlockedUsers });
-      // End API call
       setBlockedUsers(newBlockedUsers);
       if (newBlockedUsers.length < blockedUsersPage * 10 - 9 && blockedUsersPage > 1) {
         setBlockedUsersPage(blockedUsersPage - 1);

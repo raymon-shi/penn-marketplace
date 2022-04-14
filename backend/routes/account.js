@@ -173,6 +173,52 @@ router.post('/follow', async (req, res) => {
   }
 });
 
+// Route to remove following
+router.post('/unfollow', async (req, res) => {
+  const { removedFollowing, newFollowList } = req.body;
+
+  console.log(newFollowList);
+  if (removedFollowing.followerEmail === req.session.email) {
+    try {
+      const unfollowedUser = await User.findOne({ email: removedFollowing.followingEmail });
+      for (let i = 0; i < unfollowedUser.followers.length; i += 1) {
+        if (unfollowedUser.followers[i].followerEmail === removedFollowing.followerEmail) {
+          unfollowedUser.followers.splice(i, 1);
+          break;
+        }
+      }
+      await User.updateOne(
+        { email: unfollowedUser.email },
+        { followers: unfollowedUser.followers },
+      );
+      await User.updateOne({ email: req.session.email }, { following: newFollowList });
+      res.status(200).send('Success.');
+    } catch (error) {
+      res.status(500).send('An unknown error occured.');
+      throw new Error('Error unfollowing user.');
+    }
+  } else {
+    try {
+      const removedFollower = await User.findOne({ email: removedFollowing.followerEmail });
+      for (let i = 0; i < removedFollower.following.length; i += 1) {
+        if (removedFollower.following[i].followingEmail === removedFollowing.followingEmail) {
+          removedFollower.following.splice(i, 1);
+          break;
+        }
+      }
+      await User.updateOne(
+        { email: removedFollower.email },
+        { following: removedFollower.following },
+      );
+      await User.updateOne({ email: req.session.email }, { followers: newFollowList });
+      res.status(200).send('Success.');
+    } catch (error) {
+      res.status(500).send('An unknown error occured.');
+      throw new Error('Error removing follower.');
+    }
+  }
+});
+
 // Route to block another user
 router.post('/block', async (req, res) => {
   const { blocker, blockedUser } = req.body;

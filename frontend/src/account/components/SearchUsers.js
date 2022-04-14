@@ -78,18 +78,21 @@ const SearchUsers = ({ userProfile }) => {
     selectedUser.current = matchedUsers[e.target.value];
     alreadyDone.current = false;
     for (let i = 0; i < userProfile.following.length; i += 1) {
-      if (userProfile.following[i].followingEmail === selectedUser.email) {
+      if (userProfile.following[i].followingEmail === selectedUser.current.email) {
         alreadyDone.current = true;
         break;
       }
     }
-    try {
-      await axios.post('/account/follow', {
-        follower: userProfile,
-        followedUser: selectedUser.current,
-      });
-    } catch (error) {
-      throw new Error('Error following user.');
+    if (!alreadyDone.current) {
+      try {
+        await axios.post('/account/follow', {
+          follower: userProfile,
+          followedUser: selectedUser.current,
+        });
+        userProfile.following.push({ followingEmail: selectedUser.current.email });
+      } catch (error) {
+        throw new Error('Error following user.');
+      }
     }
     setShowFollow(true);
   }
@@ -98,18 +101,21 @@ const SearchUsers = ({ userProfile }) => {
     selectedUser.current = matchedUsers[e.target.value];
     alreadyDone.current = false;
     for (let i = 0; i < userProfile.blocked.length; i += 1) {
-      if (userProfile.blocked[i].blockedUserEmail === selectedUser.email) {
+      if (userProfile.blocked[i].blockedUserEmail === selectedUser.current.email) {
         alreadyDone.current = true;
         break;
       }
     }
-    try {
-      await axios.post('/account/block', {
-        blocker: userProfile,
-        blockedUser: selectedUser.current,
-      });
-    } catch (error) {
-      throw new Error('Error blocking user.');
+    if (!alreadyDone.current) {
+      try {
+        await axios.post('/account/block', {
+          blocker: userProfile,
+          blockedUser: selectedUser.current,
+        });
+        userProfile.blocked.push({ blockedUserEmail: selectedUser.current.email });
+      } catch (error) {
+        throw new Error('Error blocking user.');
+      }
     }
     setShowBlock(true);
   }

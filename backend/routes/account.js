@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const isLoggedIn = require('../middleware/isLoggedIn');
 const isPennStudent = require('../middleware/isPennStudent');
 const User = require('../models/User');
+const { listenerCount } = require('../models/User');
 
 const router = express.Router();
 
@@ -154,16 +155,18 @@ router.post('/postReview', async (req, res, next) => {
 
 // Route to follow another user
 router.post('/follow', async (req, res) => {
-  const { follower, followedUser } = req.body;
+  let { follower, followedUser } = req.body;
   const newFollow = {
     followerName: follower.name,
     followerEmail: follower.email,
     followingName: followedUser.name,
     followingEmail: followedUser.email,
   };
-  follower.following.push(newFollow);
-  followedUser.followers.push(newFollow);
   try {
+    follower = await User.findOne({ email: follower.email });
+    followedUser = await User.findOne({ email: followedUser.email });
+    follower.following.push(newFollow);
+    followedUser.followers.push(newFollow);
     await User.updateOne({ email: follower.email }, { following: follower.following });
     await User.updateOne({ email: followedUser.email }, { followers: followedUser.followers });
     res.status(200).send('Success');
@@ -176,8 +179,6 @@ router.post('/follow', async (req, res) => {
 // Route to remove following
 router.post('/unfollow', async (req, res) => {
   const { removedFollowing, newFollowList } = req.body;
-
-  console.log(newFollowList);
   if (removedFollowing.followerEmail === req.session.email) {
     try {
       const unfollowedUser = await User.findOne({ email: removedFollowing.followingEmail });
@@ -228,9 +229,10 @@ router.post('/block', async (req, res) => {
     blockedUserName: blockedUser.name,
     blockedUserEmail: blockedUser.email,
   };
-  blocker.blocked.push(newBlock);
   try {
-    await User.updateOne({ email: blocker.email }, { blocked: blocker.blocked });
+    const user = await User.findOne({ email: blocker.email });
+    user.blocked.push(newBlock);
+    await User.updateOne({ email: blocker.email }, { blocked: user.blocked });
     res.status(200).send('Success');
   } catch (error) {
     res.status(500).send('An unknown error occured.');

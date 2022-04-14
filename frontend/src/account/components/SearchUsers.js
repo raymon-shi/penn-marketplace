@@ -28,10 +28,12 @@ const SearchUsers = ({ userProfile }) => {
   const searchInput = useRef();
   const ratingInput = useRef();
   const reviewContent = useRef();
-  const userToReview = useRef({});
-  const alreadyReviewed = useRef(false);
+  const selectedUser = useRef({});
+  const alreadyDone = useRef(false);
   const [matchedUsers, setMatchedUsers] = useState([]);
   const [showReview, setShowReview] = useState(false);
+  const [showFollow, setShowFollow] = useState(false);
+  const [showBlock, setShowBlock] = useState(false);
 
   async function searchUsers() {
     try {
@@ -48,7 +50,7 @@ const SearchUsers = ({ userProfile }) => {
     try {
       const response = await axios.post('/account/postReview', {
         author: userProfile,
-        recipient: userToReview.current,
+        recipient: selectedUser.current,
         reviewRating: ratingInput.current.value,
         reviewContent: reviewContent.current.value,
       });
@@ -61,14 +63,39 @@ const SearchUsers = ({ userProfile }) => {
   }
 
   function showReviewBox(e) {
-    userToReview.current = matchedUsers[e.target.value];
-    for (let i = 0; i < userToReview.current.reviews.length; i += 1) {
-      if (userToReview.current.reviews[i].author === userProfile.email) {
-        alreadyReviewed.current = true;
+    selectedUser.current = matchedUsers[e.target.value];
+    alreadyDone.current = false;
+    for (let i = 0; i < selectedUser.current.reviews.length; i += 1) {
+      if (selectedUser.current.reviews[i].author === userProfile.email) {
+        alreadyDone.current = true;
         break;
       }
     }
     setShowReview(true);
+  }
+
+  async function handleFollow(e) {
+    selectedUser.current = matchedUsers[e.target.value];
+    alreadyDone.current = false;
+    for (let i = 0; i < userProfile.following.length; i += 1) {
+      if (userProfile.following[i].followingEmail === selectedUser.email) {
+        alreadyDone.current = true;
+        break;
+      }
+    }
+    setShowFollow(true);
+  }
+
+  async function handleBlock(e) {
+    selectedUser.current = matchedUsers[e.target.value];
+    alreadyDone.current = false;
+    for (let i = 0; i < userProfile.blocked.length; i += 1) {
+      if (userProfile.blocked[i].blockedUserEmail === selectedUser.email) {
+        alreadyDone.current = true;
+        break;
+      }
+    }
+    setShowBlock(true);
   }
 
   return (
@@ -89,10 +116,10 @@ const SearchUsers = ({ userProfile }) => {
                     <button type="button" value={index} onClick={showReviewBox}>Review</button>
                   </div>
                   <div className="table-item">
-                    <button type="button">Follow</button>
+                    <button type="button" value={index} onClick={handleFollow}>Follow</button>
                   </div>
                   <div className="table-item">
-                    <button type="button">Block</button>
+                    <button type="button" value={index} onClick={handleBlock}>Block</button>
                   </div>
                 </div>
               ))}
@@ -101,10 +128,10 @@ const SearchUsers = ({ userProfile }) => {
         )}
       <Modal show={showReview} onHide={() => { setShowReview(false); }} backdrop="static" keyboard={false}>
         <Modal.Header closeButton>
-          <Modal.Title>Write a Review for {userToReview.current.name}</Modal.Title>
+          <Modal.Title>Write a Review for {selectedUser.current.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {alreadyReviewed.current ? 'You have already posted a review for this user.'
+          {alreadyDone.current ? 'You have already posted a review for this user.'
             : (
               <>
                 <div>
@@ -125,12 +152,25 @@ const SearchUsers = ({ userProfile }) => {
               </>
             )}
         </Modal.Body>
-        {alreadyReviewed.current ? null
+        {alreadyDone.current ? null
           : (
             <Modal.Footer>
               <button type="button" onClick={postReview}>Submit</button>
             </Modal.Footer>
           )}
+      </Modal>
+      <Modal show={showFollow} onHide={() => { setShowFollow(false); }} backdrop="static" keyboard={false}>
+        <Modal.Header closeButton />
+        <Modal.Body>
+          {alreadyDone.current ? `You are already following ${selectedUser.current}.` : `You are now following ${selectedUser.current}.`}
+        </Modal.Body>
+      </Modal>
+      <Modal show={showBlock} onHide={() => { setShowBlock(false); }} backdrop="static" keyboard={false}>
+        <Modal.Header closeButton />
+        <Modal.Body>
+          {alreadyDone.current ? `You have already blocked this ${selectedUser.current}.`
+            : `${selectedUser.current} is now blocked and you will no longer receive any messages or listings from them.`}
+        </Modal.Body>
       </Modal>
     </div>
   );

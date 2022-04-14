@@ -118,12 +118,14 @@ router.post('/resetpassword', async (req, res, next) => {
   }
 });
 
+// Route find a user(s) filtering on LIKE name
 router.post('/findUsersOnName', async (req, res, next) => {
   const pattern = new RegExp(`${req.body.name}`, 'i');
   const matchedUsers = await User.find({ name: pattern });
   res.send(matchedUsers);
 });
 
+// Route post a review
 router.post('/postReview', async (req, res, next) => {
   const {
     author, recipient, reviewRating, reviewContent,

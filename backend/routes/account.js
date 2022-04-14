@@ -173,4 +173,23 @@ router.post('/follow', async (req, res) => {
   }
 });
 
+// Route to block another user
+router.post('block', async (req, res) => {
+  const { blocker, blockedUser } = req.body;
+  const newBlock = {
+    blockerName: blocker.name,
+    blockerEmail: blocker.email,
+    blockedUserName: blockedUser.name,
+    blockedUserEmail: blockedUser.email,
+  };
+  blocker.blocked.push(newBlock);
+  try {
+    await User.updateOne({ email: blocker.email }, { blocked: blocker.blocked });
+    res.status(200).send('Success');
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error blocking user.');
+  }
+});
+
 module.exports = router;

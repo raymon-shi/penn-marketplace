@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import '../assets/Follows.css';
 import NextIcon from '../assets/Next.png';
 import BackIcon from '../assets/Back.png';
@@ -43,8 +44,7 @@ const Follows = ({ followersProp, following }) => {
     }
   }
 
-  function unfollow(e) {
-    // Insert API call
+  async function unfollow(e) {
     let indexToDelete;
     if (e.target.tagName === 'IMG') {
       indexToDelete = e.target.parentNode.value;
@@ -52,15 +52,19 @@ const Follows = ({ followersProp, following }) => {
       indexToDelete = e.target.value;
     }
     const newFollowedUsers = [...followedUsers];
-    newFollowedUsers.splice(indexToDelete, 1);
-    setFollowedUsers(newFollowedUsers);
-    if (newFollowedUsers.length < followedUsersPage * 10 - 9 && followedUsersPage > 1) {
-      setFollowedUsersPage(followedUsersPage - 1);
+    const removedFollowing = newFollowedUsers.splice(indexToDelete, 1);
+    try {
+      await axios.post('/account/unfollow', { removedFollowing: removedFollowing[0], newFollowList: newFollowedUsers });
+      setFollowedUsers(newFollowedUsers);
+      if (newFollowedUsers.length < followedUsersPage * 10 - 9 && followedUsersPage > 1) {
+        setFollowedUsersPage(followedUsersPage - 1);
+      }
+    } catch (error) {
+      throw new Error('Error unfollowing user');
     }
   }
 
-  function removeFollower(e) {
-    // Insert API call
+  async function removeFollower(e) {
     let indexToDelete;
     if (e.target.tagName === 'IMG') {
       indexToDelete = e.target.parentNode.value;
@@ -68,10 +72,15 @@ const Follows = ({ followersProp, following }) => {
       indexToDelete = e.target.value;
     }
     const newFollowers = [...followers];
-    newFollowers.splice(indexToDelete, 1);
-    setFollowers(followers);
-    if (newFollowers.length < followersPage * 10 - 9 && followersPage > 1) {
-      setFollowersPage(followersPage - 1);
+    const removedFollowing = newFollowers.splice(indexToDelete, 1);
+    try {
+      await axios.post('/account/unfollow', { removedFollowing: removedFollowing[0], newFollowList: newFollowers });
+      setFollowers(newFollowers);
+      if (newFollowers.length < followersPage * 10 - 9 && followersPage > 1) {
+        setFollowersPage(followersPage - 1);
+      }
+    } catch (error) {
+      throw new Error('Error unfollowing user');
     }
   }
 
@@ -110,9 +119,9 @@ const Follows = ({ followersProp, following }) => {
                   </div>
                 </div>
                 {followedUsersItems.map((followedUser, index) => (
-                  <div key={followedUser.email} className="table-row">
+                  <div key={followedUser.followingEmail} className="table-row">
                     <p>
-                      {followedUser.name}
+                      {followedUser.followingName}
                     </p>
                     <div className="table-item">
                       <img src={ReviewIcon} alt="Review icon" />
@@ -160,9 +169,9 @@ const Follows = ({ followersProp, following }) => {
                   </div>
                 </div>
                 {followersItems.map((follower, index) => (
-                  <div key={follower.email} className="table-row">
+                  <div key={follower.followerEmail} className="table-row">
                     <p>
-                      {follower.name}
+                      {follower.followerName}
                     </p>
                     <div>
                       <br />

@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const isLoggedIn = require('../middleware/isLoggedIn');
 const isPennStudent = require('../middleware/isPennStudent');
 const User = require('../models/User');
+const { listenerCount } = require('../models/User');
 
 const router = express.Router();
 
@@ -115,6 +116,139 @@ router.post('/resetpassword', async (req, res, next) => {
     res.send('Password resetted');
   } catch (error) {
     next(new Error('Could not reset password'));
+  }
+});
+
+// Route find a user(s) filtering on LIKE name
+router.post('/findUsersOnName', async (req, res, next) => {
+  const pattern = new RegExp(`${req.body.name}`, 'i');
+  try {
+    const matchedUsers = await User.find({ name: pattern });
+    res.send(matchedUsers);
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error finding user.');
+  }
+});
+
+// Route post a review
+router.post('/postReview', async (req, res, next) => {
+  const {
+    author, recipient, reviewRating, reviewContent,
+  } = req.body;
+  const newReview = {
+    authorEmail: author.email,
+    authorName: author.name,
+    recipient: recipient.email,
+    reviewRating,
+    reviewContent,
+  };
+  recipient.reviews.push(newReview);
+  try {
+    await User.updateOne({ email: recipient.email }, { reviews: recipient.reviews });
+    res.status(200).send('Success');
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error posting review.');
+  }
+});
+
+// Route to follow another user
+router.post('/follow', async (req, res) => {
+  let { follower, followedUser } = req.body;
+  const newFollow = {
+    followerName: follower.name,
+    followerEmail: follower.email,
+    followingName: followedUser.name,
+    followingEmail: followedUser.email,
+  };
+  try {
+    follower = await User.findOne({ email: follower.email });
+    followedUser = await User.findOne({ email: followedUser.email });
+    follower.following.push(newFollow);
+    followedUser.followers.push(newFollow);
+    await User.updateOne({ email: follower.email }, { following: follower.following });
+    await User.updateOne({ email: followedUser.email }, { followers: followedUser.followers });
+    res.status(200).send('Success');
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error following user.');
+  }
+});
+
+// Route to remove following
+router.post('/unfollow', async (req, res) => {
+  const { removedFollowing, newFollowList } = req.body;
+  if (removedFollowing.followerEmail === req.session.email) {
+    try {
+      const unfollowedUser = await User.findOne({ email: removedFollowing.followingEmail });
+      for (let i = 0; i < unfollowedUser.followers.length; i += 1) {
+        if (unfollowedUser.followers[i].followerEmail === removedFollowing.followerEmail) {
+          unfollowedUser.followers.splice(i, 1);
+          break;
+        }
+      }
+      await User.updateOne(
+        { email: unfollowedUser.email },
+        { followers: unfollowedUser.followers },
+      );
+      await User.updateOne({ email: req.session.email }, { following: newFollowList });
+      res.status(200).send('Success.');
+    } catch (error) {
+      res.status(500).send('An unknown error occured.');
+      throw new Error('Error unfollowing user.');
+    }
+  } else {
+    try {
+      const removedFollower = await User.findOne({ email: removedFollowing.followerEmail });
+      for (let i = 0; i < removedFollower.following.length; i += 1) {
+        if (removedFollower.following[i].followingEmail === removedFollowing.followingEmail) {
+          removedFollower.following.splice(i, 1);
+          break;
+        }
+      }
+      await User.updateOne(
+        { email: removedFollower.email },
+        { following: removedFollower.following },
+      );
+      await User.updateOne({ email: req.session.email }, { followers: newFollowList });
+      res.status(200).send('Success.');
+    } catch (error) {
+      res.status(500).send('An unknown error occured.');
+      throw new Error('Error removing follower.');
+    }
+  }
+});
+
+// Route to block another user
+router.post('/block', async (req, res) => {
+  const { blocker, blockedUser } = req.body;
+  const newBlock = {
+    blockerName: blocker.name,
+    blockerEmail: blocker.email,
+    blockedUserName: blockedUser.name,
+    blockedUserEmail: blockedUser.email,
+  };
+  try {
+    const user = await User.findOne({ email: blocker.email });
+    user.blocked.push(newBlock);
+    await User.updateOne({ email: blocker.email }, { blocked: user.blocked });
+    res.status(200).send('Success');
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error blocking user.');
+  }
+});
+
+// Route to unblock another use
+router.post('/unblock', async (req, res) => {
+  const { newBlockedUsers } = req.body;
+  try {
+    await User.updateOne({ email: req.session.email }, { blocked: newBlockedUsers });
+    res.status(200).send('Success.');
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error unblocking user.');
   }
 });
 

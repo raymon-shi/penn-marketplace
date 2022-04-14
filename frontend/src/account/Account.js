@@ -5,6 +5,7 @@ import Profile from './components/Profile';
 import Reviews from './components/Reviews';
 import Follows from './components/Follows';
 import Blocked from './components/Blocked';
+import SearchUsers from './components/SearchUsers';
 
 const Account = () => {
   const [tab, setTab] = useState('Profile');
@@ -22,19 +23,25 @@ const Account = () => {
     } catch (e) {
       setApiError(true);
     }
-  }, []);
+  }, [tab]);
 
   function renderTab() {
-    if (tab === 'Profile') {
-      return <Profile user={userProfile} />;
+    if (Object.keys(userProfile).length !== 0) {
+      if (tab === 'Profile') {
+        return <Profile user={userProfile} />;
+      }
+      if (tab === 'Reviews') {
+        return <Reviews reviews={userProfile.reviews} />;
+      }
+      if (tab === 'Follows') {
+        return <Follows followersProp={userProfile.followers} following={userProfile.following} />;
+      }
+      if (tab === 'Search Users') {
+        return <SearchUsers userProfile={userProfile} />;
+      }
+      return <Blocked blocked={userProfile.blocked} />;
     }
-    if (tab === 'Reviews') {
-      return <Reviews reviews={userProfile.reviews} />;
-    }
-    if (tab === 'Follows') {
-      return <Follows followersProp={userProfile.followers} following={userProfile.following} />;
-    }
-    return <Blocked blocked={userProfile.blocked} />;
+    return null;
   }
 
   function handleClick(e) {
@@ -67,6 +74,8 @@ const Account = () => {
           <button type="button" className="side-nav-button" onClick={handleClick}>Follows</button>
           <hr />
           <button type="button" className="side-nav-button" onClick={handleClick}>Blocked</button>
+          <hr />
+          <button type="button" className="side-nav-button" onClick={handleClick}>Search Users</button>
         </div>
       </div>
       <div>

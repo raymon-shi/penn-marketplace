@@ -22,14 +22,14 @@ const Reviews = ({ reviews }) => {
           <div id="reviews">
             <div style={{ padding: '1% 2%' }}>
               {reviews.map((review) => (
-                <div className="review" key={review.author.id}>
+                <div className="review" key={review.authorEmail}>
                   <div style={{ margin: '1%' }}>
                     <div className="flex">
                       <div className="rating">
                         {generateRatingComponent(review.reviewRating)}
                       </div>
                       &nbsp;
-                      {review.author}
+                      {review.authorName}
                     </div>
                     <div>
                       {review.reviewContent}

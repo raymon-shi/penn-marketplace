@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import NextIcon from '../assets/Next.png';
 import BackIcon from '../assets/Back.png';
 import UnblockIcon from '../assets/Unblock.png';
@@ -20,8 +21,7 @@ const Blocked = ({ blocked }) => {
     }
   }
 
-  function handleUnblock(e) {
-    // Insert API call here
+  async function handleUnblock(e) {
     let indexToDelete;
     if (e.target.tagName === 'IMG') {
       indexToDelete = e.target.parentNode.value;
@@ -30,9 +30,14 @@ const Blocked = ({ blocked }) => {
     }
     const newBlockedUsers = [...blockedUsers];
     newBlockedUsers.splice(indexToDelete, 1);
-    setBlockedUsers(newBlockedUsers);
-    if (newBlockedUsers.length < blockedUsersPage * 10 - 9 && blockedUsersPage > 1) {
-      setBlockedUsersPage(blockedUsersPage - 1);
+    try {
+      await axios.post('/account/unblock', { newBlockedUsers });
+      setBlockedUsers(newBlockedUsers);
+      if (newBlockedUsers.length < blockedUsersPage * 10 - 9 && blockedUsersPage > 1) {
+        setBlockedUsersPage(blockedUsersPage - 1);
+      }
+    } catch (error) {
+      throw new Error('Error unblocking user.');
     }
   }
 
@@ -71,9 +76,9 @@ const Blocked = ({ blocked }) => {
                   </div>
                 </div>
                 {blockedUsersItems.map((blockedUser, index) => (
-                  <div key={blockedUser.email} className="table-row">
+                  <div key={blockedUser.blockedUserEmail} className="table-row">
                     <p>
-                      {blockedUser.name}
+                      {blockedUser.blockedUserName}
                     </p>
                     <div>
                       <br />

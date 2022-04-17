@@ -1,0 +1,32 @@
+#dark-mode-btn {
+  background: none;
+  border: none;
+  padding-left: 0px;
+  padding-top: 0px;
+}
+
+.flex {
+  display:flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+#reports {
+  justify-content: right;
+  flex-grow: 5;
+}
+
+#profile {
+  border: 1px solid black;
+  background: white;
+}
+
+p {
+  width: 25%;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  height: 19px;
+  letter-spacing: 0em;
+  text-align: left;
+}

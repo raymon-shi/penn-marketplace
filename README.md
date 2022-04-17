@@ -1,72 +1,101 @@
-# Getting Started with Create React App
+# Penn Marketplace
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
+A Penn exclusive marketplace where people within the community can buy and sell goods and services to each other.
 
-## Available Scripts
+## Table of Content
+1. [Problem Statement](#problem-statement)
+2. [Features](#features)
+3. [Project Folder Structure](#project-folder-structure)
+4. [How to Run the Project](#how-to-run-the-project)
+5. [Technologies](#technologies)
+6. [Mobile App](#mobile-app-version)
+7. [Credit](#credit)
 
-In the project directory, you can run:
 
-### `npm start`
+## Problem Statement
+Over the course of the years, many students buy and use a multitude of items and services. We believe that recycling some of these items and services through the Penn community would help reduce waste to the environment while connecting students to cheaper options for their educational needs. Since buyers and sellers are from the same Penn community, this app would lower costs for students looking to buy something (e.g. used textbooks, workbooks, clothes, furniture, etc…).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Furthermore, there are a variety of platforms and websites that students usually list their items on, oftentimes leading to meetups with strangers. By using our app, we can limit the transaction population to the Penn community and reduce the risk of “shady” meetups.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
+Coming soon...
 
-### `npm test`
+## Project Folder Structure
+    .
+    ├── backend
+    │   ├── middleware                         
+    │   ├── models                            
+    │   ├── routes                            
+    │   ├── package.json
+    │   ├── server.js
+    ├── frontend
+    │   ├── public
+    │   ├── src
+    │   │   ├── login
+    │   │   │   ├── components
+    │   │   │   ├── data
+    │   │   │   ├── images
+    │   │   ├── account
+    │   │   │   ├── assets
+    │   │   │   ├── components
+    │   │   ├── buyer
+    │   │   │   ├── assets
+    │   │   │   ├── components
+    │   │   │   ├── styles
+    │   │   ├── homepage
+    │   │   │   ├── assets
+    │   │   │   ├── components
+    │   │   │   ├── styles
+    │   │   ├── searchbar
+    │   │   │     ├── assets
+    │   │   │     ├── components
+    │   │   ├── seller
+    │   │   │     ├── assets
+    │   │   │     ├── components
+    │   │   │     ├── styles
+    │   │   ├── App.js
+    │   │   ├── index.js
+    │   ├── package.json
+    └── README.md
+    
+  ## How to Run the Project
+  ```
+  git clone the-repository
+  cd backend
+  npm install
+  npm start
+  cd frontend
+  npm install
+  npm start
+  ```
+  The project should run on localhost:3000 and the server is ran on localhost:8080
+  
+  ## Technologies
+  The project was built with the following technologies:
+-   MongoDB
+-   Mongoose
+-   Express.js
+-   Axios
+-   Bcrypt
+-   React
+-   React Bootstrap
+-   React Router
+-   Node.js
+-   Nodemon
+-   Jest
+-   React Testing Library
+-   Cypress
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Mobile App Version
+Link to other repository
 
-### `npm run build`
+## Credit
+| Name      | GitHub Username |
+| ----------- | ----------- |
+| Raymon Shi      | [raymon-shi](https://github.com/raymon-shi)       |
+| Cindy Chen   | [cindych](https://github.com/cindych)        |
+| Harrison Ly   | [hly8](https://github.com/hly8)        |
+| Damon Luong   | [damon-luong](https://github.com/damon-luong)        |
+| Fei Liu   | [FeiLCube](https://github.com/FeiLCube)        |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-f059dc9a6f8d3a56e377f745f24479a46679e63a5d9fe6f495e02850cd0d8118.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7048898&assignment_repo_type=AssignmentRepo)

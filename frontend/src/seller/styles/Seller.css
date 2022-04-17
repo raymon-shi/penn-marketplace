@@ -1,0 +1,130 @@
+body {
+  background-color: #F0F2F5;
+}
+
+.seller-page .start-page, .seller-page .success-page {
+  height: calc(100vh - 115px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.seller-page .buttons {
+  width: 80vw;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 10%;
+}
+
+.seller-page .back-submit-btns {
+  display: flex;
+  justify-content: space-around;
+}
+
+.seller-page .back-submit-btns button {
+  width: 45%;
+}
+
+.seller-page .back-btn {
+  border-color: #33425B;
+  background-color: #33425B;
+  color: white;
+}
+
+.seller-page .start-page button.btn-primary {
+  background-color: white;
+  border-color: black;
+  color: black;
+  width: 15rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.seller-page .start-page h1,
+.seller-page .reg-listing .title,
+.seller-page .bid-listing .title,
+.seller-page .success-page h1 {
+  font-weight: 800;
+  color: #33425B;
+}
+
+.seller-page .start-page h1,
+.seller-page .reg-listing .title,
+.seller-page .bid-listing .title {
+  display: flex;
+  align-self: center;
+}
+
+.seller-page .reg-listing, .seller-page .bid-listing {
+  min-height: calc(100vh - 115px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.seller-page .reg-listing p, .seller-page .bid-listing p {
+  margin: 0;
+}
+
+.seller-page img {
+  object-fit: cover;
+  border-radius: 2%;
+  -webkit-border-radius: 2%; 
+  -moz-border-radius: 2%; 
+}
+
+.seller-page .form-control {
+  background-color: #F8FAFC;
+  margin: 0 auto;
+}
+
+.seller-page form div {
+  text-align: left;
+}
+
+.seller-page form button.btn-primary {
+  background-color: #33425B;
+  border-color: #33425B;
+}
+
+.seller-page .form-label.required:after {
+  content:"*";
+  color:red;
+}
+
+.seller-page .img-upload .form-label {
+  display: block;
+}
+
+.seller-page .img-upload .upload-btn {
+  border: 1px solid black;
+  background-color: white;
+  padding: 0.5rem 2rem;
+  border-radius: 0.2rem;
+  -webkit-border-radius: 0.2rem; 
+  -moz-border-radius: 0.2rem; 
+  cursor: pointer;
+}
+
+.seller-page .success-page h1 {
+  text-align: left;
+  margin: 0 auto;
+  width: 80%;
+  padding-bottom: 10%;
+}
+
+.seller-page .success-page button.btn-primary {
+  width: 15rem;
+}
+
+.seller-page .success-page button.list-btn {
+  background-color: #990000;
+  border-color: #990000;
+}
+
+.seller-page .success-page button.return-btn {
+  background-color: #011F5B;
+  border-color: #011F5B;
+}

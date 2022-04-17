@@ -96,7 +96,7 @@ const Checkout = () => {
           <div className="checkout-botRightPane">
             {isBid ? <h2>Your Bid: {bid}</h2>
               : (
-                <p>
+                <p style={{ width: '100%' }}>
                   Subtotal (1 item): ${price} <br />
                   Discount: $0.00 <br />
                   Tax: $0.00

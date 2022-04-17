@@ -28,7 +28,7 @@ const Cart = () => {
   const listItems = cart.map((d) => (
     <li className="cart-list" key={d.productName}>
       <div className="cart-leftPaneItem">
-        <h3>Seller: {d.sellerName} ({d.sellerRating}%)</h3>
+        <h3 style={{ paddingTop: '10px' }}>Seller: {d.sellerName} ({d.sellerRating}%)</h3>
         <hr className="cart-solid" />
         <div className="cart-image">
           <img src={d.productImage} alt="product" width="200" height="200" />
@@ -54,8 +54,7 @@ const Cart = () => {
           {listItems}
         </div>
         <div className="cart-rightPane">
-          <p style={{ float: 'left' }}>Items ({cart.length}):</p>
-          <p style={{ float: 'right' }}>${subTotal}</p>
+          <p style={{ textAlign: 'center', width: '100%' }}><b>Items ({cart.length}): ${subTotal}</b></p>
           <div className="cart-center">
             <a className="checkoutButton" href="/checkout" aria-label="link to checkout">Go to Checkout</a>
           </div>

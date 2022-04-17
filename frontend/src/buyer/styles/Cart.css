@@ -58,6 +58,7 @@
   padding: 10px 10px 10px 10px;
   margin-top: 10px;
   width: 300px;
+  text-decoration: none;
 }
 
 .checkoutButton:hover {

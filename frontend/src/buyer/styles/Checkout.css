@@ -1,3 +1,58 @@
+.checkout-container {
+    display: flex;
+    flex-direction: row;
+    margin-left: 90px;
+}
+
+.checkout-item {
+    display: flex;
+    flex: 1;
+    border-style: solid;
+    background-color: white;
+    border-radius: 10px;
+    border: 10;
+}
+
+.checkout-itemInfo {
+    flex: 1;
+    margin: 10px;
+}
+
+.checkout-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkout-card {
+    flex: 1;
+    border-style: solid;
+    text-align: center;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    text-align: center;
+}
+
+.checkout-confirm {
+    flex: 1;
+    border-style: solid;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    text-align: center;
+}
+
+.checkout-text {
+    width: 100%;
+}
+
 .checkout {
     font-size: 36pt;
     font-family: 'Arial';
@@ -7,54 +62,11 @@
     position: relative;
     border: 3px solid #A6A6A6;
     box-sizing: border-box;
-    margin-right: 3%;
+    background-color: #FFFFFF;
+    width: 300px;
+    height: 300px;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    float: left;
-}
-
-.checkout-splitScreen {
-    display: flex;
-    flex-direction: row;
-}
-
-.checkout-leftPane {
-    width: 50%;
-    border: 1px solid;
-    border-radius: 10px;
-    padding-left: 20px;
-    padding-bottom: 20px;
-    margin-left: 5%;
-    background-color: #FFFFFF;
-}
-
-.checkout-rightPane {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-}
-
-.checkout-topRightPane {
-    height: 47%;
-    width: 50%;
-    margin-bottom: 6%;
-    margin-left: 10%;
-    border: 1px solid #707070;
-    border-radius: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: #FFFFFF;
-}
-
-.checkout-botRightPane {
-    height: 47%;
-    width: 50%;
-    margin-left: 10%;
-    border: 1px solid #271446;
-    border-radius: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: #FFFFFF;
-}
+  }
 
 .checkout-solid {
     width: 100%;

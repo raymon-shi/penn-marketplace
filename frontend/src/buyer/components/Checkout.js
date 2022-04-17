@@ -55,6 +55,72 @@ const Checkout = () => {
   return (
     <div className="background">
       <h2 className="checkout">Checkout</h2>
+      <div className="checkout-container">
+        <div className="checkout-item">
+          <div className="checkout-itemInfo">
+            <h3>Review Item</h3>
+            <p className="checkout-text">
+              Seller:
+              {sellerName}
+              {' '}
+              (
+              {sellerRating}
+              %)
+            </p>
+            <img className="checkout-image" src={chair} alt="product" />
+            <p className="checkout-text">Tags: {tags}</p>
+          </div>
+          <div className="checkout-itemInfo">
+            <h4>{productName}</h4>
+            <hr className="checkout-solid" />
+            {isBid
+              ? (
+                <div>
+                  <p className="checkout-text">Current Bid: <b>US ${price}</b></p>
+                  <p className="checkout-text">Your Bid: <b>US ${bid}</b></p>
+                </div>
+              )
+              : <p className="checkout-text">Price: <b>US ${price}</b></p>}
+            <hr className="checkout-solid" />
+            <p className="checkout-text">{desc}</p>
+          </div>
+        </div>
+        <div className="checkout-info">
+          <div className="checkout-card">
+            <h3>Pay With</h3>
+            <form className="checkout-center" onSubmit={handleSubmit} id="ccinfo">
+              <input type="number" placeholder="Card Number" onChange={onChangeNum} />
+              <div>
+                <input type="month" placeholder="Exp. Date" onChange={onChangeExp} />
+                <input type="number" placeholder="CVC" onChange={onChangeCVC} />
+              </div>
+              <div>
+                <input type="text" placeholder="First Name" onChange={onChangeFirst} />
+                <input type="text" placeholder="Last Name" onChange={onChangeLast} />
+              </div>
+            </form>
+          </div>
+          <div className="checkout-confirm">
+            {isBid ? <h2>Your Bid: {bid}</h2>
+              : (
+                <div>
+                  <p style={{ textAlign: 'center', width: '100%' }}>Subtotal (1 item): ${price} </p>
+                  <p style={{ textAlign: 'center', width: '100%' }}>Discount: $0.00 </p>
+                  <p style={{ textAlign: 'center', width: '100%' }}>Tax: $0.00 </p>
+                </div>
+              )}
+            <hr className="checkout-solid" />
+            {isBid ? <b>Order total: ${bid}</b> : <b>Order total: ${price}</b>}
+            <div className="checkout-center">
+              <input className="payButton" form="ccinfo" type="submit" value="Confirm and Pay" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    /*
+    <div className="background">
+      <h2 className="checkout">Checkout</h2>
       <div className="checkout-splitScreen">
         <div className="checkout-leftPane">
           <h3>Review Item</h3>
@@ -111,6 +177,7 @@ const Checkout = () => {
         </div>
       </div>
     </div>
+    */
   );
 };
 

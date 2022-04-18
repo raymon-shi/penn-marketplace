@@ -25,7 +25,7 @@ const items = (Array(rows).fill().map((_, rowIndex) => (
 
 const SearchResults = () => (
   <div style={{
-    width: '80%', margin: 'auto', alignContent: 'center', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', justifyItems: 'center',
+    margin: '30px', alignContent: 'center', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', justifyItems: 'center',
   }}
   >
     <h4 style={{ textAlign: 'left' }}>{`${data.length} results for Elden Ring`}</h4>

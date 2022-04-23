@@ -34,7 +34,7 @@ const Account = () => {
         return <Reviews reviews={userProfile.reviews} />;
       }
       if (tab === 'Follows') {
-        return <Follows followersProp={userProfile.followers} following={userProfile.following} />;
+        return <Follows userProfile={userProfile} />;
       }
       if (tab === 'Search Users') {
         return <SearchUsers userProfile={userProfile} />;

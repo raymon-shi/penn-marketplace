@@ -127,6 +127,18 @@ router.post('/findUsersOnName', async (req, res, next) => {
     res.send(matchedUsers);
   } catch (error) {
     res.status(500).send('An unknown error occured.');
+    throw new Error('Error finding users.');
+  }
+});
+
+// Route find a user by penn email
+router.post('/findUserOnEmail', async (req, res, next) => {
+  try {
+    const matchedUser = await User.find({ email: req.body.email });
+    console.log(matchedUser);
+    res.send(matchedUser);
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
     throw new Error('Error finding user.');
   }
 });

@@ -26,12 +26,10 @@ const tableRow = {
 
 const SearchUsers = ({ userProfile }) => {
   const searchInput = useRef();
-  const ratingInput = useRef();
-  const reviewContent = useRef();
   const selectedUser = useRef({});
   const alreadyDone = useRef(false);
   const [matchedUsers, setMatchedUsers] = useState([]);
-  const [showReview, setShowReview] = useState(false);
+  const [showReport, setShowReport] = useState(false);
   const [showFollow, setShowFollow] = useState(false);
   const [showBlock, setShowBlock] = useState(false);
 
@@ -44,34 +42,6 @@ const SearchUsers = ({ userProfile }) => {
     } catch (error) {
       throw new Error(`Error searching for users: ${error}`);
     }
-  }
-
-  async function postReview() {
-    try {
-      const response = await axios.post('/account/postReview', {
-        author: userProfile,
-        recipient: selectedUser.current,
-        reviewRating: ratingInput.current.value,
-        reviewContent: reviewContent.current.value,
-      });
-      if (response.status === 200) {
-        setShowReview(false);
-      }
-    } catch (error) {
-      throw new Error('Error posting review.');
-    }
-  }
-
-  function showReviewBox(e) {
-    selectedUser.current = matchedUsers[e.target.value];
-    alreadyDone.current = false;
-    for (let i = 0; i < selectedUser.current.reviews.length; i += 1) {
-      if (selectedUser.current.reviews[i].author === userProfile.email) {
-        alreadyDone.current = true;
-        break;
-      }
-    }
-    setShowReview(true);
   }
 
   async function handleFollow(e) {
@@ -120,6 +90,10 @@ const SearchUsers = ({ userProfile }) => {
     setShowBlock(true);
   }
 
+  function showReportBox() {
+
+  }
+
   return (
     <div>
       Search for user(s) by name, and give them a review, follow them, or block them.
@@ -135,7 +109,7 @@ const SearchUsers = ({ userProfile }) => {
                 <div key={user.email} style={tableRow}>
                   <p>{user.name}</p>
                   <div className="table-item">
-                    <button type="button" value={index} onClick={showReviewBox}>Review</button>
+                    <button type="button" value={index} onClick={showReportBox}>Review</button>
                   </div>
                   <div className="table-item">
                     <button type="button" value={index} onClick={handleFollow}>Follow</button>
@@ -148,39 +122,6 @@ const SearchUsers = ({ userProfile }) => {
             </div>
           </div>
         )}
-      <Modal show={showReview} onHide={() => { setShowReview(false); }} backdrop="static" keyboard={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Write a Review for {selectedUser.current.name}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {alreadyDone.current ? 'You have already posted a review for this user.'
-            : (
-              <>
-                <div>
-                  Enter a rating - 1 through 5:
-                  <select ref={ratingInput} style={{ marginLeft: '5%' }} required>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                </div>
-                <div style={{ marginTop: '5%' }}>
-                  Write your review:
-                  <br />
-                  <textarea ref={reviewContent} style={{ width: '100%' }} />
-                </div>
-              </>
-            )}
-        </Modal.Body>
-        {alreadyDone.current ? null
-          : (
-            <Modal.Footer>
-              <button type="button" onClick={postReview}>Submit</button>
-            </Modal.Footer>
-          )}
-      </Modal>
       <Modal show={showFollow} onHide={() => { setShowFollow(false); }} backdrop="static" keyboard={false}>
         <Modal.Header closeButton />
         <Modal.Body>

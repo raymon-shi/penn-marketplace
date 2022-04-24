@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
-  Navbar, Nav, Container, Form, FormControl, Button, InputGroup, NavDropdown, Offcanvas, Modal,
+  Form, Button, Offcanvas, Modal, Alert,
 } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +20,7 @@ const Chat = ({ showFriends, setShowFriends }) => {
     try {
       const { data } = await axios.get('/chat/followed');
       setFriends(data);
+      setFriendError('');
     } catch (error) {
       setFriendError('There was an error getting followed');
     }
@@ -66,6 +67,11 @@ const Chat = ({ showFriends, setShowFriends }) => {
           <Offcanvas.Title>Friends</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
+          {friendError !== '' && (
+            <Alert variant="danger">
+              <p>{friendError}</p>
+            </Alert>
+          )}
           {
             friends.map((entry) => (
               <Button
@@ -77,7 +83,7 @@ const Chat = ({ showFriends, setShowFriends }) => {
                   setShowModal(true);
                 }}
                 className="btn-sm mt-2"
-                style={{ width: '100%' }}
+                style={{ backgroundColor: '#011F5B', borderColor: '#011F5B', width: '100%' }}
               >
                 {entry.followingName}
               </Button>
@@ -85,7 +91,7 @@ const Chat = ({ showFriends, setShowFriends }) => {
           }
         </Offcanvas.Body>
       </Offcanvas>
-      <Modal size="lg" show={showModal} onHide={() => setShowModal(false)}>
+      <Modal centered size="lg" show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{friendName}</Modal.Title>
         </Modal.Header>
@@ -94,7 +100,7 @@ const Chat = ({ showFriends, setShowFriends }) => {
           <Form.Group className="my-3" style={{ width: '100%' }}>
             <Form.Control as="textarea" value={msgInput} onChange={(e) => setMsgInput(e.target.value)} rows={3} />
           </Form.Group>
-          <Button className="align-self-end" variant="primary" disabled={msgInput === ''} onClick={sendMessage}>
+          <Button className="align-self-end border shadow-sm" variant="light" disabled={msgInput === ''} onClick={sendMessage}>
             Send Message
           </Button>
         </Modal.Footer>

@@ -4,6 +4,7 @@ const isLoggedIn = require('../middleware/isLoggedIn');
 const isPennStudent = require('../middleware/isPennStudent');
 const User = require('../models/User');
 const { listenerCount } = require('../models/User');
+// const { default: SearchUsers } = require('../../frontend/src/account/components/SearchUsers');
 
 const router = express.Router();
 
@@ -120,11 +121,22 @@ router.post('/resetpassword', async (req, res, next) => {
 });
 
 // Route find a user(s) filtering on LIKE name
-router.post('/findUsersOnName', async (req, res, next) => {
+router.post('/findUsersOnName', async (req, res) => {
   const pattern = new RegExp(`${req.body.name}`, 'i');
   try {
     const matchedUsers = await User.find({ name: pattern });
     res.send(matchedUsers);
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error finding users.');
+  }
+});
+
+// Route find a user by penn email
+router.post('/findUserOnEmail', async (req, res) => {
+  try {
+    const matchedUser = await User.find({ email: req.body.email });
+    res.send(matchedUser);
   } catch (error) {
     res.status(500).send('An unknown error occured.');
     throw new Error('Error finding user.');
@@ -132,7 +144,7 @@ router.post('/findUsersOnName', async (req, res, next) => {
 });
 
 // Route post a review
-router.post('/postReview', async (req, res, next) => {
+router.post('/postReview', async (req, res) => {
   const {
     author, recipient, reviewRating, reviewContent,
   } = req.body;
@@ -249,6 +261,24 @@ router.post('/unblock', async (req, res) => {
   } catch (error) {
     res.status(500).send('An unknown error occured.');
     throw new Error('Error unblocking user.');
+  }
+});
+
+// Route to report a use
+router.post('/postReport', async (req, res) => {
+  const { recipient, reportContent } = req.body;
+  const newReport = {
+    authorEmail: req.session.email,
+    recipientEmail: recipient.email,
+    reportContent,
+  };
+  recipient.reports.push(newReport);
+  try {
+    await User.updateOne({ email: recipient.email }, { reports: recipient.reports });
+    res.status(200).send('Success.');
+  } catch (error) {
+    res.status(500).send('An unknown error occured.');
+    throw new Error('Error reporting user.');
   }
 });
 

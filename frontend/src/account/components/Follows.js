@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import '../assets/Follows.css';
+import { Modal } from 'react-bootstrap';
 import NextIcon from '../assets/Next.png';
 import BackIcon from '../assets/Back.png';
 import ReviewIcon from '../assets/Review.png';
 import UnfollowIcon from '../assets/Unfollow.png';
 
-const Follows = ({ followersProp, following }) => {
-  const [followedUsers, setFollowedUsers] = useState(following);
-  const [followers, setFollowers] = useState(followersProp);
+const Follows = ({ userProfile }) => {
+  const [followedUsers, setFollowedUsers] = useState(userProfile.following);
+  const [followers, setFollowers] = useState(userProfile.followers);
   const [followedUsersPage, setFollowedUsersPage] = useState(1);
   const [followersPage, setFollowersPage] = useState(1);
+  const [showReview, setShowReview] = useState(false);
+  const alreadyDone = useRef(false);
+  const ratingInput = useRef();
+  const reviewContent = useRef();
+  const selectedUser = useRef({});
   const followedUsersItems = followedUsers.slice(
     (followedUsersPage - 1) * 10,
     followedUsersPage * 10,
@@ -84,6 +90,46 @@ const Follows = ({ followersProp, following }) => {
     }
   }
 
+  async function postReview() {
+    try {
+      const response = await axios.post('/account/postReview', {
+        author: userProfile,
+        recipient: selectedUser.current,
+        reviewRating: ratingInput.current.value,
+        reviewContent: reviewContent.current.value,
+      });
+      if (response.status === 200) {
+        setShowReview(false);
+      }
+    } catch (error) {
+      throw new Error('Error posting review.');
+    }
+  }
+
+  async function showReviewBox(e) {
+    let userToReview;
+    if (e.target.tagName === 'IMG') {
+      userToReview = followedUsers[e.target.parentNode.value];
+    } else {
+      userToReview = followedUsers[e.target.value];
+    }
+    try {
+      const { data } = await axios.post('/account/findUserOnEmail', { email: userToReview.followingEmail });
+      const user = data[0];
+      selectedUser.current = user;
+    } catch (error) {
+      throw new Error('Error finding user on email.');
+    }
+    alreadyDone.current = false;
+    for (let i = 0; i < selectedUser.current.reviews.length; i += 1) {
+      if (selectedUser.current.reviews[i].authorEmail === userProfile.email) {
+        alreadyDone.current = true;
+        break;
+      }
+    }
+    setShowReview(true);
+  }
+
   return (
     <div style={{ width: '100%' }}>
       <div>
@@ -124,7 +170,9 @@ const Follows = ({ followersProp, following }) => {
                       {followedUser.followingName}
                     </p>
                     <div className="table-item">
-                      <img src={ReviewIcon} alt="Review icon" />
+                      <button type="button" onClick={showReviewBox} value={index + (followedUsersPage - 1) * 10}>
+                        <img src={ReviewIcon} alt="Review icon" />
+                      </button>
                     </div>
                     <div className="table-item">
                       <button type="button" onClick={unfollow} value={index + (followedUsersPage - 1) * 10}>
@@ -187,6 +235,39 @@ const Follows = ({ followersProp, following }) => {
             </div>
           )}
       </div>
+      <Modal show={showReview} onHide={() => { setShowReview(false); }} backdrop="static" keyboard={false}>
+        <Modal.Header closeButton>
+          <Modal.Title>Write a Review for {selectedUser.current.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {alreadyDone.current ? 'You have already posted a review for this user.'
+            : (
+              <>
+                <div>
+                  Enter a rating - 1 through 5:
+                  <select ref={ratingInput} style={{ marginLeft: '5%' }} required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+                <div style={{ marginTop: '5%' }}>
+                  Write your review:
+                  <br />
+                  <textarea ref={reviewContent} style={{ width: '100%' }} />
+                </div>
+              </>
+            )}
+        </Modal.Body>
+        {alreadyDone.current ? null
+          : (
+            <Modal.Footer>
+              <button type="button" onClick={postReview}>Submit</button>
+            </Modal.Footer>
+          )}
+      </Modal>
     </div>
   );
 };

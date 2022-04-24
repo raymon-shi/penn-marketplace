@@ -123,6 +123,11 @@ const SearchUsers = ({ userProfile }) => {
     }
   }
 
+  function findAverageRating(reviews) {
+    const sum = reviews.reduce((acc, curr) => acc + Number(curr.reviewRating), 0);
+    return sum / reviews.length;
+  }
+  
   return (
     <div>
       Search for user(s) by name, and give them a review, follow them, or block them.
@@ -136,7 +141,7 @@ const SearchUsers = ({ userProfile }) => {
             <div style={{ padding: '1% 2%' }}>
               {matchedUsers.map((user, index) => (
                 <div key={user.email} style={tableRow}>
-                  <p>{user.name}</p>
+                  <p>{user.name} - {findAverageRating(user.reviews)} stars</p>
                   <div className="table-item">
                     <button type="button" value={index} onClick={showReportBox}>Report</button>
                   </div>

@@ -122,7 +122,7 @@ const Follows = ({ userProfile }) => {
     }
     alreadyDone.current = false;
     for (let i = 0; i < selectedUser.current.reviews.length; i += 1) {
-      if (selectedUser.current.reviews[i].author === userProfile.email) {
+      if (selectedUser.current.reviews[i].authorEmail === userProfile.email) {
         alreadyDone.current = true;
         break;
       }

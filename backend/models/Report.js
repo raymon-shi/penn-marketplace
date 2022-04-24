@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const reportSchema = new Schema({
-  author: { type: Schema.Types.ObjectId, ref: 'User' },
-  recipient: { type: Schema.Types.ObjectId, ref: 'User' },
+  authorEmail: { type: String, required: true },
+  recipientEmail: { type: String, required: true },
   reportContent: { type: String, required: true },
 }, { timestamps: true });
 

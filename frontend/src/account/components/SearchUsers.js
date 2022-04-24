@@ -28,6 +28,7 @@ const SearchUsers = ({ userProfile }) => {
   const searchInput = useRef();
   const selectedUser = useRef({});
   const alreadyDone = useRef(false);
+  const reportContent = useRef();
   const [matchedUsers, setMatchedUsers] = useState([]);
   const [showReport, setShowReport] = useState(false);
   const [showFollow, setShowFollow] = useState(false);
@@ -90,8 +91,36 @@ const SearchUsers = ({ userProfile }) => {
     setShowBlock(true);
   }
 
-  function showReportBox() {
+  async function showReportBox(e) {
+    try {
+      const { data } = await axios.post('/account/findUserOnEmail', { email: matchedUsers[e.target.value].email });
+      const user = data[0];
+      selectedUser.current = user;
+    } catch (error) {
+      throw new Error('Error finding user on email.');
+    }
+    alreadyDone.current = false;
+    for (let i = 0; i < selectedUser.current.reports.length; i += 1) {
+      if (selectedUser.current.reports[i].authorEmail === userProfile.email) {
+        alreadyDone.current = true;
+        break;
+      }
+    }
+    setShowReport(true);
+  }
 
+  async function reportUser() {
+    if (!reportContent.current) {
+      throw new Error('You must type a reason for reporting this user.');
+    }
+    try {
+      const response = await axios.post('/account/postReport', { recipient: selectedUser.current, reportContent: reportContent.current.value });
+      if (response.status === 200) {
+        setShowReport(false);
+      }
+    } catch (error) {
+      throw new Error('Error reporting user.');
+    }
   }
 
   return (
@@ -109,7 +138,7 @@ const SearchUsers = ({ userProfile }) => {
                 <div key={user.email} style={tableRow}>
                   <p>{user.name}</p>
                   <div className="table-item">
-                    <button type="button" value={index} onClick={showReportBox}>Review</button>
+                    <button type="button" value={index} onClick={showReportBox}>Report</button>
                   </div>
                   <div className="table-item">
                     <button type="button" value={index} onClick={handleFollow}>Follow</button>
@@ -131,9 +160,28 @@ const SearchUsers = ({ userProfile }) => {
       <Modal show={showBlock} onHide={() => { setShowBlock(false); }} backdrop="static" keyboard={false}>
         <Modal.Header closeButton />
         <Modal.Body>
-          {alreadyDone.current ? `You have already blocked this ${selectedUser.current.name}.`
+          {alreadyDone.current ? `You have already blocked ${selectedUser.current.name}.`
             : `${selectedUser.current.name} is now blocked and you will no longer receive any messages or listings from them.`}
         </Modal.Body>
+      </Modal>
+      <Modal show={showReport} onHide={() => { setShowReport(false); }} backdrop="static" keyboard={false}>
+        <Modal.Header closeButton />
+        <Modal.Body>
+          {alreadyDone.current ? `You have already reported ${selectedUser.current.name}.`
+            : (
+              <div>
+                Why are you reporting this user?
+                <br />
+                <textarea ref={reportContent} style={{ width: '100%' }} />
+              </div>
+            )}
+        </Modal.Body>
+        {alreadyDone.current ? null
+          : (
+            <Modal.Footer>
+              <button type="button" onClick={reportUser}>Report</button>
+            </Modal.Footer>
+          )}
       </Modal>
     </div>
   );

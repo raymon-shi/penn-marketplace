@@ -13,7 +13,7 @@ const Reviews = ({ reviews }) => {
   }
 
   function findAverageRating() {
-    const sum = reviews.reduce((acc, curr) => acc + curr.reviewRating, 0);
+    const sum = reviews.reduce((acc, curr) => acc + Number(curr.reviewRating), 0);
     return sum / reviews.length;
   }
 

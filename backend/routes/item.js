@@ -27,6 +27,16 @@ router.post('/search',  async (req, res, next) => {
   }
 });
 
+router.post('/bidSearch',  async (req, res, next) => {
+  const pattern = new RegExp(`${req.body.filter}`, 'i');
+  try {
+    const bidListings = await ItemBid.find({ itemName: pattern });
+    res.json(bidListings);
+  } catch (error) {
+    next(new Error('Error with retrieving search results'));
+  }
+});
+
 // route to retrieve regular listings
 router.get('/getRegListings', async (req, res, next) => {
   try {

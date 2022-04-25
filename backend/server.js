@@ -61,6 +61,7 @@ io.on('connection', (socket) => {
 // routers
 const accountRouter = require('./routes/account');
 const itemRouter = require('./routes/item');
+const buyerRouter = require('./routes/buyer');
 const chatRouter = require('./routes/chat');
 
 // makes userUploads public
@@ -86,6 +87,7 @@ app.use(bodyParserErrorHandler());
 // using routers, all routers will be prefixed with /name-of-prefix-route
 app.use('/account', accountRouter);
 app.use('/item', itemRouter);
+app.use('/buyer', buyerRouter);
 app.use('/chat', chatRouter);
 
 // default error handling

@@ -1,44 +1,61 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import '../styles/Cart.css';
-import chair from '../assets/chair.png';
+import axios from 'axios';
 
 const Cart = () => {
-  const item1 = {
-    productName: 'item 1',
-    productDesc: 'info about product here',
-    productImage: chair,
-    price: 160.99,
-    tags: 'Gaming',
-    sellerName: 'Seller Name',
-    sellerRating: 90,
+  const [cart, setCart] = useState([]);
+
+  const getCart = async () => {
+    try {
+      const userCart = await axios.get('/buyer/cart');
+      setCart(userCart.data);
+    } catch (error) {
+      throw new Error('Error with loading cart');
+    }
   };
 
-  const item2 = {
-    productName: 'item 2',
-    productDesc: 'info about product here',
-    productImage: chair,
-    price: 200.00,
-    tags: 'Furniture',
-    sellerName: 'Seller Name',
-    sellerRating: 10,
+  const handleRemoveReg = async (id) => {
+    try {
+      await axios.post(`/buyer/removeCartRegItem/${id}`);
+      getCart();
+    } catch (error) {
+      throw new Error(`Error with removing item with id:${id} from cart`);
+    }
   };
 
-  const cart = [item1, item2];
+  const handleRemoveBid = async (id) => {
+    try {
+      await axios.post(`/buyer/removeCartBidItem/${id}`);
+      getCart();
+    } catch (error) {
+      throw new Error(`Error with removing item with id:${id} from cart`);
+    }
+  };
+
+  useEffect(() => {
+    getCart();
+  }, []);
 
   const listItems = cart.map((d) => (
-    <li className="cart-list" key={d.productName}>
+    <li className="cart-list" key={d._id}>
       <div className="cart-leftPaneItem">
-        <h3>Seller: {d.sellerName} ({d.sellerRating}%)</h3>
+        <h3 style={{ paddingTop: '10px' }}>Seller: {d.posterName} </h3>
         <hr className="cart-solid" />
-        <div className="cart-image">
-          <img src={d.productImage} alt="product" width="200" height="200" />
-        </div>
+        {d.media && d.media !== ''
+          ? (
+            <div className="cart-image">
+              <img src={d.media} alt="product" width="200" height="200" />
+            </div>
+          )
+          : <div />}
         <div style={{ float: 'right', paddingRight: '50px' }}>
-          <p>${d.price}</p>
+          {d.bidHistory ? (<p>Your bid: ${d.price}</p>) : <p>Price: ${d.price}</p>}
         </div>
         <div style={{ marginLeft: '210px' }}>
-          <h4>{d.productName}</h4>
-          <p>{d.productDesc}</p>
+          <h4>{d.itemName}</h4>
+          <p>{d.itemDescr}</p>
+          {d.bidHistory ? <button type="button" onClick={() => handleRemoveBid(d._id)}>Remove from Cart</button>
+            : <button type="button" onClick={() => handleRemoveReg(d._id)}>Remove from Cart</button>}
         </div>
       </div>
     </li>
@@ -54,10 +71,9 @@ const Cart = () => {
           {listItems}
         </div>
         <div className="cart-rightPane">
-          <p style={{ float: 'left' }}>Items ({cart.length}):</p>
-          <p style={{ float: 'right' }}>${subTotal}</p>
+          <p style={{ textAlign: 'center', width: '100%' }}><b>Items ({cart.length}): ${subTotal}</b></p>
           <div className="cart-center">
-            <input className="payButton" form="ccinfo" type="submit" value="Go to Checkout" />
+            <a className="checkoutButton" href="/checkout" aria-label="link to checkout">Go to Checkout</a>
           </div>
         </div>
       </div>

@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 // import './App.css';
 import axios from 'axios';
 import Seller from './seller/components/Seller';
-import Item from './buyer/components/Item';
+import RegularItem from './buyer/components/RegularItem';
+import BidItem from './buyer/components/BidItem';
 import Checkout from './buyer/components/Checkout';
 import Login from './Login/components/Login';
 import Account from './account/Account';
@@ -51,7 +52,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/seller" element={<Seller />} />
-        <Route path="/item" element={<Item />} />
+        <Route path="/Regularitem" element={<RegularItem />} />
+        <Route path="/bidItem" element={<BidItem />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />

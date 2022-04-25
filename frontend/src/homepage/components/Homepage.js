@@ -13,6 +13,7 @@ import '../styles/Homepage.css';
 const Homepage = () => {
   const [regListings, setRegListings] = useState([]);
   const [bidListings, setBidListings] = useState([]);
+  const [savedListings, setSavedListings] = useState([]);
   const navigate = useNavigate();
 
   const getRegListings = async () => {
@@ -37,9 +38,21 @@ const Homepage = () => {
     }
   };
 
+  const getSavedListings = async () => {
+    try {
+      const { data } = await axios.get('/item/getSavedListings');
+      if (data && data.length > 0) {
+        setSavedListings(data.reverse());
+      }
+    } catch (err) {
+      console.log('Error in retrieving saved listings');
+    }
+  };
+
   useEffect(() => {
     getRegListings();
     getBidListings();
+    getSavedListings();
   }, []);
 
   return (
@@ -56,7 +69,7 @@ const Homepage = () => {
           <Slider>
             {regListings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/item', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/RegularItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>
@@ -92,7 +105,7 @@ const Homepage = () => {
           <Slider>
             {bidListings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/item', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/BidItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>
@@ -126,10 +139,22 @@ const Homepage = () => {
           visibleSlides={5}
         >
           <Slider>
-            {links.map((link, idx) => (
-              <Slide index={idx} key={uuidv4()}>
-                <Image src={link} alt="product pic" hasMasterSpinner={false} />
-                <p>$5.99</p>
+            {savedListings.map((item, idx) => (
+              // eslint-disable-next-line no-underscore-dangle
+              <Slide onClick={() => navigate('/item', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+                {item.media && item.media !== ''
+                  ? (
+                    <>
+                      <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
+                      <p style={{ width: '100%' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                    </>
+                  )
+                  : (
+                    <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: '100%' }}>
+                      <h1>{item.itemName}</h1>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                    </div>
+                  )}
               </Slide>
             ))}
           </Slider>

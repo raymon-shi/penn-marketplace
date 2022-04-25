@@ -28,6 +28,7 @@ mongoose.connect(MONGO_URI, {
 // routers
 const accountRouter = require('./routes/account');
 const itemRouter = require('./routes/item');
+const buyerRouter = require('./routes/buyer');
 
 // makes userUploads public
 app.use('/userUploads', express.static('userUploads'));
@@ -52,6 +53,7 @@ app.use(bodyParserErrorHandler());
 // using routers, all routers will be prefixed with /name-of-prefix-route
 app.use('/account', accountRouter);
 app.use('/item', itemRouter);
+app.use('/buyer', buyerRouter);
 
 // default error handling
 app.use((err, req, res, next) => {

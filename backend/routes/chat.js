@@ -35,9 +35,15 @@ router.get('/messages', async (req, res, next) => {
 
 router.post('/sendMessage', async (req, res, next) => {
   const { body, session } = req;
-  const { receiver, message } = body;
+  const { receiver, message, img } = body;
   try {
-    await Message.create({ sender: session.name, receiver, message });
+    if (img) {
+      await Message.create({
+        sender: session.name, receiver, message, img,
+      });
+    } else {
+      await Message.create({ sender: session.name, receiver, message });
+    }
     res.status(200).json({ message: 'created message successfully' });
   } catch (error) {
     console.log(error);

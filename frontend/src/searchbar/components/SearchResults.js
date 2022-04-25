@@ -11,7 +11,7 @@ import ResultCard from './ResultCard';
 
 const SearchResults = () => {
   const { state } = useLocation();
-  const { query } = state;
+  const { query, category } = state;
   const [listings, setListings] = useState([]);
   const [bidListings, setBidListings] = useState([]);
   const navigate = useNavigate();
@@ -20,10 +20,9 @@ const SearchResults = () => {
     try {
       const { data } = await axios.post('/item/search', {
         filter: query,
+        label: category,
       });
-      if (data && data.length > 0) {
-        setListings(data.reverse());
-      }
+      setListings(data.reverse());
     } catch (error) {
       throw new Error('Error searching for items');
     }
@@ -80,7 +79,7 @@ const SearchResults = () => {
           <Slider>
             {listings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/item', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/RegularItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>
@@ -116,7 +115,7 @@ const SearchResults = () => {
           <Slider>
             {bidListings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/item', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/BidItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>

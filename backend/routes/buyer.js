@@ -33,6 +33,7 @@ router.post('/addCartRegItem/:id', async (req, res) => {
     const item = await ItemRegular.findById(req.params.id);
     const user = await User.findOne({ email: req.session.email });
     user.shoppingCart.push(item);
+    await User.updateOne({ email: req.session.email }, { shoppingCart: user.shoppingCart });
     res.status(200).send('Regular listing successfully added to cart!');
   } catch (error) {
     res.status(500).send('An unknown error occured');
@@ -46,6 +47,7 @@ router.post('/addCartBidItem/:id', async (req, res) => {
     const item = await ItemBid.findById(req.params.id);
     const user = await User.findOne({ email: req.session.email });
     user.shoppingCart.push(item);
+    await User.updateOne({ email: req.session.email }, { shoppingCart: user.shoppingCart });
     res.status(200).send('Regular listing successfully added to cart!');
   } catch (error) {
     res.status(500).send('An unknown error occured');
@@ -59,6 +61,7 @@ router.post('/addWatchRegItem/:id', async (req, res) => {
     const item = await ItemRegular.findById(req.params.id);
     const user = await User.findOne({ email: req.session.email });
     user.watchlistRegular.push(item);
+    await User.updateOne({ email: req.session.email }, { watchlistRegular: user.watchlistRegular });
     res.status(200).send('Regular listing successfully added to watchlist!');
   } catch (error) {
     res.status(500).send('An unknown error occured');
@@ -72,10 +75,21 @@ router.post('/addWatchBidItem/:id', async (req, res) => {
     const item = await ItemBid.findById(req.params.id);
     const user = await User.findOne({ email: req.session.email });
     user.watchlistBid.push(item);
+    await User.updateOne({ email: req.session.email }, { watchlistBid: user.watchlistBid });
     res.status(200).send('Bid listing successfully added to watchlist!');
   } catch (error) {
     res.status(500).send('An unknown error occured');
     throw new Error('Error with adding bid item to watchlist');
+  }
+});
+
+// route to get users shopping cart
+router.get('/cart', async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.session.email });
+    res.status(200).json(user.shoppingCart);
+  } catch (error) {
+    next(new Error('Error with retrieving listing'));
   }
 });
 

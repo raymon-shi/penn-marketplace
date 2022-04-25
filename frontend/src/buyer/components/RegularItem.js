@@ -30,6 +30,12 @@ const RegularItem = () => {
     navigate('/cart');
   };
 
+  const handleSave = async (event) => {
+    event.preventDefault();
+    await axios.post(`/buyer/addWatchRegItem/${itemId}`);
+    navigate('/');
+  };
+
   return (
     <div className="item-container">
       <div className="item-col">
@@ -49,6 +55,7 @@ const RegularItem = () => {
         <p className="item-text">Price: <b>US ${listing.price}</b></p>
         <a href="/checkout" className="buyButton">Buy It Now</a>
         <a href="/cart" className="cartButton" onClick={handleCart}>Add To Cart</a>
+        <a href="/" className="saveButton" onClick={handleSave}>Save to Watchlist</a>
       </div>
       <div className="item-seller">
         <h1>Seller Information</h1>

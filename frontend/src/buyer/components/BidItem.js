@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Item.css';
 
 const BidItem = () => {
   // retrieve information about the specific item (from Homepage.js when you click on a slide)
   const { state } = useLocation();
   const { itemId } = state;
+  const navigate = useNavigate();
 
   const [listing, setListing] = useState({});
 
@@ -23,8 +24,16 @@ const BidItem = () => {
     getBidListing();
   }, []);
 
-  const handleCart = (event) => {
+  const handleCart = async (event) => {
+    event.preventDefault();
+    await axios.post(`/buyer/addCartBidItem/${itemId}`);
+    navigate('/cart');
+  };
 
+  const handleSave = async (event) => {
+    event.preventDefault();
+    await axios.post(`/buyer/addWatchBidItem/${itemId}`);
+    navigate('/');
   };
 
   return (
@@ -56,6 +65,7 @@ const BidItem = () => {
         </div>
         <a href="/checkout" className="buyButton">Place Bid Now</a>
         <a href="/cart" className="cartButton" onClick={handleCart}>Add To Cart</a>
+        <a href="/" className="saveButton" onClick={handleSave}>Save to Watchlist</a>
       </div>
       <div className="item-seller">
         <h1>Seller Information</h1>

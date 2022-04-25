@@ -19,7 +19,7 @@ const userSchema = new Schema({
   transactionHistory: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
   watchlistRegular: [{ type: Schema.Types.ObjectId, ref: 'ItemRegular' }],
   watchlistBid: [{ type: Schema.Types.ObjectId, ref: 'ItemBid' }],
-  shoppingCat: [{ type: Schema.Types.ObjectId, ref: 'Cart' }],
+  shoppingCart: [{ type: Object }],
   reports: { type: Array, ref: 'Report' },
   loginAttempts: { type: Number },
   lockedOutTime: { type: Date },

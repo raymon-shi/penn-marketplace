@@ -17,6 +17,7 @@ import Account from './account/Account';
 import Homepage from './homepage/components/Homepage';
 import Header from './homepage/components/Header';
 import Cart from './buyer/components/Cart';
+import SearchResults from './searchbar/components/SearchResults';
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -85,6 +86,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={<Account />} />
+          <Route path="/results/:searchResult" element={<SearchResults />} />
         </Routes>
       </div>
     </SocketContext.Provider>

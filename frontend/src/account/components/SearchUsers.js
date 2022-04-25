@@ -1,6 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import axios from 'axios';
 import { Modal } from 'react-bootstrap';
+import { SocketContext } from '../../homepage/components/Socket';
 
 const inputStyle = {
   padding: '5px',
@@ -26,14 +27,14 @@ const tableRow = {
 
 const SearchUsers = ({ userProfile }) => {
   const searchInput = useRef();
-  const ratingInput = useRef();
-  const reviewContent = useRef();
   const selectedUser = useRef({});
   const alreadyDone = useRef(false);
+  const reportContent = useRef();
   const [matchedUsers, setMatchedUsers] = useState([]);
-  const [showReview, setShowReview] = useState(false);
+  const [showReport, setShowReport] = useState(false);
   const [showFollow, setShowFollow] = useState(false);
   const [showBlock, setShowBlock] = useState(false);
+  const socket = useContext(SocketContext);
 
   async function searchUsers() {
     try {
@@ -44,34 +45,6 @@ const SearchUsers = ({ userProfile }) => {
     } catch (error) {
       throw new Error(`Error searching for users: ${error}`);
     }
-  }
-
-  async function postReview() {
-    try {
-      const response = await axios.post('/account/postReview', {
-        author: userProfile,
-        recipient: selectedUser.current,
-        reviewRating: ratingInput.current.value,
-        reviewContent: reviewContent.current.value,
-      });
-      if (response.status === 200) {
-        setShowReview(false);
-      }
-    } catch (error) {
-      throw new Error('Error posting review.');
-    }
-  }
-
-  function showReviewBox(e) {
-    selectedUser.current = matchedUsers[e.target.value];
-    alreadyDone.current = false;
-    for (let i = 0; i < selectedUser.current.reviews.length; i += 1) {
-      if (selectedUser.current.reviews[i].author === userProfile.email) {
-        alreadyDone.current = true;
-        break;
-      }
-    }
-    setShowReview(true);
   }
 
   async function handleFollow(e) {
@@ -85,12 +58,14 @@ const SearchUsers = ({ userProfile }) => {
     }
     if (!alreadyDone.current) {
       try {
+        socket.emit('new follow', selectedUser.current.name);
         await axios.post('/account/follow', {
           follower: userProfile,
           followedUser: selectedUser.current,
         });
         userProfile.following.push({ followingEmail: selectedUser.current.email });
       } catch (error) {
+        // let's not throw errors in the frontend!
         throw new Error('Error following user.');
       }
     }
@@ -120,6 +95,43 @@ const SearchUsers = ({ userProfile }) => {
     setShowBlock(true);
   }
 
+  async function showReportBox(e) {
+    try {
+      const { data } = await axios.post('/account/findUserOnEmail', { email: matchedUsers[e.target.value].email });
+      const user = data[0];
+      selectedUser.current = user;
+    } catch (error) {
+      throw new Error('Error finding user on email.');
+    }
+    alreadyDone.current = false;
+    for (let i = 0; i < selectedUser.current.reports.length; i += 1) {
+      if (selectedUser.current.reports[i].authorEmail === userProfile.email) {
+        alreadyDone.current = true;
+        break;
+      }
+    }
+    setShowReport(true);
+  }
+
+  async function reportUser() {
+    if (!reportContent.current) {
+      throw new Error('You must type a reason for reporting this user.');
+    }
+    try {
+      const response = await axios.post('/account/postReport', { recipient: selectedUser.current, reportContent: reportContent.current.value });
+      if (response.status === 200) {
+        setShowReport(false);
+      }
+    } catch (error) {
+      throw new Error('Error reporting user.');
+    }
+  }
+
+  function findAverageRating(reviews) {
+    const sum = reviews.reduce((acc, curr) => acc + Number(curr.reviewRating), 0);
+    return sum / reviews.length;
+  }
+  
   return (
     <div>
       Search for user(s) by name, and give them a review, follow them, or block them.
@@ -133,9 +145,9 @@ const SearchUsers = ({ userProfile }) => {
             <div style={{ padding: '1% 2%' }}>
               {matchedUsers.map((user, index) => (
                 <div key={user.email} style={tableRow}>
-                  <p>{user.name}</p>
+                  <p>{user.name} - {findAverageRating(user.reviews)} stars</p>
                   <div className="table-item">
-                    <button type="button" value={index} onClick={showReviewBox}>Review</button>
+                    <button type="button" value={index} onClick={showReportBox}>Report</button>
                   </div>
                   <div className="table-item">
                     <button type="button" value={index} onClick={handleFollow}>Follow</button>
@@ -148,39 +160,6 @@ const SearchUsers = ({ userProfile }) => {
             </div>
           </div>
         )}
-      <Modal show={showReview} onHide={() => { setShowReview(false); }} backdrop="static" keyboard={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Write a Review for {selectedUser.current.name}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {alreadyDone.current ? 'You have already posted a review for this user.'
-            : (
-              <>
-                <div>
-                  Enter a rating - 1 through 5:
-                  <select ref={ratingInput} style={{ marginLeft: '5%' }} required>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                </div>
-                <div style={{ marginTop: '5%' }}>
-                  Write your review:
-                  <br />
-                  <textarea ref={reviewContent} style={{ width: '100%' }} />
-                </div>
-              </>
-            )}
-        </Modal.Body>
-        {alreadyDone.current ? null
-          : (
-            <Modal.Footer>
-              <button type="button" onClick={postReview}>Submit</button>
-            </Modal.Footer>
-          )}
-      </Modal>
       <Modal show={showFollow} onHide={() => { setShowFollow(false); }} backdrop="static" keyboard={false}>
         <Modal.Header closeButton />
         <Modal.Body>
@@ -190,9 +169,28 @@ const SearchUsers = ({ userProfile }) => {
       <Modal show={showBlock} onHide={() => { setShowBlock(false); }} backdrop="static" keyboard={false}>
         <Modal.Header closeButton />
         <Modal.Body>
-          {alreadyDone.current ? `You have already blocked this ${selectedUser.current.name}.`
+          {alreadyDone.current ? `You have already blocked ${selectedUser.current.name}.`
             : `${selectedUser.current.name} is now blocked and you will no longer receive any messages or listings from them.`}
         </Modal.Body>
+      </Modal>
+      <Modal show={showReport} onHide={() => { setShowReport(false); }} backdrop="static" keyboard={false}>
+        <Modal.Header closeButton />
+        <Modal.Body>
+          {alreadyDone.current ? `You have already reported ${selectedUser.current.name}.`
+            : (
+              <div>
+                Why are you reporting this user?
+                <br />
+                <textarea ref={reportContent} style={{ width: '100%' }} />
+              </div>
+            )}
+        </Modal.Body>
+        {alreadyDone.current ? null
+          : (
+            <Modal.Footer>
+              <button type="button" onClick={reportUser}>Report</button>
+            </Modal.Footer>
+          )}
       </Modal>
     </div>
   );

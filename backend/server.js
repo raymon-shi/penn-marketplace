@@ -25,6 +25,39 @@ mongoose.connect(MONGO_URI, {
   useUnifiedTopology: true,
 });
 
+const http = require('http'); // require the vanilla http server
+const { Server } = require('socket.io');
+// require socket.io
+const server = http.createServer(app); // create our server
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  },
+}); // create our IO sockets
+
+io.on('connection', (socket) => {
+  socket.on('join room', (username) => { // logging in
+    socket.join(username);
+    const altSocket = socket;
+    altSocket.data.username = username; // store username into socket
+  });
+
+  socket.on('leave room', () => {
+    socket.leave(socket.data.username); // logging out
+    const altSocket = socket;
+    altSocket.data.username = '';
+  });
+
+  socket.on('new message', (friendName) => { // send message notification to receiver
+    socket.broadcast.to(friendName).emit('new message', socket.data.username);
+  });
+
+  socket.on('new follow', (friendName) => { // send follow notification to receiver
+    socket.broadcast.to(friendName).emit('new follow', socket.data.username);
+  });
+});
+
 // routers
 const accountRouter = require('./routes/account');
 const itemRouter = require('./routes/item');
@@ -64,7 +97,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start listening for requests
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Listening on port ${port}`);
   console.log(`MongoDB is connected at ${MONGO_URI}`);
 });

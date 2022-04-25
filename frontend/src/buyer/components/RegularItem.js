@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Item.css';
 
 const RegularItem = () => {
@@ -9,6 +9,7 @@ const RegularItem = () => {
   const { itemId } = state;
 
   const [listing, setListing] = useState({});
+  const navigate = useNavigate();
 
   const getRegListing = async () => {
     try {
@@ -23,8 +24,10 @@ const RegularItem = () => {
     getRegListing();
   }, []);
 
-  const handleCart = (event) => {
-
+  const handleCart = async (event) => {
+    event.preventDefault();
+    await axios.post(`/buyer/addCartRegItem/${itemId}`);
+    navigate('/cart');
   };
 
   return (

@@ -14,6 +14,24 @@ const Cart = () => {
     }
   };
 
+  const handleRemoveReg = async (id) => {
+    try {
+      await axios.post(`/buyer/removeCartRegItem/${id}`);
+      getCart();
+    } catch (error) {
+      throw new Error(`Error with removing item with id:${id} from cart`);
+    }
+  };
+
+  const handleRemoveBid = async (id) => {
+    try {
+      await axios.post(`/buyer/removeCartBidItem/${id}`);
+      getCart();
+    } catch (error) {
+      throw new Error(`Error with removing item with id:${id} from cart`);
+    }
+  };
+
   useEffect(() => {
     getCart();
   }, []);
@@ -36,6 +54,8 @@ const Cart = () => {
         <div style={{ marginLeft: '210px' }}>
           <h4>{d.itemName}</h4>
           <p>{d.itemDescr}</p>
+          {d.bidHistory ? <button type="button" onClick={() => handleRemoveBid(d._id)}>Remove from Cart</button>
+            : <button type="button" onClick={() => handleRemoveReg(d._id)}>Remove from Cart</button>}
         </div>
       </div>
     </li>

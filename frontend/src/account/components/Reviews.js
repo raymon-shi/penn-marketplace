@@ -12,10 +12,15 @@ const Reviews = ({ reviews }) => {
     return stars;
   }
 
+  function findAverageRating() {
+    const sum = reviews.reduce((acc, curr) => acc + Number(curr.reviewRating), 0);
+    return sum / reviews.length;
+  }
+
   return (
     <div>
       <div style={{ width: '100%' }}>
-        <h1>Reviews</h1>
+        <h1>Reviews - Average Rating: {findAverageRating()}</h1>
       </div>
       {reviews.length === 0 ? <div>You have no reviews.</div>
         : (

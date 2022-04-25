@@ -19,7 +19,8 @@
 }
 
 .header button.login, .header button.login:hover,
-.header a.btn.profile, .header a.btn.profile:hover {
+.header a.btn.profile, .header a.btn.profile:hover,
+.header button.friends, .header button.friends:hover {
   background-color: #011F5B;
   border: #011F5B;
   box-shadow: none;

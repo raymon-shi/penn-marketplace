@@ -3,6 +3,7 @@ import '../assets/Searchbar.css';
 
 const Searchbar = () => {
   const [search, setSearch] = useState('');
+  const filterHeaders = ['Home', 'Saved', 'Textbooks', 'Services', 'Clothes', 'Housing & Furniture'];
 
   function handleSubmit(e) {
     e.preventDefault();

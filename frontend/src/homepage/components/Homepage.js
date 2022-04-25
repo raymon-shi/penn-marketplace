@@ -38,21 +38,9 @@ const Homepage = () => {
     }
   };
 
-  const getSavedListings = async () => {
-    try {
-      const { data } = await axios.get('/item/getSavedListings');
-      if (data && data.length > 0) {
-        setSavedListings(data.reverse());
-      }
-    } catch (err) {
-      console.log('Error in retrieving saved listings');
-    }
-  };
-
   useEffect(() => {
     getRegListings();
     getBidListings();
-    getSavedListings();
   }, []);
 
   return (

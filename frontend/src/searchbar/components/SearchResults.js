@@ -34,9 +34,7 @@ const SearchResults = () => {
       const { data } = await axios.post('/item/bidSearch', {
         filter: query,
       });
-      if (data && data.length > 0) {
-        setBidListings(data.reverse());
-      }
+      setBidListings(data.reverse());
     } catch (error) {
       throw new Error('Error searching for items');
     }
@@ -45,7 +43,7 @@ const SearchResults = () => {
   useEffect(() => {
     getListings();
     getBidListings();
-  }, []);
+  }, [query]);
 
   // const rows = Math.ceil(listings.length / 3);
   // const items = (Array(rows).fill().map((_, rowIndex) => (

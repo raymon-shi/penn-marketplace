@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../assets/Searchbar.css';
 
 const Searchbar = () => {
@@ -8,7 +8,7 @@ const Searchbar = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    navigate('/results', { state: { query: search } });
+    navigate(`/results/${search}`, { state: { query: search } });
   }
 
   return (

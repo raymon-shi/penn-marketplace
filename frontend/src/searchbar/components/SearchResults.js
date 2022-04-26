@@ -42,7 +42,7 @@ const SearchResults = () => {
   useEffect(() => {
     getListings();
     getBidListings();
-  }, [query]);
+  }, [query, category]);
 
   // const rows = Math.ceil(listings.length / 3);
   // const items = (Array(rows).fill().map((_, rowIndex) => (

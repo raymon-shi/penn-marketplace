@@ -14,6 +14,7 @@ const upload = multer({ storage });
 
 const ItemRegular = require('../models/ItemRegular');
 const ItemBid = require('../models/ItemBid');
+const User = require('../models/User');
 
 const router = express.Router();
 
@@ -54,6 +55,27 @@ router.get('/getBidListings', async (req, res, next) => {
     res.json(bidListings);
   } catch (error) {
     next(new Error('Error with retrieving bid listings'));
+  }
+});
+
+// route to get users saved reg listings
+router.get('/getSavedReg', async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.session.email });
+    console.log(user.watchlistRegular);
+    res.status(200).json(user.watchlistRegular);
+  } catch (error) {
+    next(new Error('Error with retrieving watchlist'));
+  }
+});
+
+// route to retrieve saved bid listings
+router.get('/getSavedBid', async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.session.email });
+    res.status(200).json(user.watchlistBid);
+  } catch (error) {
+    next(new Error('Error with retrieving watchlist'));
   }
 });
 

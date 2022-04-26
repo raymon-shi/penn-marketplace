@@ -53,7 +53,7 @@ const RegularItem = () => {
         <p className="item-text">{listing.itemDescr}</p>
         <hr className="item-solid" />
         <p className="item-text">Price: <b>US ${listing.price}</b></p>
-        <a href="/checkout" className="buyButton">Buy It Now</a>
+        <a href="/checkout" className="buyButton" onClick={handleCart}>Buy It Now</a>
         <a href="/cart" className="cartButton" onClick={handleCart}>Add To Cart</a>
         <a href="/" className="saveButton" onClick={handleSave}>Save to Watchlist</a>
       </div>

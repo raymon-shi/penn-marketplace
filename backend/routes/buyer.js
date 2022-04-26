@@ -32,7 +32,6 @@ router.get('/getBidListing/:id', async (req, res, next) => {
 router.post('/addCartRegItem/:id', async (req, res) => {
   try {
     const item = await ItemRegular.findById(req.params.id);
-    console.log(item);
     await User.findOneAndUpdate(
       { email: req.session.email, 
         'shoppingCart._id': { $ne: req.params.id }},
@@ -93,7 +92,7 @@ router.get('/cart', async (req, res, next) => {
     const user = await User.findOne({ email: req.session.email });
     res.status(200).json(user.shoppingCart);
   } catch (error) {
-    next(new Error('Error with retrieving listing'));
+    next(new Error('Error with retrieving cart'));
   }
 });
 
@@ -101,9 +100,10 @@ router.get('/cart', async (req, res, next) => {
 router.post('/addWatchRegItem/:id', async (req, res) => {
   try {
     const item = await ItemRegular.findById(req.params.id);
-    const user = await User.findOne({ email: req.session.email });
-    user.watchlistRegular.push(item);
-    await User.updateOne({ email: req.session.email }, { watchlistRegular: user.watchlistRegular });
+    await User.findOneAndUpdate(
+      { email: req.session.email, 
+        'shoppingCart._id': { $ne: req.params.id }},
+      { $addToSet: { watchlistRegular: item }});
     res.status(200).send('Regular listing successfully added to watchlist!');
   } catch (error) {
     res.status(500).send('An unknown error occured');
@@ -115,9 +115,10 @@ router.post('/addWatchRegItem/:id', async (req, res) => {
 router.post('/addWatchBidItem/:id', async (req, res) => {
   try {
     const item = await ItemBid.findById(req.params.id);
-    const user = await User.findOne({ email: req.session.email });
-    user.watchlistBid.push(item);
-    await User.updateOne({ email: req.session.email }, { watchlistBid: user.watchlistBid });
+    await User.findOneAndUpdate(
+      { email: req.session.email, 
+        'shoppingCart._id': { $ne: req.params.id }},
+      { $addToSet: { watchlistBid: item }});
     res.status(200).send('Bid listing successfully added to watchlist!');
   } catch (error) {
     res.status(500).send('An unknown error occured');
@@ -150,6 +151,21 @@ router.post('/removeWatchRegItem/:id', async (req, res) => {
   } catch (error) {
     res.status(500).send('An unknown error occured');
     throw new Error('Error with removing bid item from watchlist');
+  }
+});
+
+// route to add bid to bidhistory
+router.post('/addBid/:id', async (req, res) => {
+  const { bid } = req.body;
+  try {
+    await ItemBid.findOneAndUpdate(
+      { _id: req.params.id },
+      { bidHistory: bid }
+    );
+    res.status(200).send('Bid placed successfully');
+  } catch (error) {
+    res.status(500).send('An unknown error occured');
+    throw new Error('Error with adding bid to item');
   }
 });
 

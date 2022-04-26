@@ -84,7 +84,7 @@ const SearchResults = () => {
                 {item.media && item.media !== ''
                   ? (
                     <>
-                      <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
+                      <Image src={`http://localhost:8080/${item.media}`} alt="product pic" hasMasterSpinner={false} />
                       <p style={{ width: '100%' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
@@ -120,7 +120,7 @@ const SearchResults = () => {
                 {item.media && item.media !== ''
                   ? (
                     <>
-                      <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
+                      <Image src={`http://localhost:8080/${item.media}`} alt="product pic" hasMasterSpinner={false} />
                       <p style={{ width: '100%' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )

@@ -32,6 +32,7 @@ const SearchResults = () => {
     try {
       const { data } = await axios.post('/item/bidSearch', {
         filter: query,
+        label: category,
       });
       setBidListings(data.reverse());
     } catch (error) {

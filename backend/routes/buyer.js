@@ -160,7 +160,7 @@ router.post('/addBid/:id', async (req, res) => {
   try {
     await ItemBid.findOneAndUpdate(
       { _id: req.params.id },
-      { bidHistory: bid }
+      { $addToSet: { bidHistory: bid }}
     );
     res.status(200).send('Bid placed successfully');
   } catch (error) {
@@ -168,7 +168,6 @@ router.post('/addBid/:id', async (req, res) => {
     throw new Error('Error with adding bid to item');
   }
 });
-
 
 // route to handle Regular transactions
 router.post('/regTransaction', async (req, res) => {

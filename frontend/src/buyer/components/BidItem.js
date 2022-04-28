@@ -36,6 +36,11 @@ const BidItem = () => {
     navigate('/');
   };
 
+  const handleCheckout = (event) => {
+    event.preventDefault();
+    navigate('/ItemCheckout', { state: { listing } });
+  };
+
   return (
     <div className="item-container">
       <div className="item-col">
@@ -63,7 +68,7 @@ const BidItem = () => {
           />
           <p>Enter ${listing.price + 1} or more!</p>
         </div>
-        <a href="/checkout" className="buyButton">Place Bid Now</a>
+        <a href="/ItemCheckout" className="buyButton" onClick={handleCheckout}>Place Bid Now</a>
         <a href="/cart" className="cartButton" onClick={handleCart}>Add To Cart</a>
         <a href="/" className="saveButton" onClick={handleSave}>Save to Watchlist</a>
       </div>

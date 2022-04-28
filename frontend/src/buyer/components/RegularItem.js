@@ -36,6 +36,11 @@ const RegularItem = () => {
     navigate('/');
   };
 
+  const handleCheckout = (event) => {
+    event.preventDefault();
+    navigate('/ItemCheckout', { state: { listing } });
+  };
+
   return (
     <div className="item-container">
       <div className="item-col">
@@ -53,7 +58,7 @@ const RegularItem = () => {
         <p className="item-text">{listing.itemDescr}</p>
         <hr className="item-solid" />
         <p className="item-text">Price: <b>US ${listing.price}</b></p>
-        <a href="/checkout" className="buyButton" onClick={handleCart}>Buy It Now</a>
+        <a href="/ItemCheckout" className="buyButton" onClick={handleCheckout}>Buy It Now</a>
         <a href="/cart" className="cartButton" onClick={handleCart}>Add To Cart</a>
         <a href="/" className="saveButton" onClick={handleSave}>Save to Watchlist</a>
       </div>

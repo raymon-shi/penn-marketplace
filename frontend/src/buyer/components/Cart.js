@@ -73,7 +73,7 @@ const Cart = () => {
         <div className="cart-rightPane">
           <p style={{ textAlign: 'center', width: '100%' }}><b>Items ({cart.length}): ${subTotal}</b></p>
           <div className="cart-center">
-            <a className="checkoutButton" href="/checkout" aria-label="link to checkout">Go to Checkout</a>
+            <a className="checkoutButton" href="/CartCheckout" aria-label="link to checkout">Go to Checkout</a>
           </div>
         </div>
       </div>

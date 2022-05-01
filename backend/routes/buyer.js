@@ -171,13 +171,16 @@ router.post('/addBid/:id', async (req, res) => {
 
 // route to handle Regular transactions
 router.post('/regTransaction', async (req, res) => {
-  const { seller, listingRegular, totalCost } = req.body;
+  const { sellerName, listingRegular, totalCost, info } = req.body;
   try {
+    const sellerUser = await User.findOne({ name: sellerName });
+    const buyerUser = await User.findOne( { email: req.session.email });
     const transaction = await Transaction.create({
-      seller,
-      buyer: req.session._id,
+      seller: sellerUser._id,
+      buyer: buyerUser._id,
       listingRegular,
       totalCost,
+      info,
     });
     res.status(201).send(`The transaction was done successfully: ${transaction}`);
   } catch (error) {
@@ -187,13 +190,16 @@ router.post('/regTransaction', async (req, res) => {
 
 // route to handle Bid transactions
 router.post('/bidTransaction', async (req, res) => {
-  const { seller, listingBid, totalCost } = req.body;
+  const { sellerName, listingBid, totalCost, info } = req.body;
   try {
+    const sellerUser = await User.findOne({ name: sellerName });
+    const buyerUser = await User.findOne( { email: req.session.email });
     const transaction = await Transaction.create({
-      seller,
-      buyer: req.session._id,
+      seller: sellerUser._id,
+      buyer: buyerUser._id,
       listingBid,
       totalCost,
+      info,
     });
     res.status(201).send(`The transaction was done successfully: ${transaction}`);
   } catch (error) {

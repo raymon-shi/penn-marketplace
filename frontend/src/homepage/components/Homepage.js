@@ -119,7 +119,7 @@ const Homepage = () => {
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%' }}><b>{`Highest Bid: $${Math.max(...item.bidHistory)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (

@@ -49,13 +49,13 @@ const Cart = () => {
           )
           : <div />}
         <div style={{ float: 'right', paddingRight: '50px' }}>
-          {d.bidHistory ? (<p>Your bid: ${d.price}</p>) : <p>Price: ${d.price}</p>}
+          {d.bidHistory ? (<p style={{ width: '100%' }}>Curr bid: ${Math.max(d.bidHistory)}</p>) : <p>Price: ${d.price}</p>}
         </div>
         <div style={{ marginLeft: '210px' }}>
           <h4>{d.itemName}</h4>
           <p>{d.itemDescr}</p>
-          {d.bidHistory ? <button type="button" onClick={() => handleRemoveBid(d._id)}>Remove from Cart</button>
-            : <button type="button" onClick={() => handleRemoveReg(d._id)}>Remove from Cart</button>}
+          {d.bidHistory ? <button className="removeButton" type="button" onClick={() => handleRemoveBid(d._id)}>Remove from Cart</button>
+            : <button className="removeButton" type="button" onClick={() => handleRemoveReg(d._id)}>Remove from Cart</button>}
         </div>
       </div>
     </li>

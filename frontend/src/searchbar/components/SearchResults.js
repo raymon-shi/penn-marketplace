@@ -32,6 +32,7 @@ const SearchResults = () => {
     try {
       const { data } = await axios.post('/item/bidSearch', {
         filter: query,
+        label: category,
       });
       setBidListings(data.reverse());
     } catch (error) {
@@ -68,7 +69,13 @@ const SearchResults = () => {
   return (
     <div className="homepage pt-5">
       <div className="carousel-wrapper">
-        <h4 style={{ marginTop: '0 auto' }}> {listings.length} Regular listing results for &quot;{query}&quot;</h4>
+        {query !== '' ? (
+          <h4 style={{ marginTop: '0 auto' }}>{listings.length} Regular listing results for &quot;{query}&quot;</h4>
+        )
+          : (
+            <h4 style={{ marginTop: '0 auto' }}>{listings.length} Regular listing results for &quot;{category}&quot;</h4>
+          )}
+
         <CarouselProvider
           className="mt-1"
           naturalSlideWidth={100}

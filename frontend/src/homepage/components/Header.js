@@ -59,7 +59,7 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
                 }}
               >Friends
               </Button>
-              {showFriends && <Chat showFriends={showFriends} setShowFriends={setShowFriends} />}
+              {showFriends && <Chat showFriends={showFriends} setShowFriends={setShowFriends} username={username} />}
               <Button className="login me-2 btn-sm" onClick={() => navigate('/account')}>Account</Button>
               <p
                 className="ms-2 me-3"
@@ -87,7 +87,6 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
       <Container className="m-0 bottom" style={{ maxWidth: 'none' }}>
         <Nav className="m-0 bottom" style={{ flexWrap: 'wrap' }}>
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="">Saved</Nav.Link>
           <Nav.Link href="">Textbooks</Nav.Link>
           <Nav.Link href="">Services</Nav.Link>
           <Nav.Link href="">Clothes</Nav.Link>

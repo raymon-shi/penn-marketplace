@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Item.css';
 
-const BidItem = () => {
+const BidItem = ({ username }) => {
   // retrieve information about the specific item (from Homepage.js when you click on a slide)
   const { state } = useLocation();
-  const { itemId } = state;
+  const { itemId, posterName } = state;
   const navigate = useNavigate();
 
   const [listing, setListing] = useState({});
@@ -18,10 +18,19 @@ const BidItem = () => {
       const item = await axios.get(`/buyer/getBidListing/${itemId}`);
       setListing(item.data);
       if (item.data.bidHistory && item.data.bidHistory.length > 0) {
-        setCurrBid(Math.max(...item.data.bidHistory));
+        setCurrBid(item.data.price);
       }
     } catch (error) {
       throw new Error(`Error with retrieving item with id ${itemId}`);
+    }
+  };
+
+  const acceptBid = async () => {
+    try {
+      const { data } = await axios.post('/seller/acceptBid', { buyerName: listing.bidHistory.at(-1).bidderName, listingBid: listing, totalCost: currBid });
+      await axios.post('/seller/addTransaction', { transaction: data });
+    } catch (error) {
+      console.log('Error in accepting bid');
     }
   };
 
@@ -41,7 +50,14 @@ const BidItem = () => {
 
   const handleCheckout = (event) => {
     event.preventDefault();
-    navigate('/ItemCheckout', { state: { listing, bid, currBid } });
+    navigate('/ItemCheckout', {
+      state: {
+        listing,
+        bid,
+        currBid,
+        isBidItem: true,
+      },
+    });
   };
 
   return (
@@ -60,24 +76,30 @@ const BidItem = () => {
         <hr className="item-solid" />
         <p className="item-text">{listing.itemDescr}</p>
         <hr className="item-solid" />
-        <div>
-          <p className="item-text">Current Bid: <b>US ${currBid}</b></p>
-          <form id="bidForm" onSubmit={handleCheckout}>
-            <input
-              type="number"
-              id="bid"
-              name="bid"
-              min={currBid + 1}
-              step="1"
-              value={bid}
-              placeholder="Enter Bid"
-              onChange={onChangeBid}
-            />
-          </form>
-          <p style={{ width: '100%' }}>Enter ${currBid + 1} or more!</p>
-        </div>
-        <button className="buyButton" form="bidForm" type="submit" onSubmit={handleCheckout}>Place Bid Now</button>
-        <button className="cartButton" type="submit" onClick={handleSave}>Save Item</button>
+        <p className="item-text">Current Bid: <b>US ${currBid}</b> {`(${listing.bidHistory && listing.bidHistory.length > 0 ? listing.bidHistory.at(-1).bidderName : 'none'})`}</p>
+        {posterName !== username ? (
+          <>
+            <div>
+              <form id="bidForm" onSubmit={handleCheckout}>
+                <input
+                  type="number"
+                  id="bid"
+                  name="bid"
+                  min={currBid + 1}
+                  step="1"
+                  value={bid}
+                  placeholder="Enter Bid"
+                  onChange={onChangeBid}
+                />
+              </form>
+              <p style={{ width: '100%' }}>Enter ${currBid + 1} or more!</p>
+            </div>
+            <button className="buyButton" form="bidForm" type="submit" onSubmit={handleCheckout} disabled={!bid}>Place Bid Now</button>
+            <button className="cartButton" type="submit" onClick={handleSave}>Save Item</button>
+          </>
+        ) : (
+          <button className="buyButton" type="button" onClick={acceptBid}>Accept Bid</button>
+        )}
       </div>
       <div className="item-seller">
         <h1>Seller Information</h1>

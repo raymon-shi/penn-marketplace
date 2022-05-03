@@ -72,18 +72,19 @@ const Homepage = () => {
           className="mt-1"
           naturalSlideWidth={100}
           naturalSlideHeight={100}
-          totalSlides={links.length}
+          totalSlides={regListings.length}
           visibleSlides={5}
+          step={5}
         >
           <Slider>
             {regListings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/RegularItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/RegularItem', { state: { itemId: item._id, posterName: item.posterName } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (
@@ -108,24 +109,25 @@ const Homepage = () => {
           className="mt-1"
           naturalSlideWidth={100}
           naturalSlideHeight={100}
-          totalSlides={links.length}
+          totalSlides={bidListings.length}
           visibleSlides={5}
+          step={5}
         >
           <Slider>
             {bidListings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/BidItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/BidItem', { state: { itemId: item._id, posterName: item.posterName } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%' }}><b>{`Highest Bid: $${Math.max(Math.max(...item.bidHistory), 0)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (
                     <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: '100%' }}>
                       <h1>{item.itemName}</h1>
-                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${Math.max(Math.max(...item.bidHistory), 0)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </div>
                   )}
               </Slide>
@@ -145,6 +147,7 @@ const Homepage = () => {
           naturalSlideHeight={100}
           totalSlides={links.length}
           visibleSlides={5}
+          step={5}
         >
           <Slider>
             {savedRegListings.map((item, idx) => (
@@ -154,7 +157,7 @@ const Homepage = () => {
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (

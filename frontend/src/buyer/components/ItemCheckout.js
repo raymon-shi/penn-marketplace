@@ -10,7 +10,9 @@ const ItemCheckout = () => {
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const { state } = useLocation();
-  const { listing, bid, currBid } = state;
+  const {
+    listing, bid, currBid, isBidItem,
+  } = state;
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
@@ -56,17 +58,17 @@ const ItemCheckout = () => {
     if (listing.bidHistory) {
       // add bid to listing -> create transaction -> add transaction to user history
       await axios.post(`/buyer/addBid/${listing._id}`, { bid });
-      const purchase = await axios.post(
-        '/buyer/bidTransaction',
-        {
-          sellerName: listing.posterName,
-          listingBid: listing._id,
-          totalCost: bid,
-          info,
-        },
-      );
-      console.log(purchase.data);
-      await axios.post('/buyer/addTransaction', { transaction: purchase.data });
+      // const purchase = await axios.post(
+      //   '/buyer/bidTransaction',
+      //   {
+      //     sellerName: listing.posterName,
+      //     listingBid: listing._id,
+      //     totalCost: bid,
+      //     info,
+      //   },
+      // );
+      // console.log(purchase.data);
+      // await axios.post('/buyer/addTransaction', { transaction: purchase.data });
       navigate('/');
     } else {
       // create reg item transaction -> add transaction to user history
@@ -74,7 +76,7 @@ const ItemCheckout = () => {
         '/buyer/regTransaction',
         {
           sellerName: listing.posterName,
-          listingRegular: listing._id,
+          listingRegular: listing,
           totalCost: listing.price,
           info,
         },
@@ -86,7 +88,7 @@ const ItemCheckout = () => {
 
   return (
     <div className="background">
-      <h2 className="checkout">Item Checkout</h2>
+      <h2 className="checkout">{isBidItem ? 'Confirm Bid' : 'Item Checkout'}</h2>
       <div className="checkout-container">
         <div className="checkout-item">
           <div>
@@ -139,7 +141,7 @@ const ItemCheckout = () => {
             </p>
             <hr className="checkout-solid" />
             <div className="checkout-center">
-              <input className="payButton" form="ccinfo" type="submit" value="Confirm and Pay" />
+              <input className="payButton" form="ccinfo" type="submit" value={isBidItem ? 'Confirm Bid' : 'Confirm and Pay'} />
             </div>
           </div>
         </div>

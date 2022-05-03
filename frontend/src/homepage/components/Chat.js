@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { SocketContext } from './Socket';
 
-const Chat = ({ showFriends, setShowFriends }) => {
+const Chat = ({ showFriends, setShowFriends, username }) => {
   const [friends, setFriends] = useState([]);
   const [friendError, setFriendError] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -21,6 +21,7 @@ const Chat = ({ showFriends, setShowFriends }) => {
   const [msgs, setMsgs] = useState([]);
   const friendNameRef = useRef('');
   const socket = useContext(SocketContext);
+  const [name, setName] = useState('');
 
   const getFollowingFriends = async () => {
     try {
@@ -94,15 +95,15 @@ const Chat = ({ showFriends, setShowFriends }) => {
             <Button
               key={uuidv4()}
               onClick={() => {
-                setFriendName(entry.followingName);
-                friendNameRef.current = entry.followingName;
-                setFriendEmail(entry.followingEmail);
+                setFriendName(entry.name);
+                friendNameRef.current = entry.name;
+                setFriendEmail(entry.email);
                 setShowModal(true);
               }}
               className="btn-sm mt-2"
               style={{ backgroundColor: '#011F5B', borderColor: '#011F5B', width: '100%' }}
             >
-              {entry.followingName}
+              {entry.name}
             </Button>
           ))}
         </Offcanvas.Body>
@@ -116,13 +117,16 @@ const Chat = ({ showFriends, setShowFriends }) => {
             <div key={uuidv4()} className="message d-flex justify-content-between">
               {
                 m.img && m.img !== '' ? (
-                  <img
-                    style={{ objectFit: 'cover' }}
-                    src={m.img}
-                    alt="msg-img"
-                    height="100px"
-                    width="100px"
-                  />
+                  <>
+                    <b>{`${m.sender}`}</b>
+                    <img
+                      style={{ objectFit: 'cover' }}
+                      src={m.img}
+                      alt="msg-img"
+                      height="100px"
+                      width="100px"
+                    />
+                  </>
                 ) : (
                   <li key={uuidv4()} style={{ listStyle: 'none' }}>
                     <b>{`${m.sender}`}</b>

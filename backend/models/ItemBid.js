@@ -8,7 +8,7 @@ const itemBidSchema = new Schema({
   itemDescr: { type: String },
   media: { type: String },
   price: { type: Number, required: true },
-  bidHistory: [{ type: Number }],
+  bidHistory: [{ bidAmount: Number, bidderName: String }],
   tag: { type: String },
 }, { timestamps: true });
 

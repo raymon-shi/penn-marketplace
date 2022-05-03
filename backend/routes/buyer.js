@@ -33,7 +33,7 @@ router.post('/addCartRegItem/:id', async (req, res) => {
   try {
     const item = await ItemRegular.findById(req.params.id);
     await User.findOneAndUpdate(
-      { email: req.session.email, 
+      { email: req.session.email,
         'shoppingCart._id': { $ne: req.params.id }},
       { $addToSet: { shoppingCart: item }});
     res.status(200).send('Regular listing successfully added to cart!');
@@ -142,19 +142,21 @@ router.post('/removeWatchRegItem/:id', async (req, res) => {
 });
 
 // route to add bid to bidhistory
-router.post('/addBid/:id', async (req, res) => {
-  const { bid } = req.body;
-  try {
-    await ItemBid.findOneAndUpdate(
-      { _id: req.params.id },
-      { $addToSet: { bidHistory: bid }}
-    );
-    res.status(200).send('Bid placed successfully');
-  } catch (error) {
-    res.status(500).send('An unknown error occured');
-    throw new Error('Error with adding bid to item');
-  }
-});
+// router.post('/addBid/:id', async (req, res) => {
+//   const { bid } = req.body;
+//   const { session } = req;
+//   const { name } = session;
+//   try {
+//     await ItemBid.findOneAndUpdate(
+//       { _id: req.params.id },
+//       { price: bid, $addToSet: { bidHistory: { bidAmount: bid, bidderName: name } } },
+//     );
+//     res.status(200).send('Bid placed successfully');
+//   } catch (error) {
+//     res.status(500).send('An unknown error occured');
+//     throw new Error('Error with adding bid to item');
+//   }
+// });
 
 // route to handle Regular transactions
 router.post('/regTransaction', async (req, res) => {
@@ -163,8 +165,8 @@ router.post('/regTransaction', async (req, res) => {
     const sellerUser = await User.findOne({ name: sellerName });
     const buyerUser = await User.findOne( { email: req.session.email });
     const transaction = await Transaction.create({
-      seller: sellerUser._id,
-      buyer: buyerUser._id,
+      seller: sellerUser,
+      buyer: buyerUser,
       listingRegular,
       totalCost,
       info,
@@ -176,31 +178,40 @@ router.post('/regTransaction', async (req, res) => {
 });
 
 // route to handle Bid transactions
-router.post('/bidTransaction', async (req, res) => {
-  const { sellerName, listingBid, totalCost, info } = req.body;
-  try {
-    const sellerUser = await User.findOne({ name: sellerName });
-    const buyerUser = await User.findOne( { email: req.session.email });
-    const transaction = await Transaction.create({
-      seller: sellerUser._id,
-      buyer: buyerUser._id,
-      listingBid,
-      totalCost,
-      info,
-    });
-    res.status(201).json(transaction);
-  } catch (error) {
-    throw new Error('Error with completing transaction');
-  }
-});
+// router.post('/bidTransaction', async (req, res) => {
+//   const {
+//     sellerName, listingBid, totalCost, info,
+//   } = req.body;
+//   try {
+//     const sellerUser = await User.findOne({ name: sellerName });
+//     const buyerUser = await User.findOne({ email: req.session.email });
+//     const transaction = await Transaction.create({
+//       seller: sellerUser._id,
+//       buyer: buyerUser._id,
+//       listingBid,
+//       totalCost,
+//       info,
+//     });
+//     res.status(201).json(transaction);
+//   } catch (error) {
+//     throw new Error('Error with completing transaction');
+//   }
+// });
 
 // route to handle adding transaction to user account
 router.post('/addTransaction', async (req, res) => {
   const { transaction } = req.body;
+  console.log(transaction);
+  const sellerEmail = transaction.seller.email;
   try {
     await User.findOneAndUpdate(
       { email: req.session.email },
-      { $addToSet: { transactionHistory: transaction._id }});
+      { $addToSet: { transactionHistory: transaction } },
+    );
+    await User.findOneAndUpdate(
+      { email: sellerEmail },
+      { $addToSet: { transactionHistory: transaction } },
+    );
     res.status(200).send('Regular listing successfully added to watchlist!');
   } catch (error) {
     throw new Error('Error with completeing transaction');

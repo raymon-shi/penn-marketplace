@@ -78,7 +78,7 @@ const Homepage = () => {
           <Slider>
             {regListings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/RegularItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/RegularItem', { state: { itemId: item._id, posterName: item.posterName } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>
@@ -114,7 +114,7 @@ const Homepage = () => {
           <Slider>
             {bidListings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/BidItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/BidItem', { state: { itemId: item._id, posterName: item.posterName } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>

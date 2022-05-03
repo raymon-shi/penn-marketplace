@@ -80,7 +80,7 @@ const SearchResults = () => {
           <Slider>
             {listings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/item', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/Regularitem', { state: { itemId: item._id, posterName: item.posterName } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>
@@ -116,7 +116,7 @@ const SearchResults = () => {
           <Slider>
             {bidListings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/item', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/bidItem', { state: { itemId: item._id, posterName: item.posterName } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>

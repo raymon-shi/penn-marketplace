@@ -3,10 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Item.css';
 
-const BidItem = () => {
+const BidItem = ({ username }) => {
   // retrieve information about the specific item (from Homepage.js when you click on a slide)
   const { state } = useLocation();
-  const { itemId } = state;
+  const { itemId, posterName } = state;
+  // console.log(posterName);
+  console.log(username);
   const navigate = useNavigate();
 
   const [listing, setListing] = useState({});
@@ -60,24 +62,30 @@ const BidItem = () => {
         <hr className="item-solid" />
         <p className="item-text">{listing.itemDescr}</p>
         <hr className="item-solid" />
-        <div>
-          <p className="item-text">Current Bid: <b>US ${currBid}</b></p>
-          <form id="bidForm" onSubmit={handleCheckout}>
-            <input
-              type="number"
-              id="bid"
-              name="bid"
-              min={currBid + 1}
-              step="1"
-              value={bid}
-              placeholder="Enter Bid"
-              onChange={onChangeBid}
-            />
-          </form>
-          <p style={{ width: '100%' }}>Enter ${currBid + 1} or more!</p>
-        </div>
-        <button className="buyButton" form="bidForm" type="submit" onSubmit={handleCheckout}>Place Bid Now</button>
-        <button className="cartButton" type="submit" onClick={handleSave}>Save Item</button>
+        <p className="item-text">Current Bid: <b>US ${currBid}</b></p>
+        {posterName !== username ? (
+          <>
+            <div>
+              <form id="bidForm" onSubmit={handleCheckout}>
+                <input
+                  type="number"
+                  id="bid"
+                  name="bid"
+                  min={currBid + 1}
+                  step="1"
+                  value={bid}
+                  placeholder="Enter Bid"
+                  onChange={onChangeBid}
+                />
+              </form>
+              <p style={{ width: '100%' }}>Enter ${currBid + 1} or more!</p>
+            </div>
+            <button className="buyButton" form="bidForm" type="submit" onSubmit={handleCheckout}>Place Bid Now</button>
+            <button className="cartButton" type="submit" onClick={handleSave}>Save Item</button>
+          </>
+        ) : (
+          <button className="buyButton" type="button">Accept Bid</button>
+        )}
       </div>
       <div className="item-seller">
         <h1>Seller Information</h1>

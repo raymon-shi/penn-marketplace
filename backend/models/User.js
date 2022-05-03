@@ -16,7 +16,7 @@ const userSchema = new Schema({
   followers: { type: Array, ref: 'Follow' },
   following: { type: Array, ref: 'Follow' },
   blocked: { type: Array, ref: 'Block' },
-  transactionHistory: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
+  transactionHistory: [{ type: Object }],
   watchlistRegular: [{ type: Schema.Types.ObjectId, ref: 'ItemRegular' }],
   watchlistBid: [{ type: Schema.Types.ObjectId, ref: 'ItemBid' }],
   shoppingCart: [{ type: Object }],

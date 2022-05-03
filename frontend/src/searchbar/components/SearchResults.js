@@ -76,6 +76,7 @@ const SearchResults = () => {
           naturalSlideHeight={100}
           totalSlides={listings.length}
           visibleSlides={5}
+          step={5}
         >
           <Slider>
             {listings.map((item, idx) => (
@@ -112,6 +113,7 @@ const SearchResults = () => {
           naturalSlideHeight={100}
           totalSlides={bidListings.length}
           visibleSlides={5}
+          step={5}
         >
           <Slider>
             {bidListings.map((item, idx) => (

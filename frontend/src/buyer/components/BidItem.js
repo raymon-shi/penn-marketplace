@@ -7,8 +7,6 @@ const BidItem = ({ username }) => {
   // retrieve information about the specific item (from Homepage.js when you click on a slide)
   const { state } = useLocation();
   const { itemId, posterName } = state;
-  // console.log(posterName);
-  console.log(username);
   const navigate = useNavigate();
 
   const [listing, setListing] = useState({});
@@ -20,10 +18,19 @@ const BidItem = ({ username }) => {
       const item = await axios.get(`/buyer/getBidListing/${itemId}`);
       setListing(item.data);
       if (item.data.bidHistory && item.data.bidHistory.length > 0) {
-        setCurrBid(Math.max(...item.data.bidHistory));
+        setCurrBid(item.data.price);
       }
     } catch (error) {
       throw new Error(`Error with retrieving item with id ${itemId}`);
+    }
+  };
+
+  const acceptBid = async () => {
+    try {
+      const { data } = await axios.post('/seller/acceptBid', { buyerName: listing.bidHistory.at(-1).bidderName, listingBid: listing, totalCost: currBid });
+      await axios.post('/seller/addTransaction', { transaction: data });
+    } catch (error) {
+      console.log('Error in accepting bid');
     }
   };
 
@@ -69,7 +76,7 @@ const BidItem = ({ username }) => {
         <hr className="item-solid" />
         <p className="item-text">{listing.itemDescr}</p>
         <hr className="item-solid" />
-        <p className="item-text">Current Bid: <b>US ${currBid}</b></p>
+        <p className="item-text">Current Bid: <b>US ${currBid}</b> {`(${listing.bidHistory && listing.bidHistory.length > 0 ? listing.bidHistory.at(-1).bidderName : 'none'})`}</p>
         {posterName !== username ? (
           <>
             <div>
@@ -91,7 +98,7 @@ const BidItem = ({ username }) => {
             <button className="cartButton" type="submit" onClick={handleSave}>Save Item</button>
           </>
         ) : (
-          <button className="buyButton" type="button">Accept Bid</button>
+          <button className="buyButton" type="button" onClick={acceptBid}>Accept Bid</button>
         )}
       </div>
       <div className="item-seller">

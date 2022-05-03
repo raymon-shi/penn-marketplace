@@ -74,6 +74,7 @@ const Homepage = () => {
           naturalSlideHeight={100}
           totalSlides={regListings.length}
           visibleSlides={5}
+          step={5}
         >
           <Slider>
             {regListings.map((item, idx) => (
@@ -110,6 +111,7 @@ const Homepage = () => {
           naturalSlideHeight={100}
           totalSlides={bidListings.length}
           visibleSlides={5}
+          step={5}
         >
           <Slider>
             {bidListings.map((item, idx) => (
@@ -145,6 +147,7 @@ const Homepage = () => {
           naturalSlideHeight={100}
           totalSlides={links.length}
           visibleSlides={5}
+          step={5}
         >
           <Slider>
             {savedRegListings.map((item, idx) => (

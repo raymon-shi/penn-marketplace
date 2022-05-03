@@ -61,6 +61,7 @@ io.on('connection', (socket) => {
 // routers
 const accountRouter = require('./routes/account');
 const itemRouter = require('./routes/item');
+const sellerRouter = require('./routes/seller');
 const buyerRouter = require('./routes/buyer');
 const chatRouter = require('./routes/chat');
 
@@ -89,6 +90,7 @@ app.use('/account', accountRouter);
 app.use('/item', itemRouter);
 app.use('/buyer', buyerRouter);
 app.use('/chat', chatRouter);
+app.use('/seller', sellerRouter);
 
 // default error handling
 app.use((err, req, res, next) => {

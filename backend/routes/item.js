@@ -18,7 +18,7 @@ const User = require('../models/User');
 
 const router = express.Router();
 
-router.post('/search',  async (req, res, next) => {
+router.post('/search', async (req, res, next) => {
   const pattern = new RegExp(`${req.body.filter}`, 'i');
   try {
     const regListings = await ItemRegular.find({ itemName: pattern });

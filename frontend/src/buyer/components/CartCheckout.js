@@ -62,7 +62,7 @@ const CartCheckout = () => {
         '/buyer/regTransaction',
         {
           sellerName: item.posterName,
-          listingRegular: item._id,
+          listingRegular: item,
           totalCost: item.price,
           info,
         },

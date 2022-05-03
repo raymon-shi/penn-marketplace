@@ -58,17 +58,17 @@ const ItemCheckout = () => {
     if (listing.bidHistory) {
       // add bid to listing -> create transaction -> add transaction to user history
       await axios.post(`/buyer/addBid/${listing._id}`, { bid });
-      const purchase = await axios.post(
-        '/buyer/bidTransaction',
-        {
-          sellerName: listing.posterName,
-          listingBid: listing._id,
-          totalCost: bid,
-          info,
-        },
-      );
-      console.log(purchase.data);
-      await axios.post('/buyer/addTransaction', { transaction: purchase.data });
+      // const purchase = await axios.post(
+      //   '/buyer/bidTransaction',
+      //   {
+      //     sellerName: listing.posterName,
+      //     listingBid: listing._id,
+      //     totalCost: bid,
+      //     info,
+      //   },
+      // );
+      // console.log(purchase.data);
+      // await axios.post('/buyer/addTransaction', { transaction: purchase.data });
       navigate('/');
     } else {
       // create reg item transaction -> add transaction to user history
@@ -76,7 +76,7 @@ const ItemCheckout = () => {
         '/buyer/regTransaction',
         {
           sellerName: listing.posterName,
-          listingRegular: listing._id,
+          listingRegular: listing,
           totalCost: listing.price,
           info,
         },

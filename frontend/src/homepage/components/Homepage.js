@@ -12,7 +12,8 @@ import '../styles/Homepage.css';
 const Homepage = () => {
   const [regListings, setRegListings] = useState([]);
   const [bidListings, setBidListings] = useState([]);
-  const [savedListings, setSavedListings] = useState([]);
+  const [savedRegListings, setSavedRegListings] = useState([]);
+  const [savedBidListings, setSavedBidListings] = useState([]);
   const navigate = useNavigate();
 
   const getRegListings = async () => {
@@ -37,9 +38,29 @@ const Homepage = () => {
     }
   };
 
+  const getSavedRegListings = async () => {
+    try {
+      const savedReg = await axios.get('/item/getSavedReg');
+      setSavedRegListings(savedReg.data);
+    } catch (err) {
+      console.log('Error in retrieving saved reg listings');
+    }
+  };
+
+  const getSavedBidListings = async () => {
+    try {
+      const savedBid = await axios.get('/item/getSavedBid');
+      setSavedBidListings(savedBid.data);
+    } catch (err) {
+      console.log('Error in retrieving saved bid listings');
+    }
+  };
+
   useEffect(() => {
     getRegListings();
     getBidListings();
+    getSavedRegListings();
+    getSavedBidListings();
   }, []);
 
   return (
@@ -97,7 +118,8 @@ const Homepage = () => {
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%' }}><b>{`Highest Bid: $${Math.max(...item.bidHistory)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>=======
+
                     </>
                   )
                   : (
@@ -115,9 +137,43 @@ const Homepage = () => {
           </div>
         </CarouselProvider>
       </div>
-
       <div className="carousel-wrapper">
-        <h1>Saved Listings</h1>
+        <h1>Saved Regular Listings</h1>
+        <CarouselProvider
+          className="mt-1"
+          naturalSlideWidth={100}
+          naturalSlideHeight={100}
+          totalSlides={links.length}
+          visibleSlides={5}
+        >
+          <Slider>
+            {savedRegListings.map((item, idx) => (
+              // eslint-disable-next-line no-underscore-dangle
+              <Slide onClick={() => navigate('/RegularItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+                {item.media && item.media !== ''
+                  ? (
+                    <>
+                      <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
+                      <p style={{ width: '100%' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                    </>
+                  )
+                  : (
+                    <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: '100%' }}>
+                      <h1>{item.itemName}</h1>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Price: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                    </div>
+                  )}
+              </Slide>
+            ))}
+          </Slider>
+          <div className="buttons">
+            <ButtonBack className="btn me-2">Back</ButtonBack>
+            <ButtonNext className="btn">Next</ButtonNext>
+          </div>
+        </CarouselProvider>
+      </div>
+      <div className="carousel-wrapper">
+        <h1>Saved Bid listings</h1>
         <CarouselProvider
           className="mt-1"
           naturalSlideWidth={100}
@@ -126,9 +182,9 @@ const Homepage = () => {
           visibleSlides={5}
         >
           <Slider>
-            {savedListings.map((item, idx) => (
+            {savedBidListings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/item', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/BidItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>

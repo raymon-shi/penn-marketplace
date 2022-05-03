@@ -21,9 +21,7 @@ const SearchResults = () => {
       const { data } = await axios.post('/item/search', {
         filter: query,
       });
-      if (data && data.length > 0) {
-        setListings(data.reverse());
-      }
+      setListings(data.reverse());
     } catch (error) {
       throw new Error('Error searching for items');
     }
@@ -44,6 +42,15 @@ const SearchResults = () => {
     getListings();
     getBidListings();
   }, [query]);
+
+  useEffect(() => {
+    const intervalID = setInterval(() => {
+      console.log('hi');
+      getListings();
+      getBidListings();
+    }, 15000);
+    return () => clearInterval(intervalID);
+  }, []);
 
   // const rows = Math.ceil(listings.length / 3);
   // const items = (Array(rows).fill().map((_, rowIndex) => (
@@ -85,7 +92,7 @@ const SearchResults = () => {
                 {item.media && item.media !== ''
                   ? (
                     <>
-                      <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
+                      <Image src={`http://localhost:8080/${item.media}`} alt="product pic" hasMasterSpinner={false} />
                       <p style={{ width: '100%' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
@@ -122,7 +129,7 @@ const SearchResults = () => {
                 {item.media && item.media !== ''
                   ? (
                     <>
-                      <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
+                      <Image src={`http://localhost:8080/${item.media}`} alt="product pic" hasMasterSpinner={false} />
                       <p style={{ width: '100%' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )

@@ -30,6 +30,7 @@ const BidItem = ({ username }) => {
       const { data } = await axios.post('/seller/acceptBid', { buyerName: listing.bidHistory.at(-1).bidderName, listingBid: listing, totalCost: currBid });
       await axios.post('/seller/addTransaction', { transaction: data });
     } catch (error) {
+      console.log(error);
       console.log('Error in accepting bid');
     }
   };
@@ -98,20 +99,27 @@ const BidItem = ({ username }) => {
             <button className="cartButton" type="submit" onClick={handleSave}>Save Item</button>
           </>
         ) : (
-          <button className="buyButton" type="button" onClick={acceptBid}>Accept Bid</button>
+          <button
+            className="buyButton"
+            type="button"
+            onClick={
+            () => {
+              acceptBid();
+              navigate('/account');
+            }
+            }
+          >Accept Bid
+          </button>
         )}
       </div>
       <div className="item-seller">
         <h1>Seller Information</h1>
         <h4>{listing.posterName}</h4>
         <div>
-          <button type="submit">Contact Seller</button>
+          <button type="button">Follow Seller</button>
         </div>
         <div>
-          <button type="submit">Follow Seller</button>
-        </div>
-        <div>
-          <button type="submit">Report Item</button>
+          <button type="button">Report Item</button>
         </div>
       </div>
     </div>

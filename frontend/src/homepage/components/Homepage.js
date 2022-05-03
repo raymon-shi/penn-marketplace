@@ -20,9 +20,7 @@ const Homepage = () => {
   const getRegListings = async () => {
     try {
       const { data } = await axios.get('/item/getRegListings');
-      if (data && data.length > 0) {
-        setRegListings(data.reverse());
-      }
+      setRegListings(data.reverse());
     } catch (err) {
       console.log('Error in retrieving regular listings');
     }
@@ -31,9 +29,7 @@ const Homepage = () => {
   const getBidListings = async () => {
     try {
       const { data } = await axios.get('/item/getBidListings');
-      if (data && data.length > 0) {
-        setBidListings(data.reverse());
-      }
+      setBidListings(data.reverse());
     } catch (err) {
       console.log('Error in retrieving bid listings');
     }
@@ -62,6 +58,13 @@ const Homepage = () => {
     getBidListings();
     getSavedRegListings();
     getSavedBidListings();
+    const intervalID = setInterval(() => {
+      getRegListings();
+      getBidListings();
+      getSavedRegListings();
+      getSavedBidListings();
+    }, 15000);
+    return () => clearInterval(intervalID);
   }, []);
 
   return (
@@ -192,13 +195,13 @@ const Homepage = () => {
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%' }}><b>{`Highest Bid: $${Math.max(Math.max(...item.bidHistory), 0)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (
                     <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: '100%' }}>
                       <h1>{item.itemName}</h1>
-                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${Math.max(Math.max(...item.bidHistory), 0)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </div>
                   )}
               </Slide>

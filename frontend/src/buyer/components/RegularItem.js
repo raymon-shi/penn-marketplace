@@ -73,9 +73,6 @@ const RegularItem = ({ username }) => {
         <h1>Seller Information</h1>
         <h4>{listing.posterName}</h4>
         <div>
-          <button type="submit">Contact Seller</button>
-        </div>
-        <div>
           <button type="submit">Follow Seller</button>
         </div>
         <div>

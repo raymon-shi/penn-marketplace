@@ -75,7 +75,7 @@ const PriceListing = ({ onSubmit, onBack }) => {
               id="file-input"
               onChange={(e) => {
                 const image = e.target.files[0];
-                if (image.name.match(/\.(jpg|jpeg|PNG)$/)) {
+                if (image.name.match(/\.(jpg|jpeg|PNG|png)$/)) {
                   setInvalidImgAlert(false);
                   setImgLink(URL.createObjectURL(image));
                   imageFile.current = image;

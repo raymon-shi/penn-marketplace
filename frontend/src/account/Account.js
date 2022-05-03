@@ -6,6 +6,7 @@ import Reviews from './components/Reviews';
 import Follows from './components/Follows';
 import Blocked from './components/Blocked';
 import SearchUsers from './components/SearchUsers';
+import TransactionHistory from './components/TransactionHistory';
 
 const Account = () => {
   const [tab, setTab] = useState('Profile');
@@ -29,6 +30,9 @@ const Account = () => {
     if (Object.keys(userProfile).length !== 0) {
       if (tab === 'Profile') {
         return <Profile user={userProfile} />;
+      }
+      if (tab === 'Transaction History') {
+        return <TransactionHistory userProfile={userProfile} />;
       }
       if (tab === 'Reviews') {
         return <Reviews reviews={userProfile.reviews} />;
@@ -68,6 +72,8 @@ const Account = () => {
       <div id="side-nav">
         <div style={{ width: '40%' }}>
           <button type="button" className="side-nav-button" onClick={handleClick}>Profile</button>
+          <hr />
+          <button type="button" className="side-nav-button" onClick={handleClick}>Transaction History</button>
           <hr />
           <button type="button" className="side-nav-button" onClick={handleClick}>Reviews</button>
           <hr />

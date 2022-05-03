@@ -46,11 +46,12 @@ router.post('/addCartRegItem/:id', async (req, res) => {
 // route to add bid item to cart
 router.post('/addCartBidItem/:id', async (req, res) => {
   try {
+    const { bid } = req.body;
     const item = await ItemBid.findById(req.params.id);
     await User.findOneAndUpdate(
       { email: req.session.email, 
         'shoppingCart._id': { $ne: req.params.id }},
-      { $addToSet: { shoppingCart: item }});
+      { $addToSet: { shoppingCart: {item , bid} }});
     res.status(200).send('Regular listing successfully added to cart!');
   } catch (error) {
     res.status(500).send('An unknown error occured');

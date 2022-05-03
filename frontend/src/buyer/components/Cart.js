@@ -37,26 +37,50 @@ const Cart = () => {
   }, []);
 
   const listItems = cart.map((d) => (
-    <li className="cart-list" key={d._id}>
+    <li className="cart-list" key={d._id || d.item._id}>
       <div className="cart-leftPaneItem">
-        <h3 style={{ paddingTop: '10px' }}>Seller: {d.posterName} </h3>
-        <hr className="cart-solid" />
-        {d.media && d.media !== ''
-          ? (
-            <div className="cart-image">
-              <img src={d.media} alt="product" width="200" height="200" />
+        {d.bid ? (
+          <div>
+            <h3 style={{ paddingTop: '10px' }}>Seller: {d.item.posterName} </h3>
+            <hr className="cart-solid" />
+            {d.item.media && d.item.media !== ''
+              ? (
+                <div className="cart-image">
+                  <img src={d.item.media} alt="product" width="200" height="200" />
+                </div>
+              )
+              : <div />}
+            <div style={{ float: 'right', paddingRight: '50px' }}>
+              <p style={{ width: '100%' }}>Your bid: ${d.bid}</p>
             </div>
-          )
-          : <div />}
-        <div style={{ float: 'right', paddingRight: '50px' }}>
-          {d.bidHistory ? (<p style={{ width: '100%' }}>Curr bid: ${Math.max(d.bidHistory)}</p>) : <p>Price: ${d.price}</p>}
-        </div>
-        <div style={{ marginLeft: '210px' }}>
-          <h4>{d.itemName}</h4>
-          <p>{d.itemDescr}</p>
-          {d.bidHistory ? <button className="removeButton" type="button" onClick={() => handleRemoveBid(d._id)}>Remove from Cart</button>
-            : <button className="removeButton" type="button" onClick={() => handleRemoveReg(d._id)}>Remove from Cart</button>}
-        </div>
+            <div style={{ marginLeft: '210px' }}>
+              <h4>{d.item.itemName}</h4>
+              <p>{d.item.itemDescr}</p>
+              <button className="removeButton" type="button" onClick={() => handleRemoveBid(d.item._id)}>Remove from Cart</button>
+            </div>
+          </div>
+        )
+          : (
+            <div>
+              <h3 style={{ paddingTop: '10px' }}>Seller: {d.posterName} </h3>
+              <hr className="cart-solid" />
+              {d.media && d.media !== ''
+                ? (
+                  <div className="cart-image">
+                    <img src={d.media} alt="product" width="200" height="200" />
+                  </div>
+                )
+                : <div />}
+              <div style={{ float: 'right', paddingRight: '50px' }}>
+                <p>Price: ${d.price}</p>
+              </div>
+              <div style={{ marginLeft: '210px' }}>
+                <h4>{d.itemName}</h4>
+                <p>{d.itemDescr}</p>
+                <button className="removeButton" type="button" onClick={() => handleRemoveReg(d._id)}>Remove from Cart</button>
+              </div>
+            </div>
+          )}
       </div>
     </li>
   ));

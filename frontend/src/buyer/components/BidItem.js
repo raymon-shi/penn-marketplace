@@ -36,7 +36,7 @@ const BidItem = () => {
   const handleCart = async (event) => {
     event.preventDefault();
     if (bid > currBid) {
-      await axios.post(`/buyer/addCartBidItem/${itemId}`);
+      await axios.post(`/buyer/addCartBidItem/${itemId}`, { bid });
       navigate('/cart');
     }
   };

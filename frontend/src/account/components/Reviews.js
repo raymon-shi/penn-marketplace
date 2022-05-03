@@ -20,7 +20,9 @@ const Reviews = ({ reviews }) => {
   return (
     <div>
       <div style={{ width: '100%' }}>
-        <h1>Reviews - Average Rating: {findAverageRating()}</h1>
+        <h1>
+          Reviews - Average Rating: {Number.isNaN(findAverageRating()) ? 0 : findAverageRating()}
+        </h1>
       </div>
       {reviews.length === 0 ? <div>You have no reviews.</div>
         : (

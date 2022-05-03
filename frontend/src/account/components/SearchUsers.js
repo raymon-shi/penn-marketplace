@@ -145,7 +145,11 @@ const SearchUsers = ({ userProfile }) => {
             <div style={{ padding: '1% 2%' }}>
               {matchedUsers.map((user, index) => (
                 <div key={user.email} style={tableRow}>
-                  <p>{user.name} - {findAverageRating(user.reviews)} stars</p>
+                  <p>
+                    {user.name}
+                    -
+                    {Number.isNaN(findAverageRating(user.reviews)) ? 0 : findAverageRating()} stars
+                  </p>
                   <div className="table-item">
                     <button type="button" value={index} onClick={showReportBox}>Report</button>
                   </div>

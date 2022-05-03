@@ -87,7 +87,6 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
       <Container className="m-0 bottom" style={{ maxWidth: 'none' }}>
         <Nav className="m-0 bottom" style={{ flexWrap: 'wrap' }}>
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="">Saved</Nav.Link>
           <Nav.Link href="">Textbooks</Nav.Link>
           <Nav.Link href="">Services</Nav.Link>
           <Nav.Link href="">Clothes</Nav.Link>

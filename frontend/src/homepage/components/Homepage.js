@@ -20,9 +20,7 @@ const Homepage = () => {
   const getRegListings = async () => {
     try {
       const { data } = await axios.get('/item/getRegListings');
-      if (data && data.length > 0) {
-        setRegListings(data.reverse());
-      }
+      setRegListings(data.reverse());
     } catch (err) {
       console.log('Error in retrieving regular listings');
     }
@@ -31,9 +29,7 @@ const Homepage = () => {
   const getBidListings = async () => {
     try {
       const { data } = await axios.get('/item/getBidListings');
-      if (data && data.length > 0) {
-        setBidListings(data.reverse());
-      }
+      setBidListings(data.reverse());
     } catch (err) {
       console.log('Error in retrieving bid listings');
     }

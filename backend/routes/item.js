@@ -20,11 +20,9 @@ const router = express.Router();
 
 router.post('/search',  async (req, res, next) => {
   const pattern = new RegExp(`${req.body.filter}`, 'i');
-  const filterPattern = new RegExp(`${req.body.label}`, 'i');
   try {
-    const regListings = await ItemRegular.find({ itemName: pattern, tag: filterPattern });
+    const regListings = await ItemRegular.find({ itemName: pattern });
     res.json(regListings);
-    console.log(regListings);
   } catch (error) {
     next(new Error('Error with retrieving search results'));
   }
@@ -32,9 +30,8 @@ router.post('/search',  async (req, res, next) => {
 
 router.post('/bidSearch',  async (req, res, next) => {
   const pattern = new RegExp(`${req.body.filter}`, 'i');
-  const filterPattern = new RegExp(`${req.body.label}`, 'i');
   try {
-    const bidListings = await ItemBid.find({ itemName: pattern, tag: filterPattern });
+    const bidListings = await ItemBid.find({ itemName: pattern });
     res.json(bidListings);
   } catch (error) {
     next(new Error('Error with retrieving search results'));

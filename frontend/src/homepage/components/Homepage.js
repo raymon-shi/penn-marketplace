@@ -7,6 +7,7 @@ import {
 } from 'pure-react-carousel';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import { v4 as uuidv4 } from 'uuid';
+import links from '../assets/productimages.json';
 import '../styles/Homepage.css';
 
 const Homepage = () => {
@@ -71,7 +72,7 @@ const Homepage = () => {
           className="mt-1"
           naturalSlideWidth={100}
           naturalSlideHeight={100}
-          totalSlides={regListings.length}
+          totalSlides={links.length}
           visibleSlides={5}
         >
           <Slider>
@@ -82,7 +83,7 @@ const Homepage = () => {
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (
@@ -107,7 +108,7 @@ const Homepage = () => {
           className="mt-1"
           naturalSlideWidth={100}
           naturalSlideHeight={100}
-          totalSlides={bidListings.length}
+          totalSlides={links.length}
           visibleSlides={5}
         >
           <Slider>
@@ -118,14 +119,13 @@ const Homepage = () => {
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%' }}><b>{`Highest Bid: $${Math.max(...item.bidHistory)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>=======
-
+                      <p style={{ width: '100%' }}><b>{`Highest Bid: $${Math.max(...item.bidHistory)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (
                     <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: '100%' }}>
                       <h1>{item.itemName}</h1>
-                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </div>
                   )}
               </Slide>
@@ -178,7 +178,7 @@ const Homepage = () => {
           className="mt-1"
           naturalSlideWidth={100}
           naturalSlideHeight={100}
-          totalSlides={savedListings.length}
+          totalSlides={links.length}
           visibleSlides={5}
         >
           <Slider>
@@ -189,7 +189,7 @@ const Homepage = () => {
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (

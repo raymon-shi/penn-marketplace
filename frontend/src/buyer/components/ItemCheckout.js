@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Checkout.css';
 import axios from 'axios';
 
@@ -12,6 +12,7 @@ const ItemCheckout = () => {
   const { state } = useLocation();
   const { listing, bid, currBid } = state;
   const [total, setTotal] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (bid) {
@@ -53,8 +54,9 @@ const ItemCheckout = () => {
       last,
     };
     if (listing.bidHistory) {
+      // add bid to listing -> create transaction -> add transaction to user history
       await axios.post(`/buyer/addBid/${listing._id}`, { bid });
-      await axios.post(
+      const purchase = await axios.post(
         '/buyer/bidTransaction',
         {
           sellerName: listing.posterName,
@@ -63,8 +65,12 @@ const ItemCheckout = () => {
           info,
         },
       );
+      console.log(purchase.data);
+      await axios.post('/buyer/addTransaction', { transaction: purchase.data });
+      navigate('/');
     } else {
-      await axios.post(
+      // create reg item transaction -> add transaction to user history
+      const purchase = await axios.post(
         '/buyer/regTransaction',
         {
           sellerName: listing.posterName,
@@ -73,6 +79,8 @@ const ItemCheckout = () => {
           info,
         },
       );
+      await axios.post('/buyer/addTransaction', { transaction: purchase.data });
+      navigate('/');
     }
   };
 

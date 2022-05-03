@@ -62,7 +62,8 @@ router.get('/getBidListings', async (req, res, next) => {
 router.get('/getSavedReg', async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.session.email });
-    res.status(200).json(user.watchlistRegular);
+    const saved = await ItemRegular.find({ _id: { $in: user.watchlistRegular }});
+    res.status(200).json(saved);
   } catch (error) {
     next(new Error('Error with retrieving watchlist'));
   }
@@ -72,7 +73,8 @@ router.get('/getSavedReg', async (req, res, next) => {
 router.get('/getSavedBid', async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.session.email });
-    res.status(200).json(user.watchlistBid);
+    const saved = await ItemBid.find({ _id: { $in: user.watchlistBid }});
+    res.status(200).json(saved);
   } catch (error) {
     next(new Error('Error with retrieving watchlist'));
   }

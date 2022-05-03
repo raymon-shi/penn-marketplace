@@ -33,14 +33,6 @@ const BidItem = () => {
     setBid(event.target.value);
   };
 
-  const handleCart = async (event) => {
-    event.preventDefault();
-    if (bid > currBid) {
-      await axios.post(`/buyer/addCartBidItem/${itemId}`, { bid });
-      navigate('/cart');
-    }
-  };
-
   const handleSave = async (event) => {
     event.preventDefault();
     await axios.post(`/buyer/addWatchBidItem/${itemId}`);
@@ -84,9 +76,8 @@ const BidItem = () => {
           </form>
           <p style={{ width: '100%' }}>Enter ${currBid + 1} or more!</p>
         </div>
-        <input className="buyButton" form="bidForm" type="submit" value="Place Bid now" onSubmit={handleCheckout} />
-        <button className="cartButton" type="submit" onClick={handleCart}>Add To Cart </button>
-        <a href="/" className="saveButton" onClick={handleSave}>Save to Watchlist</a>
+        <button className="buyButton" form="bidForm" type="submit" onSubmit={handleCheckout}>Place Bid Now</button>
+        <button className="cartButton" type="submit" onClick={handleSave}>Save Item</button>
       </div>
       <div className="item-seller">
         <h1>Seller Information</h1>

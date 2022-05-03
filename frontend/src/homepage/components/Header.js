@@ -59,7 +59,7 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
                 }}
               >Friends
               </Button>
-              {showFriends && <Chat showFriends={showFriends} setShowFriends={setShowFriends} />}
+              {showFriends && <Chat showFriends={showFriends} setShowFriends={setShowFriends} username={username} />}
               <Button className="login me-2 btn-sm" onClick={() => navigate('/account')}>Account</Button>
               <p
                 className="ms-2 me-3"

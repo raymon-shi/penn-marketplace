@@ -72,7 +72,7 @@ const Homepage = () => {
           className="mt-1"
           naturalSlideWidth={100}
           naturalSlideHeight={100}
-          totalSlides={links.length}
+          totalSlides={regListings.length}
           visibleSlides={5}
         >
           <Slider>
@@ -83,7 +83,7 @@ const Homepage = () => {
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (
@@ -108,7 +108,7 @@ const Homepage = () => {
           className="mt-1"
           naturalSlideWidth={100}
           naturalSlideHeight={100}
-          totalSlides={links.length}
+          totalSlides={bidListings.length}
           visibleSlides={5}
         >
           <Slider>
@@ -119,7 +119,7 @@ const Homepage = () => {
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%' }}><b>{`Highest Bid: $${Math.max(Math.max(...item.bidHistory), 0)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${Math.max(Math.max(...item.bidHistory), 0)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (
@@ -154,7 +154,7 @@ const Homepage = () => {
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (

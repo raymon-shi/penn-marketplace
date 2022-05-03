@@ -11,7 +11,26 @@ router.get('/followed', async (req, res, next) => {
   const { email } = session;
   try {
     const user = await User.findOne({ email });
-    res.status(200).json(user.following);
+    const friends = (user.followers).concat(user.following);
+
+    const followers = user.followers.map((f) => f.followerName);
+    const following = user.following.map((f) => f.followingName);
+    const unique = [];
+    user.followers.forEach((element) => {
+      if (!unique.some((e) => e.name === element.followerName)) {
+        unique.push({ name: element.followerName, email: element.followerEmail });
+      }
+    });
+    user.following.forEach((element) => {
+      if (!unique.some((e) => e.name === element.followingName)) {
+        unique.push({ name: element.followingName, email: element.followingEmail });
+      }
+    });
+    console.log(unique);
+
+
+    console.log(JSON.stringify(friends) + " HELLO WORLD")
+    res.status(200).json(unique);
   } catch (err) {
     next(new Error('Error with retrieving list of followed'));
   }

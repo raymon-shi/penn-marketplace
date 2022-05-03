@@ -3,16 +3,14 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Checkout.css';
 import axios from 'axios';
 
-const ItemCheckout = () => {
+const BidConfirm = () => {
   const [num, setNum] = useState(0);
   const [exp, setExp] = useState('');
   const [cvc, setCVC] = useState(0);
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const { state } = useLocation();
-  const {
-    listing, bid, currBid, isBidItem,
-  } = state;
+  const { listing, bid, currBid } = state;
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
@@ -88,7 +86,7 @@ const ItemCheckout = () => {
 
   return (
     <div className="background">
-      <h2 className="checkout">{isBidItem ? 'Confirm Bid' : 'Item Checkout'}</h2>
+      <h2 className="checkout">Confirm Bid</h2>
       <div className="checkout-container">
         <div className="checkout-item">
           <div>
@@ -141,7 +139,7 @@ const ItemCheckout = () => {
             </p>
             <hr className="checkout-solid" />
             <div className="checkout-center">
-              <input className="payButton" form="ccinfo" type="submit" value={isBidItem ? 'Confirm Bid' : 'Confirm and Pay'} />
+              <input className="payButton" form="ccinfo" type="submit" value="Confirm and Pay" />
             </div>
           </div>
         </div>
@@ -150,4 +148,4 @@ const ItemCheckout = () => {
   );
 };
 
-export default ItemCheckout;
+export default BidConfirm;

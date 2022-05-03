@@ -38,7 +38,7 @@ const RegularItem = ({ username }) => {
 
   const handleCheckout = (event) => {
     event.preventDefault();
-    navigate('/ItemCheckout', { state: { listing } });
+    navigate('/ItemCheckout', { state: { listing, isBidItem: false } });
   };
 
   return (

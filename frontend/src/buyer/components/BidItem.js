@@ -43,7 +43,14 @@ const BidItem = ({ username }) => {
 
   const handleCheckout = (event) => {
     event.preventDefault();
-    navigate('/ItemCheckout', { state: { listing, bid, currBid } });
+    navigate('/ItemCheckout', {
+      state: {
+        listing,
+        bid,
+        currBid,
+        isBidItem: true,
+      },
+    });
   };
 
   return (
@@ -80,7 +87,7 @@ const BidItem = ({ username }) => {
               </form>
               <p style={{ width: '100%' }}>Enter ${currBid + 1} or more!</p>
             </div>
-            <button className="buyButton" form="bidForm" type="submit" onSubmit={handleCheckout}>Place Bid Now</button>
+            <button className="buyButton" form="bidForm" type="submit" onSubmit={handleCheckout} disabled={!bid}>Place Bid Now</button>
             <button className="cartButton" type="submit" onClick={handleSave}>Save Item</button>
           </>
         ) : (

@@ -105,13 +105,10 @@ const BidItem = ({ username }) => {
         <h1>Seller Information</h1>
         <h4>{listing.posterName}</h4>
         <div>
-          <button type="submit">Contact Seller</button>
+          <button type="button">Follow Seller</button>
         </div>
         <div>
-          <button type="submit">Follow Seller</button>
-        </div>
-        <div>
-          <button type="submit">Report Item</button>
+          <button type="button">Report Item</button>
         </div>
       </div>
     </div>

@@ -14,16 +14,16 @@ const TransactionHistory = ({ userProfile }) => {
                 <img src={transaction.listingRegular && transaction.listingRegular.media ? transaction.listingRegular.media : transaction.listingBid && transaction.listingBid.media} alt="transaction item pic" width="50px" height="50px" style={{ objectFit: 'cover' }} />
               </div>
               <div>
-                <p className="w-100"><b>Buyer</b>{`: ${transaction.buyer && transaction.buyer.name}`}</p>
+                <p className="w-100"><b>Buyer</b>{`: ${transaction.buyer && transaction.buyer}`}</p>
               </div>
               <div>
-                <p className="w-100"><b>Seller</b>{`: ${transaction.buyer && transaction.seller.name}`}</p>
+                <p className="w-100"><b>Seller</b>{`: ${transaction.buyer && transaction.seller}`}</p>
               </div>
               <div>
                 <p className="w-100"><b>Item Name</b>{`: ${transaction.listingRegular && transaction.listingRegular.itemName ? transaction.listingRegular.itemName : transaction.listingBid.itemName}`}</p>
               </div>
               <div>
-                <p className="w-100"><b>Item Price</b>{`: ${transaction.listingRegular && transaction.listingRegular.price ? transaction.listingRegular.price : transaction.listingBid.price}`}</p>
+                <p className="w-100"><b>Item Price</b>{`: $${transaction.listingRegular && transaction.listingRegular.price ? transaction.listingRegular.price : transaction.listingBid.price}`}</p>
               </div>
             </div>
           </div>

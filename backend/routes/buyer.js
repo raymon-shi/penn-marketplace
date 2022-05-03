@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const express = require('express');
 const ItemRegular = require('../models/ItemRegular');
 const ItemBid = require('../models/ItemBid');
@@ -142,31 +143,33 @@ router.post('/removeWatchRegItem/:id', async (req, res) => {
 });
 
 // route to add bid to bidhistory
-// router.post('/addBid/:id', async (req, res) => {
-//   const { bid } = req.body;
-//   const { session } = req;
-//   const { name } = session;
-//   try {
-//     await ItemBid.findOneAndUpdate(
-//       { _id: req.params.id },
-//       { price: bid, $addToSet: { bidHistory: { bidAmount: bid, bidderName: name } } },
-//     );
-//     res.status(200).send('Bid placed successfully');
-//   } catch (error) {
-//     res.status(500).send('An unknown error occured');
-//     throw new Error('Error with adding bid to item');
-//   }
-// });
+router.post('/addBid/:id', async (req, res) => {
+  const { bid } = req.body;
+  const { session } = req;
+  const { name } = session;
+  try {
+    await ItemBid.findOneAndUpdate(
+      { _id: req.params.id },
+      { price: bid, $addToSet: { bidHistory: { bidAmount: bid, bidderName: name } } },
+    );
+    res.status(200).send('Bid placed successfully');
+  } catch (error) {
+    res.status(500).send('An unknown error occured');
+    throw new Error('Error with adding bid to item');
+  }
+});
 
 // route to handle Regular transactions
 router.post('/regTransaction', async (req, res) => {
-  const { sellerName, listingRegular, totalCost, info } = req.body;
+  const {
+    sellerName, listingRegular, totalCost, info,
+  } = req.body;
   try {
     const sellerUser = await User.findOne({ name: sellerName });
-    const buyerUser = await User.findOne( { email: req.session.email });
+    const buyerUser = await User.findOne({ email: req.session.email });
     const transaction = await Transaction.create({
-      seller: sellerUser,
-      buyer: buyerUser,
+      seller: sellerUser.name,
+      buyer: buyerUser.name,
       listingRegular,
       totalCost,
       info,
@@ -198,20 +201,20 @@ router.post('/regTransaction', async (req, res) => {
 //   }
 // });
 
-// route to handle adding transaction to user account
+// route to handle adding transaction to buyer's account
+// and seller's account WHEN buying regular items
 router.post('/addTransaction', async (req, res) => {
   const { transaction } = req.body;
-  console.log(transaction);
-  const sellerEmail = transaction.seller.email;
   try {
     await User.findOneAndUpdate(
       { email: req.session.email },
       { $addToSet: { transactionHistory: transaction } },
     );
     await User.findOneAndUpdate(
-      { email: sellerEmail },
+      { name: transaction.seller },
       { $addToSet: { transactionHistory: transaction } },
     );
+    await ItemRegular.findByIdAndDelete(transaction.listingRegular._id);
     res.status(200).send('Regular listing successfully added to watchlist!');
   } catch (error) {
     throw new Error('Error with completeing transaction');

@@ -119,13 +119,13 @@ const Homepage = () => {
                   ? (
                     <>
                       <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
-                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${Math.max(Math.max(...item.bidHistory), 0)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
                   : (
                     <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: '100%' }}>
                       <h1>{item.itemName}</h1>
-                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${Math.max(Math.max(...item.bidHistory), 0)}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
+                      <p style={{ width: '100%', textAlign: 'center' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </div>
                   )}
               </Slide>

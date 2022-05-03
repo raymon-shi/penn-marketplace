@@ -147,7 +147,7 @@ router.post('/addBid/:id', async (req, res) => {
   try {
     await ItemBid.findOneAndUpdate(
       { _id: req.params.id },
-      { $addToSet: { bidHistory: bid }}
+      { price: bid, $addToSet: { bidHistory: bid } },
     );
     res.status(200).send('Bid placed successfully');
   } catch (error) {

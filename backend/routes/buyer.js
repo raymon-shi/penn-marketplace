@@ -46,11 +46,12 @@ router.post('/addCartRegItem/:id', async (req, res) => {
 // route to add bid item to cart
 router.post('/addCartBidItem/:id', async (req, res) => {
   try {
+    const { bid } = req.body;
     const item = await ItemBid.findById(req.params.id);
     await User.findOneAndUpdate(
       { email: req.session.email, 
         'shoppingCart._id': { $ne: req.params.id }},
-      { $addToSet: { shoppingCart: item }});
+      { $addToSet: { shoppingCart: {item , bid} }});
     res.status(200).send('Regular listing successfully added to cart!');
   } catch (error) {
     res.status(500).send('An unknown error occured');
@@ -69,20 +70,6 @@ router.post('/removeCartRegItem/:id', async (req, res) => {
   } catch (error) {
     res.status(500).send('An unknown error occured');
     throw new Error('Error with removing reg item from cart');
-  }
-});
-
-// route to remove bid item from cart
-router.post('/removeCartBidItem/:id', async (req, res) => {
-  try {
-    const item = await ItemBid.findById(req.params.id);
-    await User.findOneAndUpdate(
-      { email: req.session.email },
-      { $pull: { shoppingCart: item }});
-    res.status(200).send('Bid listing removed successfully from cart!');
-  } catch (error) {
-    res.status(500).send('An unknown error occured');
-    throw new Error('Error with removing bid item from cart');
   }
 });
 
@@ -182,7 +169,7 @@ router.post('/regTransaction', async (req, res) => {
       totalCost,
       info,
     });
-    res.status(201).send(`The transaction was done successfully: ${transaction}`);
+    res.status(201).json(transaction);
   } catch (error) {
     throw new Error('Error with completing transaction');
   }
@@ -201,11 +188,23 @@ router.post('/bidTransaction', async (req, res) => {
       totalCost,
       info,
     });
-    res.status(201).send(`The transaction was done successfully: ${transaction}`);
+    res.status(201).json(transaction);
   } catch (error) {
     throw new Error('Error with completing transaction');
   }
 });
 
+// route to handle adding transaction to user account
+router.post('/addTransaction', async (req, res) => {
+  const { transaction } = req.body;
+  try {
+    await User.findOneAndUpdate(
+      { email: req.session.email },
+      { $addToSet: { transactionHistory: transaction._id }});
+    res.status(200).send('Regular listing successfully added to watchlist!');
+  } catch (error) {
+    throw new Error('Error with completeing transaction');
+  }
+});
 
 module.exports = router;

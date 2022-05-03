@@ -20,11 +20,9 @@ const router = express.Router();
 
 router.post('/search',  async (req, res, next) => {
   const pattern = new RegExp(`${req.body.filter}`, 'i');
-  const filterPattern = new RegExp(`${req.body.label}`, 'i');
   try {
-    const regListings = await ItemRegular.find({ itemName: pattern, tag: filterPattern });
+    const regListings = await ItemRegular.find({ itemName: pattern });
     res.json(regListings);
-    console.log(regListings);
   } catch (error) {
     next(new Error('Error with retrieving search results'));
   }
@@ -32,9 +30,8 @@ router.post('/search',  async (req, res, next) => {
 
 router.post('/bidSearch',  async (req, res, next) => {
   const pattern = new RegExp(`${req.body.filter}`, 'i');
-  const filterPattern = new RegExp(`${req.body.label}`, 'i');
   try {
-    const bidListings = await ItemBid.find({ itemName: pattern, tag: filterPattern });
+    const bidListings = await ItemBid.find({ itemName: pattern });
     res.json(bidListings);
   } catch (error) {
     next(new Error('Error with retrieving search results'));
@@ -65,7 +62,8 @@ router.get('/getBidListings', async (req, res, next) => {
 router.get('/getSavedReg', async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.session.email });
-    res.status(200).json(user.watchlistRegular);
+    const saved = await ItemRegular.find({ _id: { $in: user.watchlistRegular }});
+    res.status(200).json(saved);
   } catch (error) {
     next(new Error('Error with retrieving watchlist'));
   }
@@ -75,7 +73,8 @@ router.get('/getSavedReg', async (req, res, next) => {
 router.get('/getSavedBid', async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.session.email });
-    res.status(200).json(user.watchlistBid);
+    const saved = await ItemBid.find({ _id: { $in: user.watchlistBid }});
+    res.status(200).json(saved);
   } catch (error) {
     next(new Error('Error with retrieving watchlist'));
   }

@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import '../styles/Checkout.css';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CartCheckout = () => {
   const [num, setNum] = useState(0);
@@ -10,6 +10,7 @@ const CartCheckout = () => {
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
 
   const getCart = async () => {
     try {
@@ -55,6 +56,21 @@ const CartCheckout = () => {
       first,
       last,
     };
+    const results = [];
+    cart.map(async (item) => {
+      const purchase = await axios.post(
+        '/buyer/regTransaction',
+        {
+          sellerName: item.posterName,
+          listingRegular: item._id,
+          totalCost: item.price,
+          info,
+        },
+      );
+      await axios.post('/buyer/addTransaction', { transaction: purchase.data });
+      await axios.post(`/buyer/removeCartRegItem/${item._id}`);
+    });
+    navigate('/');
   };
 
   const listItems = cart.map((d) => (

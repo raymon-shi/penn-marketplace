@@ -11,7 +11,7 @@ import ResultCard from './ResultCard';
 
 const SearchResults = () => {
   const { state } = useLocation();
-  const { query, category } = state;
+  const { query } = state;
   const [listings, setListings] = useState([]);
   const [bidListings, setBidListings] = useState([]);
   const navigate = useNavigate();
@@ -20,9 +20,10 @@ const SearchResults = () => {
     try {
       const { data } = await axios.post('/item/search', {
         filter: query,
-        label: category,
       });
-      setListings(data.reverse());
+      if (data && data.length > 0) {
+        setListings(data.reverse());
+      }
     } catch (error) {
       throw new Error('Error searching for items');
     }
@@ -32,7 +33,6 @@ const SearchResults = () => {
     try {
       const { data } = await axios.post('/item/bidSearch', {
         filter: query,
-        label: category,
       });
       setBidListings(data.reverse());
     } catch (error) {
@@ -43,7 +43,7 @@ const SearchResults = () => {
   useEffect(() => {
     getListings();
     getBidListings();
-  }, [query, category]);
+  }, [query]);
 
   // const rows = Math.ceil(listings.length / 3);
   // const items = (Array(rows).fill().map((_, rowIndex) => (
@@ -69,13 +69,7 @@ const SearchResults = () => {
   return (
     <div className="homepage pt-5">
       <div className="carousel-wrapper">
-        {query !== '' ? (
-          <h4 style={{ marginTop: '0 auto' }}>{listings.length} Regular listing results for &quot;{query}&quot;</h4>
-        )
-          : (
-            <h4 style={{ marginTop: '0 auto' }}>{listings.length} Regular listing results for &quot;{category}&quot;</h4>
-          )}
-
+        <h4 style={{ marginTop: '0 auto' }}> {listings.length} Regular listing results for &quot;{query}&quot;</h4>
         <CarouselProvider
           className="mt-1"
           naturalSlideWidth={100}
@@ -86,11 +80,11 @@ const SearchResults = () => {
           <Slider>
             {listings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/RegularItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/item', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>
-                      <Image src={`http://localhost:8080/${item.media}`} alt="product pic" hasMasterSpinner={false} />
+                      <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
                       <p style={{ width: '100%' }}><b>{`$${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )
@@ -122,11 +116,11 @@ const SearchResults = () => {
           <Slider>
             {bidListings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/BidItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/item', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>
-                      <Image src={`http://localhost:8080/${item.media}`} alt="product pic" hasMasterSpinner={false} />
+                      <Image src={item.media} alt="product pic" hasMasterSpinner={false} />
                       <p style={{ width: '100%' }}><b>{`Highest Bid: $${item.price}`}</b>{`, listed by ${item.posterName.split(' ')[0]}`}</p>
                     </>
                   )

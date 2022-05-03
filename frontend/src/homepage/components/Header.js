@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import {
-  Navbar, Nav, Container, Form, FormControl, Button, InputGroup, NavDropdown, NavLink,
+  Navbar, Nav, Container, Form, FormControl, Button, InputGroup, NavDropdown,
 } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -88,10 +88,10 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
         <Nav className="m-0 bottom" style={{ flexWrap: 'wrap' }}>
           <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="">Saved</Nav.Link>
-          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'Textbooks' } })}>Textbooks</Button>
-          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'Services' } })}>Services</Button>
-          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'Clothes' } })}>Clothes</Button>
-          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'housing' } })}>Housing &amp; Furniture</Button>
+          <Nav.Link href="">Textbooks</Nav.Link>
+          <Nav.Link href="">Services</Nav.Link>
+          <Nav.Link href="">Clothes</Nav.Link>
+          <Nav.Link href="">Housing &amp; Furniture</Nav.Link>
         </Nav>
       </Container>
     </Navbar>

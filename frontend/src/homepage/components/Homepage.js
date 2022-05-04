@@ -179,7 +179,7 @@ const Homepage = () => {
         </CarouselProvider>
       </div>
       <div className="carousel-wrapper">
-        <h1>Saved Bid listings</h1>
+        <h1>Saved Bid Listings</h1>
         <CarouselProvider
           className="mt-1"
           naturalSlideWidth={100}

@@ -96,7 +96,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={<Account />} />
-          <Route path="/results/:searchResult" element={<SearchResults />} />
+          <Route path="/results" element={<SearchResults />} />
         </Routes>
       </div>
     </SocketContext.Provider>

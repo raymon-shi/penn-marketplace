@@ -11,7 +11,7 @@ import ResultCard from './ResultCard';
 
 const SearchResults = () => {
   const { state } = useLocation();
-  const { query } = state;
+  const { query, category } = state;
   const [listings, setListings] = useState([]);
   const [bidListings, setBidListings] = useState([]);
   const navigate = useNavigate();
@@ -20,6 +20,7 @@ const SearchResults = () => {
     try {
       const { data } = await axios.post('/item/search', {
         filter: query,
+        label: category,
       });
       setListings(data.reverse());
     } catch (error) {
@@ -31,6 +32,7 @@ const SearchResults = () => {
     try {
       const { data } = await axios.post('/item/bidSearch', {
         filter: query,
+        label: category,
       });
       setBidListings(data.reverse());
     } catch (error) {
@@ -41,16 +43,15 @@ const SearchResults = () => {
   useEffect(() => {
     getListings();
     getBidListings();
-  }, [query]);
+  }, [query, category]);
 
-  useEffect(() => {
-    const intervalID = setInterval(() => {
-      console.log('hi');
-      getListings();
-      getBidListings();
-    }, 15000);
-    return () => clearInterval(intervalID);
-  }, []);
+  // useEffect(() => {
+  //   const intervalID = setInterval(() => {
+  //     getListings();
+  //     getBidListings();
+  //   }, 15000);
+  //   return () => clearInterval(intervalID);
+  // }, []);
 
   // const rows = Math.ceil(listings.length / 3);
   // const items = (Array(rows).fill().map((_, rowIndex) => (
@@ -76,7 +77,12 @@ const SearchResults = () => {
   return (
     <div className="homepage pt-5">
       <div className="carousel-wrapper">
-        <h4 style={{ marginTop: '0 auto' }}> {listings.length} Regular listing results for &quot;{query}&quot;</h4>
+        {query !== '' ? (
+          <h4 style={{ marginTop: '0 auto' }}>{listings.length} Regular listing results for &quot;{query}&quot;</h4>
+        )
+          : (
+            <h4 style={{ marginTop: '0 auto' }}>{listings.length} Regular listing results for &quot;{category}&quot;</h4>
+          )}
         <CarouselProvider
           className="mt-1"
           naturalSlideWidth={100}
@@ -113,7 +119,12 @@ const SearchResults = () => {
       </div>
 
       <div className="carousel-wrapper">
-        <h4> {bidListings.length} Bid listing results for &quot;{query}&quot;</h4>
+        {query !== '' ? (
+          <h4 style={{ marginTop: '0 auto' }}>{bidListings.length} Bid listing results for &quot;{query}&quot;</h4>
+        )
+          : (
+            <h4 style={{ marginTop: '0 auto' }}>{bidListings.length} Bid listing results for &quot;{category}&quot;</h4>
+          )}
         <CarouselProvider
           className="mt-1"
           naturalSlideWidth={100}

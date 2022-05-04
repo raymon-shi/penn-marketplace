@@ -86,11 +86,10 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
       </Container>
       <Container className="m-0 bottom" style={{ maxWidth: 'none' }}>
         <Nav className="m-0 bottom" style={{ flexWrap: 'wrap' }}>
-          <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="">Textbooks</Nav.Link>
-          <Nav.Link href="">Services</Nav.Link>
-          <Nav.Link href="">Clothes</Nav.Link>
-          <Nav.Link href="">Housing &amp; Furniture</Nav.Link>
+          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'Textbooks' } })}>Textbooks</Button>
+          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'Services' } })}>Services</Button>
+          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'Clothes' } })}>Clothes</Button>
+          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'housing' } })}>Housing &amp; Furniture</Button>
         </Nav>
       </Container>
     </Navbar>

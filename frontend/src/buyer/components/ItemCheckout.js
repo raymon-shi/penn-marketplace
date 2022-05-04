@@ -1,7 +1,8 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Checkout.css';
 import axios from 'axios';
+import { SocketContext } from '../../homepage/components/Socket';
 
 const ItemCheckout = () => {
   const [num, setNum] = useState(0);
@@ -15,6 +16,7 @@ const ItemCheckout = () => {
   } = state;
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
     if (bid) {
@@ -83,6 +85,7 @@ const ItemCheckout = () => {
       );
       await axios.post('/buyer/addTransaction', { transaction: purchase.data });
       navigate('/');
+      socket.emit('item purchased', listing.posterName, listing.itemName);
     }
   };
 

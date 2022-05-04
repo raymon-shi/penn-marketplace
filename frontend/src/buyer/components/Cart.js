@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/Cart.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -52,7 +52,7 @@ const Cart = () => {
           </div>
           <div style={{ marginLeft: '210px' }}>
             <h4>{d.itemName}</h4>
-            <p>{d.itemDescr}</p>
+            <p className="w-100">{d.itemDescr}</p>
             <button className="removeButton" type="button" onClick={() => handleRemoveReg(d._id)}>Remove from Cart</button>
           </div>
         </div>

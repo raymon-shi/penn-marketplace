@@ -71,6 +71,14 @@ const App = () => {
     socket.on('new follow', (data) => {
       toast(`${data} has followed you!`, { position: 'bottom-right' });
     });
+
+    socket.on('item purchased', (data) => {
+      toast(`${data} has been sold!`, { position: 'bottom-right' });
+    });
+
+    socket.on('bid accepted', (data) => {
+      toast(`Your bid for ${data} has been accepted!`, { position: 'bottom-right' });
+    });
   }, []);
 
   return (
@@ -88,7 +96,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={<Account />} />
-          <Route path="/results/:searchResult" element={<SearchResults />} />
+          <Route path="/results" element={<SearchResults />} />
         </Routes>
       </div>
     </SocketContext.Provider>

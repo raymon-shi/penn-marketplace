@@ -78,10 +78,10 @@ const SearchResults = () => {
     <div className="homepage pt-5">
       <div className="carousel-wrapper">
         {query !== '' ? (
-          <h4 style={{ marginTop: '0 auto' }}>{listings.length} Regular listing results for &quot;{query}&quot;</h4>
+          <h4 style={{ marginTop: '0 auto' }}>{listings.length} Regular listings for &quot;{query}&quot;</h4>
         )
           : (
-            <h4 style={{ marginTop: '0 auto' }}>{listings.length} Regular listing results for &quot;{category}&quot;</h4>
+            <h4 style={{ marginTop: '0 auto' }}>{listings.length} Regular listings for &quot;{category}&quot;</h4>
           )}
         <CarouselProvider
           className="mt-1"
@@ -120,10 +120,10 @@ const SearchResults = () => {
 
       <div className="carousel-wrapper">
         {query !== '' ? (
-          <h4 style={{ marginTop: '0 auto' }}>{bidListings.length} Bid listing results for &quot;{query}&quot;</h4>
+          <h4 style={{ marginTop: '0 auto' }}>{bidListings.length} Bid listings for &quot;{query}&quot;</h4>
         )
           : (
-            <h4 style={{ marginTop: '0 auto' }}>{bidListings.length} Bid listing results for &quot;{category}&quot;</h4>
+            <h4 style={{ marginTop: '0 auto' }}>{bidListings.length} Bid listings for &quot;{category}&quot;</h4>
           )}
         <CarouselProvider
           className="mt-1"

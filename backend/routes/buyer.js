@@ -32,11 +32,12 @@ router.get('/getBidListing/:id', async (req, res, next) => {
 // route to add regular item to cart
 router.post('/addCartRegItem/:id', async (req, res) => {
   try {
-    const item = await ItemRegular.findById(req.params.id);
+    // const item = await ItemRegular.findById(req.params.id);
+    const itemId = req.params.id;
     await User.findOneAndUpdate(
       { email: req.session.email,
         'shoppingCart._id': { $ne: req.params.id }},
-      { $addToSet: { shoppingCart: item }});
+      { $addToSet: { shoppingCart: itemId }});
     res.status(200).send('Regular listing successfully added to cart!');
   } catch (error) {
     res.status(500).send('An unknown error occured');
@@ -50,7 +51,7 @@ router.post('/addCartBidItem/:id', async (req, res) => {
     const { bid } = req.body;
     const item = await ItemBid.findById(req.params.id);
     await User.findOneAndUpdate(
-      { email: req.session.email, 
+      { email: req.session.email,
         'shoppingCart._id': { $ne: req.params.id }},
       { $addToSet: { shoppingCart: {item , bid} }});
     res.status(200).send('Regular listing successfully added to cart!');
@@ -63,10 +64,11 @@ router.post('/addCartBidItem/:id', async (req, res) => {
 // route to remove reg item from cart
 router.post('/removeCartRegItem/:id', async (req, res) => {
   try {
-    const item = await ItemRegular.findById(req.params.id);
+    // const item = await ItemRegular.findById(req.params.id);
+    const itemId = req.params.id;
     await User.findOneAndUpdate(
       { email: req.session.email },
-      { $pull: { shoppingCart: item }});
+      { $pull: { shoppingCart: itemId }});
     res.status(200).send('Regular listing removed successfully from cart!');
   } catch (error) {
     res.status(500).send('An unknown error occured');
@@ -78,7 +80,8 @@ router.post('/removeCartRegItem/:id', async (req, res) => {
 router.get('/cart', async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.session.email });
-    res.status(200).json(user.shoppingCart);
+    const cart = await ItemRegular.find({ _id: { $in: user.shoppingCart } });
+    res.status(200).json(cart);
   } catch (error) {
     next(new Error('Error with retrieving cart'));
   }

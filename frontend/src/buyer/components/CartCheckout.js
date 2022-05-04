@@ -90,7 +90,7 @@ const CartCheckout = () => {
         </div>
         <div style={{ marginLeft: '210px' }}>
           <h4>{d.itemName}</h4>
-          <p>{d.itemDescr}</p>
+          <p className="w-100">{d.itemDescr}</p>
         </div>
       </div>
     </li>

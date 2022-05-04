@@ -45,6 +45,14 @@ const SearchResults = () => {
     getBidListings();
   }, [query, category]);
 
+  // useEffect(() => {
+  //   const intervalID = setInterval(() => {
+  //     getListings();
+  //     getBidListings();
+  //   }, 15000);
+  //   return () => clearInterval(intervalID);
+  // }, []);
+
   // const rows = Math.ceil(listings.length / 3);
   // const items = (Array(rows).fill().map((_, rowIndex) => (
   //   <Row>
@@ -75,18 +83,18 @@ const SearchResults = () => {
           : (
             <h4 style={{ marginTop: '0 auto' }}>{listings.length} Regular listings for &quot;{category}&quot;</h4>
           )}
-
         <CarouselProvider
           className="mt-1"
           naturalSlideWidth={100}
           naturalSlideHeight={100}
           totalSlides={listings.length}
           visibleSlides={5}
+          step={5}
         >
           <Slider>
             {listings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/RegularItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/Regularitem', { state: { itemId: item._id, posterName: item.posterName } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>
@@ -123,11 +131,12 @@ const SearchResults = () => {
           naturalSlideHeight={100}
           totalSlides={bidListings.length}
           visibleSlides={5}
+          step={5}
         >
           <Slider>
             {bidListings.map((item, idx) => (
               // eslint-disable-next-line no-underscore-dangle
-              <Slide onClick={() => navigate('/BidItem', { state: { itemId: item._id } })} index={idx} key={uuidv4()}>
+              <Slide onClick={() => navigate('/bidItem', { state: { itemId: item._id, posterName: item.posterName } })} index={idx} key={uuidv4()}>
                 {item.media && item.media !== ''
                   ? (
                     <>

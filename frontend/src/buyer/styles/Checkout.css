@@ -1,16 +1,17 @@
 .checkout-container {
     display: flex;
     flex-direction: row;
-    margin-left: 90px;
+    margin: 20px;
 }
 
 .checkout-item {
     display: flex;
-    flex: 1;
+    flex: 2;
     border-style: solid;
     background-color: white;
     border-radius: 10px;
     border: 10;
+    padding: 10px;
 }
 
 .checkout-itemInfo {
@@ -95,7 +96,7 @@
   }
 
   .checkout {
-      margin-left: 5%;
+      margin-left: 20px;
       margin-top: 0%;
       margin-bottom: 20px;
   }

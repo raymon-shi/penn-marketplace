@@ -56,11 +56,20 @@ io.on('connection', (socket) => {
   socket.on('new follow', (friendName) => { // send follow notification to receiver
     socket.broadcast.to(friendName).emit('new follow', socket.data.username);
   });
+
+  socket.on('item purchased', (seller, item) => { // send item sold notification to seller
+    socket.broadcast.to(seller).emit('item purchased', item);
+  });
+
+  socket.on('bid accepted', (buyer, item) => { // send bid accepted notification to buyer
+    socket.broadcast.to(buyer).emit('bid accepted', item);
+  });
 });
 
 // routers
 const accountRouter = require('./routes/account');
 const itemRouter = require('./routes/item');
+const sellerRouter = require('./routes/seller');
 const buyerRouter = require('./routes/buyer');
 const chatRouter = require('./routes/chat');
 
@@ -89,6 +98,7 @@ app.use('/account', accountRouter);
 app.use('/item', itemRouter);
 app.use('/buyer', buyerRouter);
 app.use('/chat', chatRouter);
+app.use('/seller', sellerRouter);
 
 // default error handling
 app.use((err, req, res, next) => {

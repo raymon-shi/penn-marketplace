@@ -11,7 +11,8 @@ import { SocketContext, socket } from './homepage/components/Socket';
 import Seller from './seller/components/Seller';
 import RegularItem from './buyer/components/RegularItem';
 import BidItem from './buyer/components/BidItem';
-import Checkout from './buyer/components/Checkout';
+import CartCheckout from './buyer/components/CartCheckout';
+import ItemCheckout from './buyer/components/ItemCheckout';
 import Login from './Login/components/Login';
 import Account from './account/Account';
 import Homepage from './homepage/components/Homepage';
@@ -70,6 +71,14 @@ const App = () => {
     socket.on('new follow', (data) => {
       toast(`${data} has followed you!`, { position: 'bottom-right' });
     });
+
+    socket.on('item purchased', (data) => {
+      toast(`${data} has been sold!`, { position: 'bottom-right' });
+    });
+
+    socket.on('bid accepted', (data) => {
+      toast(`Your bid for ${data} has been accepted!`, { position: 'bottom-right' });
+    });
   }, []);
 
   return (
@@ -80,9 +89,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/seller" element={<Seller />} />
-          <Route path="/Regularitem" element={<RegularItem />} />
-          <Route path="/bidItem" element={<BidItem />} />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/Regularitem" element={<RegularItem username={username} />} />
+          <Route path="/bidItem" element={<BidItem username={username} />} />
+          <Route path="/CartCheckout" element={<CartCheckout />} />
+          <Route path="/ItemCheckout" element={<ItemCheckout />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={<Account />} />

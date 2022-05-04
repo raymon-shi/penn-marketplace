@@ -1,15 +1,16 @@
 import { React, useState, useEffect } from 'react';
 import '../styles/Checkout.css';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Checkout = () => {
+const CartCheckout = () => {
   const [num, setNum] = useState(0);
   const [exp, setExp] = useState('');
   const [cvc, setCVC] = useState(0);
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
 
   const getCart = async () => {
     try {
@@ -55,6 +56,21 @@ const Checkout = () => {
       first,
       last,
     };
+    const results = [];
+    cart.map(async (item) => {
+      const purchase = await axios.post(
+        '/buyer/regTransaction',
+        {
+          sellerName: item.posterName,
+          listingRegular: item,
+          totalCost: item.price,
+          info,
+        },
+      );
+      await axios.post('/buyer/addTransaction', { transaction: purchase.data });
+      await axios.post(`/buyer/removeCartRegItem/${item._id}`);
+    });
+    navigate('/');
   };
 
   const listItems = cart.map((d) => (
@@ -74,7 +90,7 @@ const Checkout = () => {
         </div>
         <div style={{ marginLeft: '210px' }}>
           <h4>{d.itemName}</h4>
-          <p>{d.itemDescr}</p>
+          <p className="w-100">{d.itemDescr}</p>
         </div>
       </div>
     </li>
@@ -84,7 +100,7 @@ const Checkout = () => {
 
   return (
     <div className="background">
-      <h2 className="cart">Checkout ({cart.length} items)</h2>
+      <h2 className="cart">Cart Checkout ({cart.length} items)</h2>
       <div className="cart-splitScreen">
         <div className="cart-leftPane">
           {listItems}
@@ -121,74 +137,7 @@ const Checkout = () => {
         </div>
       </div>
     </div>
-    /*
-    <div className="background">
-      <h2 className="checkout">Checkout</h2>
-      <div className="checkout-container">
-        <div className="checkout-item">
-          <div className="checkout-itemInfo">
-            <h3>Review Item</h3>
-            <p className="checkout-text">
-              Seller:
-              {sellerName}
-              {' '}
-              (
-              {sellerRating}
-              %)
-            </p>
-            <img className="checkout-image" src={chair} alt="product" />
-            <p className="checkout-text">Tags: {tags}</p>
-          </div>
-          <div className="checkout-itemInfo">
-            <h4>{productName}</h4>
-            <hr className="checkout-solid" />
-            {isBid
-              ? (
-                <div>
-                  <p className="checkout-text">Current Bid: <b>US ${price}</b></p>
-                  <p className="checkout-text">Your Bid: <b>US ${bid}</b></p>
-                </div>
-              )
-              : <p className="checkout-text">Price: <b>US ${price}</b></p>}
-            <hr className="checkout-solid" />
-            <p className="checkout-text">{desc}</p>
-          </div>
-        </div>
-        <div className="checkout-info">
-          <div className="checkout-card">
-            <h3>Pay With</h3>
-            <form className="checkout-center" onSubmit={handleSubmit} id="ccinfo">
-              <input type="number" placeholder="Card Number" onChange={onChangeNum} />
-              <div>
-                <input type="month" placeholder="Exp. Date" onChange={onChangeExp} />
-                <input type="number" placeholder="CVC" onChange={onChangeCVC} />
-              </div>
-              <div>
-                <input type="text" placeholder="First Name" onChange={onChangeFirst} />
-                <input type="text" placeholder="Last Name" onChange={onChangeLast} />
-              </div>
-            </form>
-          </div>
-          <div className="checkout-confirm">
-            {isBid ? <h2>Your Bid: {bid}</h2>
-              : (
-                <div>
-                  <p style={{ textAlign: 'center', width: '100%' }}>Subtotal (1 item): ${price} </p>
-                  <p style={{ textAlign: 'center', width: '100%' }}>Discount: $0.00 </p>
-                  <p style={{ textAlign: 'center', width: '100%' }}>Tax: $0.00 </p>
-                </div>
-              )}
-            <hr className="checkout-solid" />
-            {isBid ? <b>Order total: ${bid}</b> : <b>Order total: ${price}</b>}
-            <div className="checkout-center">
-              <input className="payButton" form="ccinfo" type="submit" value="Confirm and Pay" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    */
   );
 };
 
-export default Checkout;
+export default CartCheckout;

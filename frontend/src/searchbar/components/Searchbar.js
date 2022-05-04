@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../assets/Searchbar.css';
 
 const Searchbar = () => {
   const [filter, setFilter] = useState('');
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
-  console.log(filter);
 
   function handleSubmit(e) {
     e.preventDefault();

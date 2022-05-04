@@ -148,7 +148,8 @@ const SearchUsers = ({ userProfile }) => {
                   <p>
                     {user.name}
                     -
-                    {Number.isNaN(findAverageRating(user.reviews)) ? 0 : findAverageRating()} stars
+                    {Number.isNaN(findAverageRating(user.reviews))
+                      ? 0 : findAverageRating(user.reviews)} stars
                   </p>
                   <div className="table-item">
                     <button type="button" value={index} onClick={showReportBox}>Report</button>

@@ -131,7 +131,7 @@ const SearchUsers = ({ userProfile }) => {
     const sum = reviews.reduce((acc, curr) => acc + Number(curr.reviewRating), 0);
     return sum / reviews.length;
   }
-  
+
   return (
     <div>
       Search for user(s) by name, and give them a review, follow them, or block them.

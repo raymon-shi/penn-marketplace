@@ -1,13 +1,15 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Item.css';
+import { SocketContext } from '../../homepage/components/Socket';
 
 const BidItem = ({ username }) => {
   // retrieve information about the specific item (from Homepage.js when you click on a slide)
   const { state } = useLocation();
   const { itemId, posterName } = state;
   const navigate = useNavigate();
+  const socket = useContext(SocketContext);
 
   const [listing, setListing] = useState({});
   const [bid, setBid] = useState(0);
@@ -29,6 +31,7 @@ const BidItem = ({ username }) => {
     try {
       const { data } = await axios.post('/seller/acceptBid', { buyerName: listing.bidHistory.at(-1).bidderName, listingBid: listing, totalCost: currBid });
       await axios.post('/seller/addTransaction', { transaction: data });
+      socket.emit('bid accepted', listing.bidHistory.at(-1).bidderName, listing.itemName);
     } catch (error) {
       console.log(error);
       console.log('Error in accepting bid');

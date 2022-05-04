@@ -56,6 +56,14 @@ io.on('connection', (socket) => {
   socket.on('new follow', (friendName) => { // send follow notification to receiver
     socket.broadcast.to(friendName).emit('new follow', socket.data.username);
   });
+
+  socket.on('item purchased', (seller, item) => { // send item sold notification to seller
+    socket.broadcast.to(seller).emit('item purchased', item);
+  });
+
+  socket.on('bid accepted', (buyer, item) => { // send bid accepted notification to buyer
+    socket.broadcast.to(buyer).emit('bid accepted', item);
+  });
 });
 
 // routers

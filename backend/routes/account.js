@@ -56,7 +56,7 @@ router.post('/login', async (req, res, next) => {
         // reset the lockout period
         await User.updateOne({ email }, { loginAttempts: 0 });
         await User.updateOne({ email }, { lockedOutTime: 0 });
-        res.send(user);
+        res.status(200).send(user);
       } else {
         // otherwise, increase the login attempt and check if exceed and increase lockout period
         await User.updateOne({ email }, { loginAttempts: user.loginAttempts + 1 });
@@ -81,7 +81,7 @@ router.post('/login', async (req, res, next) => {
 
 // route get user session information
 router.get('/user', (req, res, next) => {
-  res.send({ name: req.session.name, email: req.session.email });
+  res.status(200).send({ name: req.session.name, email: req.session.email });
 });
 
 // route get user information
@@ -95,7 +95,7 @@ router.post('/logout', isLoggedIn, async (req, res, next) => {
   const { name } = req.session;
   req.session.email = undefined;
   req.session.name = undefined;
-  res.send(`The user with name "${name} has been logged out!"`);
+  res.status(200).send(`The user with name "${name} has been logged out!"`);
 });
 
 // get the login attempts and locked out time

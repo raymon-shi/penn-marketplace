@@ -16,8 +16,9 @@ const mongodbPassword = 'hL7OprFhSxfJ6Sst';
 const mongodbDatabaseName = 'Penn-Marketplace';
 
 const port = process.env.PORT || 8080;
-const MONGO_URI = process.env.MONGODB_URI
-|| `mongodb+srv://${mongodbUsername}:${mongodbPassword}@penn-marketplace.6si5d.mongodb.net/${mongodbDatabaseName}?retryWrites=true&w=majority`;
+const MONGO_URI =
+  process.env.MONGODB_URI ||
+  `mongodb+srv://${mongodbUsername}:${mongodbPassword}@penn-marketplace.6si5d.mongodb.net/${mongodbDatabaseName}?retryWrites=true&w=majority`;
 
 // mongodb connection
 mongoose.connect(MONGO_URI, {
@@ -37,7 +38,8 @@ const io = new Server(server, {
 }); // create our IO sockets
 
 io.on('connection', (socket) => {
-  socket.on('join room', (username) => { // logging in
+  socket.on('join room', (username) => {
+    // logging in
     socket.join(username);
     const altSocket = socket;
     altSocket.data.username = username; // store username into socket
@@ -49,19 +51,23 @@ io.on('connection', (socket) => {
     altSocket.data.username = '';
   });
 
-  socket.on('new message', (friendName) => { // send message notification to receiver
+  socket.on('new message', (friendName) => {
+    // send message notification to receiver
     socket.broadcast.to(friendName).emit('new message', socket.data.username);
   });
 
-  socket.on('new follow', (friendName) => { // send follow notification to receiver
+  socket.on('new follow', (friendName) => {
+    // send follow notification to receiver
     socket.broadcast.to(friendName).emit('new follow', socket.data.username);
   });
 
-  socket.on('item purchased', (seller, item) => { // send item sold notification to seller
+  socket.on('item purchased', (seller, item) => {
+    // send item sold notification to seller
     socket.broadcast.to(seller).emit('item purchased', item);
   });
 
-  socket.on('bid accepted', (buyer, item) => { // send bid accepted notification to buyer
+  socket.on('bid accepted', (buyer, item) => {
+    // send bid accepted notification to buyer
     socket.broadcast.to(buyer).emit('bid accepted', item);
   });
 });
@@ -113,3 +119,5 @@ server.listen(port, () => {
   console.log(`Listening on port ${port}`);
   console.log(`MongoDB is connected at ${MONGO_URI}`);
 });
+
+module.exports = app;

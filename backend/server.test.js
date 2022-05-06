@@ -40,6 +40,45 @@ describe('/signup and then delete', () => {
       .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
 });
 
+describe('/signup and error', () => {
+  test('/signup status code 201', async () =>
+    request(app)
+      .post('/account/signup')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        firstName: 'David',
+        lastName: 'Wang',
+        password: 'password',
+        month: 'January',
+        day: '1',
+        year: '1990',
+        major: 'Computer Science',
+        school: 'School of Engineering and Applied Sciences',
+        classYear: 2022,
+      })
+      .expect(201)
+      .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+  test('/signup status code 500', async () =>
+    request(app)
+      .post('/account/signup')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        firstName: 'David',
+        lastName: 'Wang',
+        password: 'password',
+        month: 'January',
+        day: '1',
+        year: '1990',
+        major: 'Computer Science',
+        school: 'School of Engineering and Applied Sciences',
+        classYear: 2022,
+      })
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('There was an error with error message: Error: Error inside /signup with error message:'))
+      .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
+});
+
 describe('/signup, /login, and then delete', () => {
   test('/signup status code 201', async () =>
     request(app)
@@ -67,6 +106,68 @@ describe('/signup, /login, and then delete', () => {
         password: 'password',
       })
       .expect(200)
+      .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
+});
+
+describe('/login error', () => {
+  test('/signup status code 201', async () =>
+    request(app)
+      .post('/account/signup')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        firstName: 'David',
+        lastName: 'Wang',
+        password: 'password',
+        month: 'January',
+        day: '1',
+        year: '1990',
+        major: 'Computer Science',
+        school: 'School of Engineering and Applied Sciences',
+        classYear: 2022,
+      })
+      .expect(201)
+      .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+  test('/login status code 500', async () =>
+    request(app)
+      .post('/account/login')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        password: 'passwordx',
+      })
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('There was not a match'))
+      .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
+});
+
+describe('/login error 2', () => {
+  test('/signup status code 201', async () =>
+    request(app)
+      .post('/account/signup')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        firstName: 'David',
+        lastName: 'Wang',
+        password: 'password',
+        month: 'January',
+        day: '1',
+        year: '1990',
+        major: 'Computer Science',
+        school: 'School of Engineering and Applied Sciences',
+        classYear: 2022,
+      })
+      .expect(201)
+      .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+  test('/login status code 500', async () =>
+    request(app)
+      .post('/account/login')
+      .send({
+        email: 'ddwang@seas.upenn.edux',
+        password: 'passwordx',
+      })
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('Error inside /login with error message:'))
       .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
 });
 
@@ -158,6 +259,34 @@ describe('/resetpassword check', () => {
       .expect(200)
       .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
 });
+
+// describe('/resetpassword error', () => {
+//   test('/signup status code 201', async () =>
+//     request(app)
+//       .post('/account/signup')
+//       .send({
+//         email: 'ddwang@seas.upenn.edu',
+//         firstName: 'David',
+//         lastName: 'Wang',
+//         password: 'password',
+//         month: 'January',
+//         day: '1',
+//         year: '1990',
+//         major: 'Computer Science',
+//         school: 'School of Engineering and Applied Sciences',
+//         classYear: 2022,
+//       })
+//       .expect(201)
+//       .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+//   test('/resetpassword status code 200 and delete', async () =>
+//     request(app)
+//       .post('/account/resetpassword')
+//       .send({ email: 'ddwang@seas.upenn.eduxxxx', password: 'newpassword*&*(&*(' })
+//       .expect(500)
+//       .then((resp) => expect(resp.text).toContain('Could not reset password'))
+//       .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
+// });
 
 // describe('/logout check', () => {
 //   test('/signup status code 201', async () =>

@@ -9,7 +9,9 @@ const Searchbar = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    navigate('/results', { state: { query: search, category: filter } });
+    if (search !== '') {
+      navigate('/results', { state: { query: search, category: filter } });
+    }
   }
 
   return (

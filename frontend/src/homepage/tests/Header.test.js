@@ -7,8 +7,10 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import renderer from 'react-test-renderer';
+import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import Header from '../components/Header';
+
 
 describe('UI Testing for Header Component in Homepage', () => {
   test('Test 1: Penn Marketplace Header', () => {
@@ -60,5 +62,19 @@ describe('UI Testing for Header Component in Homepage', () => {
     expect(dashboardButton).toBeInTheDocument();
     expect(name).toBeInTheDocument();
     expect(moreButton).toBeInTheDocument();
+  });
+  test('Test 4: Dropdown Menu', () => {
+    render(
+      <BrowserRouter>
+        <Header username="Raymon Shi" loggedIn />
+      </BrowserRouter>,
+    );
+    userEvent.click(screen.getByText('More'));
+    const dashboardOption = screen.getAllByText('Dashboard')[1];
+    const sellOption = screen.getByText('Sell');
+    const logoutOption = screen.getByText('Logout');
+    expect(dashboardOption).toBeInTheDocument();
+    expect(sellOption).toBeInTheDocument();
+    expect(logoutOption).toBeInTheDocument();
   });
 });

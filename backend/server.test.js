@@ -2,6 +2,7 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('./server');
 const User = require('./models/User');
+const ItemBid = require('./models/ItemBid');
 
 const mongodbUsername = 'penn-marketplace';
 const mongodbPassword = 'hL7OprFhSxfJ6Sst';
@@ -19,6 +20,7 @@ beforeAll(async () => {
   });
 });
 
+// login tests
 describe('/signup and then delete', () => {
   test('/signup status code 201', async () =>
     request(app)
@@ -322,4 +324,46 @@ describe('/resetpassword check', () => {
 //       .expect(200)
 //       .then((resp) => expect(resp.text).toContain('has been logged out!'))
 //       .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
+// });
+
+// seller tests
+// describe('/addBidListing tests', () => {
+//   test('/signup status code 201', async () =>
+//     request(app)
+//       .post('/account/signup')
+//       .send({
+//         email: 'ddwang@seas.upenn.edu',
+//         firstName: 'David',
+//         lastName: 'Wang',
+//         password: 'password',
+//         month: 'January',
+//         day: '1',
+//         year: '1990',
+//         major: 'Computer Science',
+//         school: 'School of Engineering and Applied Sciences',
+//         classYear: 2022,
+//       })
+//       .expect(201)
+//       .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+//   test('/login status code 200', async () =>
+//     request(app)
+//       .post('/account/login')
+//       .send({
+//         email: 'ddwang@seas.upenn.edu',
+//         password: 'password',
+//       })
+//       .expect(200));
+
+//   test('/addBidListing 201', async () => request(app)
+//     .post('/item/addBidListing')
+//     .send({
+//       product: 'test77',
+//       productDescr: 'nice scent',
+//       tag: 'Housing & Furniture',
+//     })
+//     .expect(201)
+//     .then((resp) => expect(JSON.parse(resp.text).message).toContain('Bid listing was successfully posted!'))
+//     .then(() => ItemBid.findOneAndDelete({ product: 'test77' }))
+//     .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
 // });

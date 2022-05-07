@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 
+import { submitPriceListing } from '../modules/api';
 import uploadIcon from '../assets/upload.svg';
 import imgIcon from '../assets/image.svg';
 
@@ -23,33 +23,7 @@ const PriceListing = ({ onSubmit, onBack }) => {
       <Card className="shadow rounded mx-auto p-5" border="light" style={{ width: '50%' }}>
         <Form onSubmit={(e) => {
           e.preventDefault();
-          if (imgLink && imgLink !== '') {
-            const formData = new FormData();
-            formData.append('product', product);
-            formData.append('productDescr', productDescr);
-            formData.append('price', price);
-            formData.append('tag', tag);
-            formData.append('imageFile', imageFile.current);
-            axios.post('/item/addRegListingPic', formData).then(() => {
-              setProduct('');
-              setImgLink('');
-              setProductDescr('');
-              setPrice('');
-              setTag('');
-              onSubmit();
-            }).catch((err) => alert('Error in posting! Please try again.'));
-          } else {
-            axios.post('/item/addRegListing', {
-              product, productDescr, price, tag,
-            }).then(() => {
-              setProduct('');
-              setImgLink('');
-              setProductDescr('');
-              setPrice('');
-              setTag('');
-              onSubmit();
-            }).catch((err) => alert('Error in posting! Please try again.'));
-          }
+          submitPriceListing(product, productDescr, price, tag, imgLink, imageFile.current).then(() => onSubmit()).catch((err) => alert('Error in posting! Please try again.'));
         }}
         >
           <Form.Group className="mb-3">

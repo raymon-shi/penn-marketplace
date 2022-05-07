@@ -95,7 +95,7 @@ router.post('/addRegListing', async (req, res, next) => {
       price,
       tag,
     });
-    res.status(201).send('Regular listing was successfully posted!');
+    res.status(201).send({ message: 'Regular listing was successfully posted!' });
   } catch (error) {
     next(new Error('Error with creating a regular listing'));
   }
@@ -116,7 +116,7 @@ router.post('/addRegListingPic', upload.single('imageFile'), async (req, res, ne
       price,
       tag,
     });
-    res.status(201).send('Regular listing was successfully posted!');
+    res.status(201).send({ message: 'Regular listing was successfully posted!'});
   } catch (error) {
     next(new Error('Error with creating a regular listing'));
   }
@@ -135,7 +135,7 @@ router.post('/addBidListing', async (req, res, next) => {
       price: 0,
       tag,
     });
-    res.status(201).send('Bid listing was successfully posted!');
+    res.status(201).send({ message: 'Bid listing was successfully posted!' });
   } catch (error) {
     next(new Error('Error with creating a bid listing'));
   }
@@ -155,7 +155,7 @@ router.post('/addBidListingPic', upload.single('imageFile'), async (req, res, ne
       price: 0,
       tag,
     });
-    res.status(201).send('Bid listing was successfully posted!');
+    res.status(201).send({ message: 'Bid listing was successfully posted!' });
   } catch (error) {
     next(new Error('Error with creating a bid listing'));
   }

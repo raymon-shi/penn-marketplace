@@ -7,11 +7,24 @@ import { SocketContext } from '../../homepage/components/Socket';
 const BidItem = ({ username }) => {
   // retrieve information about the specific item (from Homepage.js when you click on a slide)
   const { state } = useLocation();
-  const { itemId, posterName } = state;
-  const navigate = useNavigate();
+  let { itemId, posterName } = { itemId: 0, posterName: ' '};
+  if (state) {
+     itemId = state.itemId;
+     posterName = state.posterName;
+  }
+  const defaultListing = {
+    _id: 0,
+    posterName: '',
+    itemName: '',
+    price: 0,
+    tag: '',
+    media: '',
+    itemDescr: '',
+  };
+
+  const [listing, setListing] = useState(defaultListing);  const navigate = useNavigate();
   const socket = useContext(SocketContext);
 
-  const [listing, setListing] = useState({});
   const [bid, setBid] = useState(0);
   const [currBid, setCurrBid] = useState(0);
 

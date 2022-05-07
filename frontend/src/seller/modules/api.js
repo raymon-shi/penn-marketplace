@@ -11,14 +11,14 @@ const submitBidListing = async (product, productDescr, tag, imgLink, imageFile) 
       const { data } = await axios.post('/item/addBidListingPic', formData);
       return data;
     } catch (err) {
-      console.log(err);
+      throw new Error('There was an error with /addBidListingPic');
     }
   } else {
     try {
       const { data } = await axios.post('/item/addBidListing', { product, productDescr, tag });
       return data;
     } catch (err) {
-      console.log(err);
+      throw new Error('There was an error with /addBidListing');
     }
   }
 };
@@ -35,7 +35,7 @@ const submitPriceListing = async (product, productDescr, price, tag, imgLink, im
       const { data } = await axios.post('/item/addRegListingPic', formData);
       return data;
     } catch (err) {
-      console.log(err);
+      throw new Error('There was an error with /addRegListingPic');
     }
   } else {
     try {
@@ -44,7 +44,7 @@ const submitPriceListing = async (product, productDescr, price, tag, imgLink, im
       });
       return data;
     } catch (err) {
-      console.log(err);
+      throw new Error('There was an error with /addRegListing');
     }
   }
 };

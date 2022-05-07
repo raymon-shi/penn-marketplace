@@ -44,10 +44,20 @@ test('/item/getRegListings', async () => {
   expect(response).toMatchObject(regListings.reverse());
 });
 
+test('/item/getRegListings throws error', async () => {
+  mock.onGet('/item/getRegListings').networkError();
+  expect(api.getRegListingsApi()).rejects.toThrowError();
+});
+
 test('/item/getBidListings', async () => {
   mock.onGet('/item/getBidListings').reply(200, bidListings);
   const response = await api.getBidListingsApi();
   expect(response).toMatchObject(bidListings.reverse());
+});
+
+test('/item/getBidListings throws error', async () => {
+  mock.onGet('/item/getBidListings').networkError();
+  expect(api.getBidListingsApi()).rejects.toThrowError();
 });
 
 test('/item/getSavedReg', async () => {
@@ -56,8 +66,18 @@ test('/item/getSavedReg', async () => {
   expect(response).toMatchObject(regListings.reverse());
 });
 
+test('/item/getSavedReg throws error', async () => {
+  mock.onGet('/item/getSavedReg').networkError();
+  expect(api.getSavedRegListingsApi()).rejects.toThrowError();
+});
+
 test('/item/getSavedBid', async () => {
   mock.onGet('/item/getSavedBid').reply(200, bidListings);
   const response = await api.getSavedBidListingsApi();
   expect(response).toMatchObject(bidListings.reverse());
+});
+
+test('/item/getSavedBid throws error', async () => {
+  mock.onGet('/item/getSavedBid').networkError();
+  expect(api.getSavedBidListingsApi()).rejects.toThrowError();
 });

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const app = require('./server');
 const User = require('./models/User');
 const ItemBid = require('./models/ItemBid');
+const ItemRegular = require('./models/ItemRegular');
 
 const mongodbUsername = 'penn-marketplace';
 const mongodbPassword = 'hL7OprFhSxfJ6Sst';
@@ -367,3 +368,147 @@ describe('/resetpassword check', () => {
 //     .then(() => ItemBid.findOneAndDelete({ product: 'test77' }))
 //     .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
 // });
+
+describe('/getRegListing/:id', () => {
+  test('/buyer/getRegListing:id status code 200', async () =>
+    request(app)
+    .get('/buyer/getRegListing/626630911a372e8bea7757ba')
+    .expect(200)
+    .then((resp) => expect(resp.body).toMatchObject(
+      {
+        _id: '626630911a372e8bea7757ba',
+        posterName: 'Harrison Ly',
+        itemName: 'lamp2',
+        itemDescr: 'light',
+        price: 149,
+        tag: '',
+        createdAt: '2022-04-25T05:24:33.180Z',
+        updatedAt: '2022-04-25T05:24:33.180Z',
+        __v: 0,
+      }
+    ))
+  );
+  test('/buyer/getRegListing:id status code 500', async () =>
+    request(app)
+      .get('/buyer/getRegListing/123456789')
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('Error with retrieving listing'))
+  );
+});
+
+describe('/getBidListing/:id', () => {
+  test('/buyer/getBidListing:id status code 200', async () =>
+    request(app)
+    .get('/buyer/getBidListing/625381cd146ff361c085606f')
+    .expect(200)
+    .then((resp) => expect(resp.body).toMatchObject(
+      {
+        _id: '625381cd146ff361c085606f',
+        posterName: 'Cindy Chen',
+        itemName: 'beanbag',
+        itemDescr: "great for when you're tired!",
+        media: 'userUploads\\2022-04-11T011805080Zbeanbag.jpg',
+        price: 0,
+        bidHistory: [],
+        tag: 'Housing & Furniture',
+        createdAt: '2022-04-11T01:18:05.111Z',
+        updatedAt: '2022-04-11T01:18:05.111Z',
+        __v: 0
+      }
+    ))
+  );
+  test('/buyer/getBidListing:id status code 500', async () =>
+    request(app)
+      .get('/buyer/getBidListing/123456789')
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('Error with retrieving listing'))
+  );
+});
+
+describe('add and remove item to cart error', () => {
+  test('/signup status code 201', async () =>
+  request(app)
+    .post('/account/signup')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      firstName: 'David',
+      lastName: 'Wang',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2022,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+  test('/login status code 200', async () =>
+    request(app)
+      .post('/account/login')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        password: 'password',
+      })
+      .expect(200));
+
+  test('/addCartRegItem/:id status code 500', async () =>
+    request(app)
+    .post('/buyer/addCartRegItem/123456789')
+    .expect(500)
+    .then((resp) => expect(resp.text).toContain('Error adding item to cart'))
+  );
+
+  test('/RemoveCartRegItem/:id status code 500', async () =>
+  request(app)
+  .post('/buyer/RemoveCartRegItem/123456789')
+  .expect(500)
+  .then((resp) => expect(resp.text).toContain('Error removing item from cart'))
+  .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
+  );
+});
+
+describe('add and remove item from cart success', () => {
+  test('/signup status code 201', async () =>
+  request(app)
+    .post('/account/signup')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      firstName: 'David',
+      lastName: 'Wang',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2022,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+  test('/login status code 200', async () =>
+    request(app)
+      .post('/account/login')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        password: 'password',
+      })
+      .expect(200));
+
+  test('/addCartRegItem/:id status code 200', async () =>
+    request(app)
+    .post('/buyer/addCartRegItem/626630911a372e8bea7757ba')
+    .expect(200)
+    .then((resp) => expect(resp.text).toContain('Regular listing successfully added to cart!'))
+  );
+
+  test('/RemoveCartRegItem/:id status code 200', async () =>
+  request(app)
+  .post('/buyer/RemoveCartRegItem/626630911a372e8bea7757ba')
+  .expect(200)
+  .then((resp) => expect(resp.text).toContain('Regular listing removed successfully from cart!'))
+  .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
+);
+});

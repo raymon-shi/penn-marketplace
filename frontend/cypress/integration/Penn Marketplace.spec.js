@@ -48,7 +48,7 @@ describe('Cypress Testing: Login', () => {
     cy.get('#log-out').click();
     cy.get('#loginFormPennEmail').type('ddwang@seas.upenn.edu');
     cy.get('#loginFormPassword').type('password');
-    cy.get("#loginButton").click();
+    cy.get('#loginButton').click();
     cy.get('#basic-nav-dropdown').click();
     cy.get('#delete-user').click();
   });

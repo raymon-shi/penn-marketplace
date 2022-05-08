@@ -2,8 +2,8 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('./server');
 const User = require('./models/User');
-const ItemBid = require('./models/ItemBid');
 const ItemRegular = require('./models/ItemRegular');
+const Transaction = require('./models/Transaction');
 
 const mongodbUsername = 'penn-marketplace';
 const mongodbPassword = 'hL7OprFhSxfJ6Sst';
@@ -401,21 +401,6 @@ describe('/getBidListing/:id', () => {
     request(app)
     .get('/buyer/getBidListing/625381cd146ff361c085606f')
     .expect(200)
-    .then((resp) => expect(resp.body).toMatchObject(
-      {
-        _id: '625381cd146ff361c085606f',
-        posterName: 'Cindy Chen',
-        itemName: 'beanbag',
-        itemDescr: "great for when you're tired!",
-        media: 'userUploads\\2022-04-11T011805080Zbeanbag.jpg',
-        price: 0,
-        bidHistory: [],
-        tag: 'Housing & Furniture',
-        createdAt: '2022-04-11T01:18:05.111Z',
-        updatedAt: '2022-04-11T01:18:05.111Z',
-        __v: 0
-      }
-    ))
   );
   test('/buyer/getBidListing:id status code 500', async () =>
     request(app)
@@ -426,8 +411,9 @@ describe('/getBidListing/:id', () => {
 });
 
 describe('add and remove item to cart error', () => {
+  const agent = request.agent(app);
   test('/signup status code 201', async () =>
-  request(app)
+  agent
     .post('/account/signup')
     .send({
       email: 'ddwang@seas.upenn.edu',
@@ -445,7 +431,7 @@ describe('add and remove item to cart error', () => {
     .then((resp) => expect(resp.text).toContain('was successfully created!')));
 
   test('/login status code 200', async () =>
-    request(app)
+    agent
       .post('/account/login')
       .send({
         email: 'ddwang@seas.upenn.edu',
@@ -454,24 +440,25 @@ describe('add and remove item to cart error', () => {
       .expect(200));
 
   test('/addCartRegItem/:id status code 500', async () =>
-    request(app)
-    .post('/buyer/addCartRegItem/123456789')
-    .expect(500)
-    .then((resp) => expect(resp.text).toContain('Error adding item to cart'))
+    agent
+      .post('/buyer/addCartRegItem/123456789')
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('Error adding item to cart'))
   );
 
   test('/RemoveCartRegItem/:id status code 500', async () =>
-  request(app)
-  .post('/buyer/RemoveCartRegItem/123456789')
-  .expect(500)
-  .then((resp) => expect(resp.text).toContain('Error removing item from cart'))
-  .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
-  );
+    agent
+      .post('/buyer/RemoveCartRegItem/123456789')
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('Error removing item from cart'))
+      .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
+    );
 });
 
-describe('add and remove item from cart success', () => {
+describe('add item to cart success', () => {
+  const agent = request.agent(app);
   test('/signup status code 201', async () =>
-  request(app)
+  agent
     .post('/account/signup')
     .send({
       email: 'ddwang@seas.upenn.edu',
@@ -489,7 +476,7 @@ describe('add and remove item from cart success', () => {
     .then((resp) => expect(resp.text).toContain('was successfully created!')));
 
   test('/login status code 200', async () =>
-    request(app)
+    agent
       .post('/account/login')
       .send({
         email: 'ddwang@seas.upenn.edu',
@@ -497,18 +484,453 @@ describe('add and remove item from cart success', () => {
       })
       .expect(200));
 
-  test('/addCartRegItem/:id status code 200', async () =>
-    request(app)
-    .post('/buyer/addCartRegItem/626630911a372e8bea7757ba')
-    .expect(200)
-    .then((resp) => expect(resp.text).toContain('Regular listing successfully added to cart!'))
+  test('/addCartRegItem/:id 200', async () => 
+    agent
+      .post('/buyer/addCartRegItem/626630911a372e8bea7757ba')
+      .expect(200)
+      .then((resp) => expect(resp.text).toContain('Regular listing successfully added to cart!'))
+  );
+  
+  test('/cart status 200', async () => 
+    agent
+      .get('/buyer/cart')
+      .expect(200)
+      .then((resp) => expect(resp.body).toEqual(
+          [
+            {
+              _id: '626630911a372e8bea7757ba',
+              posterName: 'Harrison Ly',
+              itemName: 'lamp2',
+              itemDescr: 'light',
+              price: 149,
+              tag: '',
+              createdAt: '2022-04-25T05:24:33.180Z',
+              updatedAt: '2022-04-25T05:24:33.180Z',
+              __v: 0
+            }
+          ]
+      ))
+      .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
+  );
+});
+
+describe('remove item from cart success', () => {
+  const agent = request.agent(app);
+  test('/signup status code 201', async () =>
+  agent
+    .post('/account/signup')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      firstName: 'David',
+      lastName: 'Wang',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2022,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+  test('/login status code 200', async () =>
+    agent
+      .post('/account/login')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        password: 'password',
+      })
+      .expect(200));
+
+  test('/addCartRegItem/:id 200', async () => 
+    agent
+      .post('/buyer/addCartRegItem/626630911a372e8bea7757ba')
+      .expect(200)
+      .then((resp) => expect(resp.text).toContain('Regular listing successfully added to cart!'))
   );
 
-  test('/RemoveCartRegItem/:id status code 200', async () =>
-  request(app)
-  .post('/buyer/RemoveCartRegItem/626630911a372e8bea7757ba')
-  .expect(200)
-  .then((resp) => expect(resp.text).toContain('Regular listing removed successfully from cart!'))
-  .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
-);
+  test('/removeCartRegItem/:id 200', async () => 
+    agent
+      .post('/buyer/removeCartRegItem/626630911a372e8bea7757ba')
+      .expect(200)
+      .then((resp) => expect(resp.text).toContain('Regular listing removed successfully from cart!'))
+  );
+  
+  test('/cart status 200', async () => 
+    agent
+      .get('/buyer/cart')
+      .expect(200)
+      .then((resp) => expect(resp.body).toEqual([]))
+      .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
+  );
+});
+
+describe('/buyer/cart error 500', () => {
+  const agent = request.agent(app);
+  test('/cart status 500', async () => 
+    agent
+      .get('/buyer/cart')
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('Error with retrieving cart'))
+  );
+});
+
+describe('add regular and bid item to watchlist error', () => {
+  const agent = request.agent(app);
+  test('/addWatchRegItem/:id status 500', async () => 
+    agent
+      .post('/buyer/addWatchRegItem/123456789')
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('Error with adding reg item to watchlist'))
+  );
+
+  test('/addWatchBidItem/:id status 500', async () => 
+  agent
+    .post('/buyer/addWatchBidItem/123456789')
+    .expect(500)
+    .then((resp) => expect(resp.text).toContain('Error with adding bid item to watchlist'))
+  );
+});
+
+describe('add and remove reg item to watchlist success', () => {
+  const agent = request.agent(app);
+  test('/signup status code 201', async () =>
+  agent
+    .post('/account/signup')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      firstName: 'David',
+      lastName: 'Wang',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2022,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+  test('/login status code 200', async () =>
+    agent
+      .post('/account/login')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        password: 'password',
+      })
+      .expect(200));
+
+  test('/addWatchRegItem/:id 200', async () => 
+    agent
+      .post('/buyer/addWatchRegItem/626630911a372e8bea7757ba')
+      .expect(200)
+      .then((resp) => expect(resp.text).toContain('Regular listing successfully added to watchlist!'))
+  );
+
+  test('/addWatchBidItem/:id 200', async () => 
+  agent
+    .post('/buyer/addWatchBidItem/625381cd146ff361c085606f')
+    .expect(200)
+    .then((resp) => expect(resp.text).toContain('Bid listing successfully added to watchlist!'))
+    .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
+  );
+});
+
+describe('add bid error', () => {
+  const agent = request.agent(app);
+  test('/addBid/:id status 500', async () => 
+    agent
+      .post('/buyer/addBid/123456789')
+      .send({ bid: 10 })
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('Error with adding bid to item'))
+  );
+});
+
+describe('add bid success', () => {
+  const agent = request.agent(app);
+  test('/signup status code 201', async () =>
+  agent
+    .post('/account/signup')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      firstName: 'David',
+      lastName: 'Wang',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2022,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!'))
+  );
+
+  test('/login status code 200', async () =>
+    agent
+      .post('/account/login')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        password: 'password',
+      })
+      .expect(200)
+  );
+
+  test('/addBid/:id status code 200', async () => 
+    agent
+      .post('/buyer/addBid/625381cd146ff361c085606f')
+      .send({ bid: 10 })
+      .expect(200)
+      .then((resp) => expect(resp.text).toContain('Bid placed successfully'))
+      .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
+  );
+});
+
+describe('regTransaction status code 500', () => {
+  const agent = request.agent(app);
+  test('/buyer/regTransaction status code 500', async () =>
+    agent
+      .post('/buyer/regTransaction')
+      .send(
+        {
+          sellerName: '',
+          listingRegular: {},
+          totalCost: 0,
+          info: {},
+        }
+      )
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('Error with completing Transaction'))
+  );
+});
+
+describe('regTransaction status code 201', () => {
+  const agent = request.agent(app);
+  test('/signup status code 201', async () =>
+  agent
+    .post('/account/signup')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      firstName: 'David',
+      lastName: 'Wang',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2022,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!'))
+  );
+
+  test('/login status code 200', async () =>
+    agent
+      .post('/account/login')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        password: 'password',
+      })
+      .expect(200)
+  );
+  test('/item/addRegListing status code 201', async () => 
+    agent
+      .post('/item/addRegListing')
+      .send(
+        {
+          product: 'productName',
+          productDescr: 'productDescr',
+          price: 111,
+          tag: '',
+        }
+      )
+      .expect(201)
+      .then((resp) => expect(resp.text).toContain('Regular listing was successfully posted!'))
+  );
+  test('/logout 200', async () => 
+    agent
+      .post('/account/logout')
+      .then((resp) => expect(resp.text).toContain('has been logged out!'))
+  );
+  test('/signup status code 201', async () =>
+  agent
+    .post('/account/signup')
+    .send({
+      email: 'calvinhu@seas.upenn.edu',
+      firstName: 'Calvin',
+      lastName: 'Hu',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2023,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!'))
+  );
+
+  test('/login status code 200', async () =>
+    agent
+      .post('/account/login')
+      .send({
+        email: 'calvinhu@seas.upenn.edu',
+        password: 'password',
+      })
+      .expect(200)
+  );
+
+  test('/buyer/regTransaction', async () => 
+    agent
+      .post('/buyer/regTransaction')
+      .send(
+        {
+          sellerName: 'David Wang',
+          listingRegular: {},
+          totalCost: 111,
+          info: {},
+        }
+      )
+      .expect(201)
+      .then((resp) => expect(resp.body).toMatchObject({
+        seller: 'David Wang',
+        buyer: 'Calvin Hu',
+        totalCost: 111,
+      }))
+      .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
+      .then(() => User.findOneAndDelete({ email: 'calvinhu@seas.upenn.edu' }))
+      .then(() => Transaction.findOneAndDelete({ seller: 'David Wang' }))
+      .then(() => ItemRegular.findOneAndDelete({ posterName: 'David Wang' }))
+    );
+});
+
+describe('/addTransaction error status 500', () => {
+  const agent = request.agent(app);
+  test('/buyer/addTransaction status 500', async () => {
+    agent
+      .post('/buyer/addTransaction')
+      .expect(500)
+      .then((resp) => expect(resp.text).toContain('Error with completing Transaction'));
+  });
+});
+
+describe('addTransaction status code 200', () => {
+  const agent = request.agent(app);
+  test('/signup status code 201', async () =>
+  agent
+    .post('/account/signup')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      firstName: 'David',
+      lastName: 'Wang',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2022,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!'))
+  );
+
+  test('/login status code 200', async () =>
+    agent
+      .post('/account/login')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        password: 'password',
+      })
+      .expect(200)
+  );
+  test('/item/addRegListing status code 201', async () => 
+    agent
+      .post('/item/addRegListing')
+      .send(
+        {
+          product: 'productName',
+          productDescr: 'productDescr',
+          price: 111,
+          tag: '',
+        }
+      )
+      .expect(201)
+      .then((resp) => expect(resp.text).toContain('Regular listing was successfully posted!'))
+  );
+  test('/logout 200', async () => 
+    agent
+      .post('/account/logout')
+      .then((resp) => expect(resp.text).toContain('has been logged out!'))
+  );
+  test('/signup status code 201', async () =>
+  agent
+    .post('/account/signup')
+    .send({
+      email: 'calvinhu@seas.upenn.edu',
+      firstName: 'Calvin',
+      lastName: 'Hu',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2023,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!'))
+  );
+
+  test('/login status code 200', async () =>
+    agent
+      .post('/account/login')
+      .send({
+        email: 'calvinhu@seas.upenn.edu',
+        password: 'password',
+      })
+      .expect(200)
+  );
+
+  test('/buyer/regTransaction', async () => 
+    agent
+      .post('/buyer/regTransaction')
+      .send(
+        {
+          sellerName: 'David Wang',
+          totalCost: 111,
+        }
+      )
+      .expect(201)
+      .then((resp) => expect(resp.body).toMatchObject(
+        {
+          seller: 'David Wang',
+          totalCost: 111,
+          buyer: 'Calvin Hu',
+        }
+      ))
+  );
+
+    test('/buyer/addTransaction', async () =>
+      agent
+        .post('/buyer/addTransaction')
+        .send({ transaction: {
+          seller: 'David Wang',
+          buyer: 'Calvin Hu',
+          totalCost: 111,
+        } 
+      })
+        .expect(200)
+        .then((resp) => expect(resp.text).toContain('Transaction successfully processed'))
+        .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
+        .then(() => User.findOneAndDelete({ email: 'calvinhu@seas.upenn.edu' }))
+        .then(() => ItemRegular.findOneAndDelete({ posterName: 'David Wang'}))
+        .then(() => Transaction.findOneAndDelete({ seller: 'David Wang' }))
+  );
 });

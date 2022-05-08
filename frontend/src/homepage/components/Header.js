@@ -16,6 +16,15 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
 
   const navigate = useNavigate();
 
+  const deleteUser = async () => {
+    try {
+      await axios.post('/account/deleteuser', { name: username });
+      window.location.href = 'http://localhost:3000/login';
+    } catch (error) {
+      alert('There was an error deleting the user!');
+    }
+  };
+
   return (
     <Navbar className="header flex-column py-0" variant="dark" fixed="top">
       <Container className="m-0 top py-0" style={{ flexWrap: 'wrap', maxWidth: 'none' }}>
@@ -75,6 +84,12 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
               <NavDropdown title="More" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/account">Dashboard</NavDropdown.Item>
                 <NavDropdown.Item href="/seller">Sell</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => {
+                  deleteUser();
+                  userLoggedOut();
+                }}
+                >Delete Account
+                </NavDropdown.Item>
                 <NavDropdown.Item onClick={userLoggedOut}>Logout</NavDropdown.Item>
               </NavDropdown>
             </>

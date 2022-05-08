@@ -120,6 +120,18 @@ router.post('/resetpassword', async (req, res, next) => {
   }
 });
 
+router.post('/deleteuser', async (req, res, next) => {
+  const { body } = req;
+  const { name } = body;
+
+  try {
+    const user = await User.findOneAndDelete({ name });
+    res.send('User was deleted');
+  } catch (error) {
+    next(new Error('Could not delete user'));
+  }
+});
+
 // Route find a user(s) filtering on LIKE name
 router.post('/findUsersOnName', async (req, res) => {
   const pattern = new RegExp(`${req.body.name}`, 'i');

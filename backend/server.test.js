@@ -4,6 +4,7 @@ const app = require('./server');
 const User = require('./models/User');
 const ItemRegular = require('./models/ItemRegular');
 const Transaction = require('./models/Transaction');
+const ItemBid = require('./models/ItemBid');
 
 const mongodbUsername = 'penn-marketplace';
 const mongodbPassword = 'hL7OprFhSxfJ6Sst';
@@ -810,6 +811,8 @@ describe('regTransaction status code 201', () => {
     );
 });
 
+
+
 describe('/addTransaction error status 500', () => {
   const agent = request.agent(app);
   test('/buyer/addTransaction status 500', async () => {
@@ -934,3 +937,131 @@ describe('addTransaction status code 200', () => {
         .then(() => Transaction.findOneAndDelete({ seller: 'David Wang' }))
   );
 });
+describe('/search returns regular listing items', () => {
+  const agent = request.agent(app);
+  test('/signup status code 201', async () =>
+    agent
+      .post('/account/signup')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        firstName: 'David',
+        lastName: 'Wang',
+        password: 'password',
+        month: 'January',
+        day: '1',
+        year: '1990',
+        major: 'Computer Science',
+        school: 'School of Engineering and Applied Sciences',
+        classYear: 2022,
+      })
+      .expect(201)
+      .then((resp) => expect(resp.text).toContain('was successfully created!'))
+  );
+
+  test('/login status code 200', async () =>
+    agent
+      .post('/account/login')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        password: 'password',
+      })
+      .expect(200)
+  );
+  test('/item/addRegListing status code 201', async () => 
+    agent
+      .post('/item/addRegListing')
+      .send(
+        {
+          product: 'productName',
+          productDescr: 'productDescr',
+          price: 111,
+          tag: '',
+        }
+      )
+      .expect(201)
+      .then((resp) => expect(resp.text).toContain('Regular listing was successfully posted!'))
+  );
+  test('/search result has correct regular listings', async () =>
+    agent
+        .post('/item/search')
+        .send(
+          {
+            filter: 'productName',
+            label: '',
+          }
+        )
+        .then((resp) => expect(resp.body[0].itemName).toContain('productName'))
+  );
+  test('/logout 200', async () => 
+    agent
+      .post('/account/logout')
+      .then((resp) => expect(resp.text).toContain('has been logged out!'))
+      .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
+      .then(() => ItemRegular.findOneAndDelete({ posterName: 'David Wang' }))
+  );
+});
+
+describe('/bidSearch returns bid listing items', () => {
+  const agent = request.agent(app);
+  test('/signup status code 201', async () =>
+    agent
+      .post('/account/signup')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        firstName: 'David',
+        lastName: 'Wang',
+        password: 'password',
+        month: 'January',
+        day: '1',
+        year: '1990',
+        major: 'Computer Science',
+        school: 'School of Engineering and Applied Sciences',
+        classYear: 2022,
+      })
+      .expect(201)
+      .then((resp) => expect(resp.text).toContain('was successfully created!'))
+  );
+
+  test('/login status code 200', async () =>
+    agent
+      .post('/account/login')
+      .send({
+        email: 'ddwang@seas.upenn.edu',
+        password: 'password',
+      })
+      .expect(200)
+  );
+  test('/item/addBidListing status code 201', async () => 
+    agent
+      .post('/item/addBidListing')
+      .send(
+        {
+          product: 'productName',
+          productDescr: 'productDescr',
+          tag: 'Clothes',
+        }
+      )
+      .expect(201)
+      .then((resp) => expect(resp.text).toContain('Bid listing was successfully posted!'))
+  );
+  test('/bidSearch result has correct bid listings', async () =>
+    agent
+        .post('/item/bidSearch')
+        .send(
+          {
+            filter: 'productName',
+            label: 'Clothes',
+          }
+        )
+        .then((resp) => expect(resp.body[0].itemName).toContain('productName'))
+  );
+  test('/logout 200', async () => 
+    agent
+      .post('/account/logout')
+      .then((resp) => expect(resp.text).toContain('has been logged out!'))
+      .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
+      .then(() => ItemRegular.findOneAndDelete({ posterName: 'David Wang' }))
+  );
+});
+
+

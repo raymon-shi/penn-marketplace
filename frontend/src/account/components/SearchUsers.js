@@ -136,8 +136,8 @@ const SearchUsers = ({ userProfile }) => {
     <div>
       Search for user(s) by name, and give them a review, follow them, or block them.
       <div>
-        <input type="text" style={inputStyle} placeholder="Search for users..." ref={searchInput} />
-        <button type="submit" style={searchButtonStyle} onClick={searchUsers}>Search</button>
+        <input type="text" id="search-user-input" style={inputStyle} placeholder="Search for users..." ref={searchInput} />
+        <button id="search-user-button" type="submit" style={searchButtonStyle} onClick={searchUsers}>Search</button>
       </div>
       {matchedUsers.length === 0 ? null
         : (
@@ -155,7 +155,7 @@ const SearchUsers = ({ userProfile }) => {
                     <button type="button" value={index} onClick={showReportBox}>Report</button>
                   </div>
                   <div className="table-item">
-                    <button type="button" value={index} onClick={handleFollow}>Follow</button>
+                    <button id="search-user-follow" type="button" value={index} onClick={handleFollow}>Follow</button>
                   </div>
                   <div className="table-item">
                     <button type="button" value={index} onClick={handleBlock}>Block</button>
@@ -165,8 +165,8 @@ const SearchUsers = ({ userProfile }) => {
             </div>
           </div>
         )}
-      <Modal show={showFollow} onHide={() => { setShowFollow(false); }} backdrop="static" keyboard={false}>
-        <Modal.Header closeButton />
+      <Modal show={showFollow} onHide={() => { setShowFollow(false); }}>
+        <Modal.Header id="modal-header" closeButton />
         <Modal.Body>
           {alreadyDone.current ? `You are already following ${selectedUser.current.name}.` : `You are now following ${selectedUser.current.name}.`}
         </Modal.Body>

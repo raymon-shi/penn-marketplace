@@ -34,7 +34,8 @@ router.post('/addTransaction', async (req, res) => {
   try {
     await User.findOneAndUpdate(
       { email: req.session.email },
-      { $addToSet: { transactionHistory: transaction }});
+      { $addToSet: { transactionHistory: transaction } },
+    );
     await User.findOneAndUpdate(
       { name: transaction.buyer },
       { $addToSet: { transactionHistory: transaction } },

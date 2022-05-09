@@ -16,9 +16,7 @@ const mongodbPassword = 'hL7OprFhSxfJ6Sst';
 const mongodbDatabaseName = 'Penn-Marketplace';
 
 const port = process.env.PORT || 8080;
-const MONGO_URI =
-  process.env.MONGODB_URI ||
-  `mongodb+srv://${mongodbUsername}:${mongodbPassword}@penn-marketplace.6si5d.mongodb.net/${mongodbDatabaseName}?retryWrites=true&w=majority`;
+const MONGO_URI = process.env.MONGODB_URI || `mongodb+srv://${mongodbUsername}:${mongodbPassword}@penn-marketplace.6si5d.mongodb.net/${mongodbDatabaseName}?retryWrites=true&w=majority`;
 
 // mongodb connection
 mongoose.connect(MONGO_URI, {

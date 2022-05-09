@@ -35,9 +35,12 @@ router.post('/addCartRegItem/:id', async (req, res) => {
     // const item = await ItemRegular.findById(req.params.id);
     const itemId = req.params.id;
     await User.findOneAndUpdate(
-      { email: req.session.email,
-        'shoppingCart._id': { $ne: req.params.id }},
-      { $addToSet: { shoppingCart: itemId }});
+      {
+        email: req.session.email,
+        'shoppingCart._id': { $ne: req.params.id },
+      },
+      { $addToSet: { shoppingCart: itemId } },
+    );
     res.status(200).send('Regular listing successfully added to cart!');
   } catch (error) {
     res.status(500).send('An unknown error occured');
@@ -50,9 +53,7 @@ router.post('/removeCartRegItem/:id', async (req, res) => {
   try {
     // const item = await ItemRegular.findById(req.params.id);
     const itemId = req.params.id;
-    await User.findOneAndUpdate(
-      { email: req.session.email },
-      { $pull: { shoppingCart: itemId }});
+    await User.findOneAndUpdate({ email: req.session.email }, { $pull: { shoppingCart: itemId } });
     res.status(200).send('Regular listing removed successfully from cart!');
   } catch (error) {
     res.status(500).send('Error removing item from cart');
@@ -74,10 +75,7 @@ router.get('/cart', async (req, res, next) => {
 router.post('/addWatchRegItem/:id', async (req, res) => {
   try {
     const item = await ItemRegular.findById(req.params.id);
-    await User.findOneAndUpdate(
-      { email: req.session.email, 
-        'shoppingCart._id': { $ne: req.params.id }},
-      { $addToSet: { watchlistRegular: item }});
+    await User.findOneAndUpdate({ email: req.session.email, 'shoppingCart._id': { $ne: req.params.id } }, { $addToSet: { watchlistRegular: item } });
     res.status(200).send('Regular listing successfully added to watchlist!');
   } catch (error) {
     res.status(500).send('Error with adding reg item to watchlist');
@@ -88,10 +86,7 @@ router.post('/addWatchRegItem/:id', async (req, res) => {
 router.post('/addWatchBidItem/:id', async (req, res) => {
   try {
     const item = await ItemBid.findById(req.params.id);
-    await User.findOneAndUpdate(
-      { email: req.session.email, 
-        'shoppingCart._id': { $ne: req.params.id }},
-      { $addToSet: { watchlistBid: item }});
+    await User.findOneAndUpdate({ email: req.session.email, 'shoppingCart._id': { $ne: req.params.id } }, { $addToSet: { watchlistBid: item } });
     res.status(200).send('Bid listing successfully added to watchlist!');
   } catch (error) {
     res.status(500).send('Error with adding bid item to watchlist');

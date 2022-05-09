@@ -16,6 +16,29 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
 
   const navigate = useNavigate();
 
+  const onClickHandler = () => {
+    setShowFriends(true);
+  };
+
+  const renderFriends = () => (
+    showFriends ? (<Chat showFriends={showFriends} setShowFriends={setShowFriends} username={username} />) : null
+  );
+
+  const navigateTextbooks = () => {
+    navigate('/results', { state: { query: '', category: 'Textbooks' } });
+  };
+
+  const navigateServices = () => {
+    navigate('/results', { state: { query: '', category: 'Services' } });
+  };
+
+  const navigateClothes = () => {
+    navigate('/results', { state: { query: '', category: 'Clothes' } });
+  };
+
+  const navigateHousing = () => {
+    navigate('/results', { state: { query: '', category: 'housing' } });
+   
   const deleteUser = async () => {
     try {
       await axios.post('/account/deleteuser', { name: username });
@@ -60,15 +83,8 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
 
           {loggedIn ? (
             <>
-              <Button
-                className="friends me-2 btn-sm"
-                variant="primary"
-                onClick={() => {
-                  setShowFriends(true);
-                }}
-              >Friends
-              </Button>
-              {showFriends && <Chat showFriends={showFriends} setShowFriends={setShowFriends} username={username} />}
+              <Button className="friends me-2 btn-sm" variant="primary" onClick={onClickHandler}>Friends</Button>
+              {renderFriends()}
               <Button className="login me-2 btn-sm" onClick={() => navigate('/account')}>Dashboard</Button>
               <p
                 className="ms-2 me-3"
@@ -107,10 +123,10 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
       </Container>
       <Container className="m-0 bottom" style={{ maxWidth: 'none' }}>
         <Nav className="m-0 bottom" style={{ flexWrap: 'wrap' }}>
-          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'Textbooks' } })}>Textbooks</Button>
-          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'Services' } })}>Services</Button>
-          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'Clothes' } })}>Clothes</Button>
-          <Button active variant="light" onClick={() => navigate('/results', { state: { query: '', category: 'housing' } })}>Housing &amp; Furniture</Button>
+          <Button active variant="light" onClick={navigateTextbooks}>Textbooks</Button>
+          <Button active variant="light" onClick={navigateServices}>Services</Button>
+          <Button active variant="light" onClick={navigateClothes}>Clothes</Button>
+          <Button active variant="light" onClick={navigateHousing}>Housing &amp; Furniture</Button>
         </Nav>
       </Container>
     </Navbar>

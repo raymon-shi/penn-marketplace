@@ -6,11 +6,9 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
-//import renderer from 'react-test-renderer';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import Header from '../components/Header';
-
 
 describe('UI Testing for Header Component in Homepage', () => {
   test('Test 1: Penn Marketplace Header', () => {

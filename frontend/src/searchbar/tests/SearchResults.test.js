@@ -2,21 +2,21 @@
  * @jest-environment jsdom
  */
 
- import { render, screen } from '@testing-library/react';
- import React from 'react';
- import '@testing-library/jest-dom';
- import '@testing-library/jest-dom/extend-expect';
- import { BrowserRouter } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
+import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/extend-expect';
+import { BrowserRouter } from 'react-router-dom';
 import Searchbar from '../components/Searchbar';
 
- describe('UI Testing for SearchBar component', () => {
+describe('UI Testing for SearchBar component', () => {
   test('Test 1: Elements', () => {
     render(
       <BrowserRouter>
-       <Searchbar />
-      </BrowserRouter>
+        <Searchbar />
+      </BrowserRouter>,
     );
-    const searchInput = screen.getByPlaceholderText("Explore the Penn Marketplace");
+    const searchInput = screen.getByPlaceholderText('Explore the Penn Marketplace');
     const filterSelect = screen.getByText('All');
     const filterOption1 = screen.getByText('Textbooks');
     const filterOption2 = screen.getByText('Services');
@@ -24,7 +24,7 @@ import Searchbar from '../components/Searchbar';
     const filterOption4 = screen.getByText('Housing & Furniture');
 
     const submitBtn = screen.getByRole('button');
-    const queryForm = screen.getByRole('form', {name: 'queryForm'});
+    const queryForm = screen.getByRole('form', { name: 'queryForm' });
 
     expect(searchInput).toBeInTheDocument();
     expect(filterSelect).toBeInTheDocument();
@@ -36,4 +36,4 @@ import Searchbar from '../components/Searchbar';
     expect(submitBtn).toBeInTheDocument();
     expect(queryForm).toBeInTheDocument();
   });
- });
+});

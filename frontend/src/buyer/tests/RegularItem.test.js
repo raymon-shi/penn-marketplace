@@ -2,34 +2,34 @@
  * @jest-environment jsdom
  */
 
- import { render, screen } from '@testing-library/react';
- import React from 'react';
- import '@testing-library/jest-dom';
- import '@testing-library/jest-dom/extend-expect';
- import { BrowserRouter } from 'react-router-dom';
- import RegularItem from '../components/RegularItem';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
+import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/extend-expect';
+import { BrowserRouter } from 'react-router-dom';
+import RegularItem from '../components/RegularItem';
 
- describe('UI Testing for RegularItem component', () => {
-   test('Test 1: Item information', () => {
-     render(
-       <BrowserRouter>
-        <RegularItem username={'user'}/>
-       </BrowserRouter>
-     );
-     const backToListings = screen.getByText('Back to listings');
-     const tags = screen.getByText('Tags:');
-     const price = screen.getByText('Price:');
-     const bold = screen.getByText('US $0');
-     expect(backToListings).toBeInTheDocument();
-     expect(tags).toBeInTheDocument();
-     expect(price).toBeInTheDocument();
-     expect(bold).toBeInTheDocument();
-   });
-   test('Test 2: Seller information', () => {
+describe('UI Testing for RegularItem component', () => {
+  test('Test 1: Item information', () => {
     render(
       <BrowserRouter>
-       <RegularItem username={'user'}/>
-      </BrowserRouter>
+        <RegularItem username="user" />
+      </BrowserRouter>,
+    );
+    const backToListings = screen.getByText('Back to listings');
+    const tags = screen.getByText('Tags:');
+    const price = screen.getByText('Price:');
+    const bold = screen.getByText('US $0');
+    expect(backToListings).toBeInTheDocument();
+    expect(tags).toBeInTheDocument();
+    expect(price).toBeInTheDocument();
+    expect(bold).toBeInTheDocument();
+  });
+  test('Test 2: Seller information', () => {
+    render(
+      <BrowserRouter>
+        <RegularItem username="user" />
+      </BrowserRouter>,
     );
     const seller = screen.getByText('Seller Information');
     const follow = screen.getByText('Follow Seller');
@@ -41,8 +41,8 @@
   test('Test 3: Buttons', () => {
     render(
       <BrowserRouter>
-       <RegularItem username={'user'}/>
-      </BrowserRouter>
+        <RegularItem username="user" />
+      </BrowserRouter>,
     );
     const buyBtn = screen.getByText('Buy It Now');
     const cartBtn = screen.getByText('Add To Cart');
@@ -51,4 +51,4 @@
     expect(cartBtn).toBeInTheDocument();
     expect(saveBtn).toBeInTheDocument();
   });
- });
+});

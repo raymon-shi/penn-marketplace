@@ -9,16 +9,16 @@ beforeAll(() => {
 });
 
 const regListing = {
-  _id: "6249153f00dd4eb3213d55f8",
-  posterName: "Damon Luong",
-  itemName: "xD2",
-  itemDescr: "xDescr2",
+  _id: '6249153f00dd4eb3213d55f8',
+  posterName: 'Damon Luong',
+  itemName: 'xD2',
+  itemDescr: 'xDescr2',
   price: 11,
-  tag: "Services",
+  tag: 'Services',
 };
 
 const bidListing = {
-  _id: "6249d5930152fbb6d1bd87e0",
+  _id: '6249d5930152fbb6d1bd87e0',
   posterNAme: 'Harrison Ly',
   itemName: 'lampagain',
   itemDescr: 'lighting',
@@ -28,7 +28,7 @@ const bidListing = {
 };
 
 const updatedBidListing = {
-  _id: "6249d5930152fbb6d1bd87e0",
+  _id: '6249d5930152fbb6d1bd87e0',
   posterNAme: 'Harrison Ly',
   itemName: 'lampagain',
   itemDescr: 'lighting',
@@ -39,11 +39,11 @@ const updatedBidListing = {
 
 const cart = {
   shoppingCart: [regListing],
-}
+};
 
 const savedReg = {
   watchlistRegular: [regListing],
-}
+};
 
 const savedbid = {
   watchlistBid: [bidListing],
@@ -104,7 +104,7 @@ test('/buyer/addCartRegItem/:id', async () => {
 });
 
 test('/buyer/addCartRegItem/:id throws error', async () => {
-  mock.onPost(`/buyer/addCartRegItem`).networkError();
+  mock.onPost('/buyer/addCartRegItem').networkError();
   expect(api.addCart()).rejects.toThrowError();
 });
 
@@ -115,7 +115,7 @@ test('/buyer/addWatchRegItem/:id', async () => {
 });
 
 test('/buyer/addWatchRegItem/:id throws error', async () => {
-  mock.onPost(`/buyer/addWatchRegItem`).networkError();
+  mock.onPost('/buyer/addWatchRegItem').networkError();
   expect(api.saveReg()).rejects.toThrowError();
 });
 
@@ -126,18 +126,18 @@ test('/buyer/addWatchBidItem/:id', async () => {
 });
 
 test('/buyer/addWatchBidItem/:id throws error', async () => {
-  mock.onPost(`/buyer/addWatchBidItem`).networkError();
+  mock.onPost('/buyer/addWatchBidItem').networkError();
   expect(api.saveBid()).rejects.toThrowError();
 });
 
 test('/buyer/removeCartRegItem/:id', async () => {
-  mock.onPost(`/buyer/removeCartRegItem/${regListing._id}`).reply(200, { shoppingCart: []});
+  mock.onPost(`/buyer/removeCartRegItem/${regListing._id}`).reply(200, { shoppingCart: [] });
   const response = await api.handleRemoveReg(regListing._id);
   expect(response).toMatchObject({ shoppingCart: [] });
 });
 
 test('/buyer/removeCartRegItem/:id throws error', async () => {
-  mock.onPost(`/buyer/removeCartRegItem`).networkError();
+  mock.onPost('/buyer/removeCartRegItem').networkError();
   expect(api.handleRemoveReg()).rejects.toThrowError();
 });
 
@@ -148,7 +148,7 @@ test('/buyer/addBid/:id', async () => {
 });
 
 test('/buyer/addBid/:id throws error', async () => {
-  mock.onPost(`/buyer/addBid`).networkError();
+  mock.onPost('/buyer/addBid').networkError();
   expect(api.addBid()).rejects.toThrowError();
 });
 
@@ -159,7 +159,7 @@ test('/seller/acceptBid', async () => {
 });
 
 test('/buyer/acceptBid throws error', async () => {
-  mock.onPost(`/buyer/acceptBid`).networkError();
+  mock.onPost('/buyer/acceptBid').networkError();
   expect(api.acceptBid()).rejects.toThrowError();
 });
 
@@ -170,7 +170,7 @@ test('/buyer/regTransaction', async () => {
 });
 
 test('/buyer/regTransaction throws error', async () => {
-  mock.onPost(`/buyer/regTransaction`).networkError();
+  mock.onPost('/buyer/regTransaction').networkError();
   expect(api.regTransaction()).rejects.toThrowError();
 });
 
@@ -181,6 +181,6 @@ test('/seller/addTransaction', async () => {
 });
 
 test('/buyer/addTransaction throws error', async () => {
-  mock.onPost(`/seller/addTransaction`).networkError();
+  mock.onPost('/seller/addTransaction').networkError();
   expect(api.addTransaction()).rejects.toThrowError();
 });

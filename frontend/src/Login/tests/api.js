@@ -44,7 +44,18 @@ const resettingPassword = async (email, password) => {
   }
 };
 
-const signup = async (email, firstName, lastName, password, month, day, year, major, school, classYear) => {
+const signup = async (
+  email,
+  firstName,
+  lastName,
+  password,
+  month,
+  day,
+  year,
+  major,
+  school,
+  classYear,
+) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',

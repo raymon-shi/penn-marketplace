@@ -6,10 +6,10 @@ import '../styles/Item.css';
 const RegularItem = ({ username }) => {
   // retrieve information about the specific item (from Homepage.js when you click on a slide)
   const { state } = useLocation();
-  let { itemId, posterName } = { itemId: 0, posterName: ' '};
+  let { itemId, posterName } = { itemId: 0, posterName: ' ' };
   if (state) {
-     itemId = state.itemId;
-     posterName = state.posterName;
+    itemId = state.itemId;
+    posterName = state.posterName;
   }
   const defaultListing = {
     _id: 0,
@@ -57,12 +57,10 @@ const RegularItem = ({ username }) => {
   return (
     <div className="item-container">
       <div className="item-col">
-        <a href="/" aria-label="link to listings page">Back to listings</a>
-        {listing.media && listing.media !== ''
-          ? (
-            <img className="item-image" src={listing.media} alt="product" />
-          )
-          : <div />}
+        <a href="/" aria-label="link to listings page">
+          Back to listings
+        </a>
+        {listing.media && listing.media !== '' ? <img className="item-image" src={listing.media} alt="product" /> : <div />}
         <p className="item-text">Tags: {listing.tag}</p>
       </div>
       <div className="item-col">
@@ -70,17 +68,22 @@ const RegularItem = ({ username }) => {
         <hr className="item-solid" />
         <p className="item-text">{listing.itemDescr}</p>
         <hr className="item-solid" />
-        <p className="item-text">Price: <b>US ${listing.price}</b></p>
-        { posterName !== username ? (
+        <p className="item-text">
+          Price: <b>US ${listing.price}</b>
+        </p>
+        {posterName !== username ? (
           <>
-            <a href="/ItemCheckout" className="buyButton" onClick={handleCheckout}>Buy It Now</a>
-            <a href="/cart" className="cartButton" onClick={handleCart}>Add To Cart</a>
-            <a href="/" className="saveButton" onClick={handleSave}>Save to Watchlist</a>
+            <a href="/ItemCheckout" className="buyButton" onClick={handleCheckout}>
+              Buy It Now
+            </a>
+            <a href="/cart" className="cartButton" onClick={handleCart}>
+              Add To Cart
+            </a>
+            <a href="/" className="saveButton" onClick={handleSave}>
+              Save to Watchlist
+            </a>
           </>
-        ) : (
-          null
-        )}
-
+        ) : null}
       </div>
       <div className="item-seller">
         <h1>Seller Information</h1>

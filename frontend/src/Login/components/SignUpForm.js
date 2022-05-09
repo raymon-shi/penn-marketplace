@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Modal, Alert } from 'react-bootstrap';
+import {
+  Form, Button, Modal, Alert,
+} from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -172,7 +174,8 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
           variant="primary"
           type="submit"
           form="signup-form"
-          disabled={!firstName.match(/^[a-zA-Z]+$/) || (lastName && !lastName.match(/^[a-zA-Z]+$/)) || password.length < 8}>
+          disabled={!firstName.match(/^[a-zA-Z]+$/) || (lastName && !lastName.match(/^[a-zA-Z]+$/)) || password.length < 8}
+        >
           Create Account
         </Button>
       </Modal.Footer>

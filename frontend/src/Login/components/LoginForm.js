@@ -54,7 +54,7 @@ const LoginForm = () => {
           <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </Form.Group>
         <Form.Group style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <Button variant="primary" className="w-75" onClick={login}>
+          <Button id="loginButton" variant="primary" className="w-75" onClick={login}>
             Login
           </Button>
           <hr />

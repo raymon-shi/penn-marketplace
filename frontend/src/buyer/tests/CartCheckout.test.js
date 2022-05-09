@@ -2,19 +2,19 @@
  * @jest-environment jsdom
  */
 
- import { render, screen } from '@testing-library/react';
- import React from 'react';
- import '@testing-library/jest-dom';
- import '@testing-library/jest-dom/extend-expect';
- import { BrowserRouter } from 'react-router-dom';
- import CartCheckout from '../components/CartCheckout';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
+import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/extend-expect';
+import { BrowserRouter } from 'react-router-dom';
+import CartCheckout from '../components/CartCheckout';
 
- describe('UI Testing for ItemCheckout Component', () => {
+describe('UI Testing for ItemCheckout Component', () => {
   test('Test 1: Header', () => {
     render(
       <BrowserRouter>
         <CartCheckout />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
     const pageHeader = screen.getByText('Cart Checkout (0 items)');
     expect(pageHeader).toBeInTheDocument();
@@ -23,7 +23,7 @@
     render(
       <BrowserRouter>
         <CartCheckout />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
     const payWith = screen.getByText('Pay With');
     const payCardText = screen.getByPlaceholderText('Card Number');
@@ -40,11 +40,11 @@
     render(
       <BrowserRouter>
         <CartCheckout />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
     const confirmBtn = screen.getByText('Confirm and Pay');
     const total = screen.getByText('Total (0 items): $0');
     expect(confirmBtn).toBeInTheDocument();
     expect(total).toBeInTheDocument();
   });
- });
+});

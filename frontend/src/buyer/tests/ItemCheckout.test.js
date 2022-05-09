@@ -2,28 +2,28 @@
  * @jest-environment jsdom
  */
 
- import { render, screen } from '@testing-library/react';
- import React from 'react';
- import '@testing-library/jest-dom';
- import '@testing-library/jest-dom/extend-expect';
- import { BrowserRouter } from 'react-router-dom';
- import ItemCheckout from '../components/ItemCheckout';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
+import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/extend-expect';
+import { BrowserRouter } from 'react-router-dom';
+import ItemCheckout from '../components/ItemCheckout';
 
- describe('UI Testing for ItemCheckout component', () => {
-   test('Test 1: Header', () => {
-     render(
-       <BrowserRouter>
-        <ItemCheckout />
-       </BrowserRouter>
-     );
-     const header = screen.getByText('Item Checkout');
-     expect(header).toBeInTheDocument();
-   });
-   test('Test 2: Item info', () => {
+describe('UI Testing for ItemCheckout component', () => {
+  test('Test 1: Header', () => {
     render(
       <BrowserRouter>
-       <ItemCheckout />
-      </BrowserRouter>
+        <ItemCheckout />
+      </BrowserRouter>,
+    );
+    const header = screen.getByText('Item Checkout');
+    expect(header).toBeInTheDocument();
+  });
+  test('Test 2: Item info', () => {
+    render(
+      <BrowserRouter>
+        <ItemCheckout />
+      </BrowserRouter>,
     );
     const seller = screen.getByText('Listed by:');
     const tags = screen.getByText('Tags:');
@@ -37,8 +37,8 @@
   test('Test 3: Pay with', () => {
     render(
       <BrowserRouter>
-       <ItemCheckout />
-      </BrowserRouter>
+        <ItemCheckout />
+      </BrowserRouter>,
     );
     const payWith = screen.getByText('Pay With');
     const payCardText = screen.getByPlaceholderText('Card Number');
@@ -55,11 +55,11 @@
     render(
       <BrowserRouter>
         <ItemCheckout />
-      </BrowserRouter>
+      </BrowserRouter>,
     );
     const confirmBtn = screen.getByText('Confirm and Pay');
     const total = screen.getByText('Total: $0');
     expect(confirmBtn).toBeInTheDocument();
     expect(total).toBeInTheDocument();
   });
- });
+});

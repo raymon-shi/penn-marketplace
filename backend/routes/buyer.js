@@ -40,7 +40,8 @@ router.post('/addCartRegItem/:id', async (req, res) => {
       { $addToSet: { shoppingCart: itemId }});
     res.status(200).send('Regular listing successfully added to cart!');
   } catch (error) {
-    res.status(500).send('Error adding item to cart');
+    res.status(500).send('An unknown error occured');
+    throw new Error('Error with adding reg item to cart');
   }
 });
 
@@ -163,27 +164,6 @@ router.post('/regTransaction', async (req, res) => {
     res.status(500).send('Error with completing Transaction');
   }
 });
-
-// route to handle Bid transactions
-// router.post('/bidTransaction', async (req, res) => {
-//   const {
-//     sellerName, listingBid, totalCost, info,
-//   } = req.body;
-//   try {
-//     const sellerUser = await User.findOne({ name: sellerName });
-//     const buyerUser = await User.findOne({ email: req.session.email });
-//     const transaction = await Transaction.create({
-//       seller: sellerUser._id,
-//       buyer: buyerUser._id,
-//       listingBid,
-//       totalCost,
-//       info,
-//     });
-//     res.status(201).json(transaction);
-//   } catch (error) {
-//     throw new Error('Error with completing transaction');
-//   }
-// });
 
 // route to handle adding transaction to buyer's account
 // and seller's account WHEN buying regular items

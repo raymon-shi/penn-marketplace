@@ -411,7 +411,7 @@ describe('/addBidListingPic test', () => {
       .attach('imageFile', './testImage.jpg')
       .expect(201)
       .then((resp) => expect(resp.text).toContain('Bid listing was successfully posted!'))
-      .then(() => ItemRegular.findOneAndDelete({ product: 'test22' }))
+      .then(() => ItemBid.findOneAndDelete({ product: 'test22' }))
       .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
 });
 
@@ -1104,5 +1104,5 @@ describe('/bidSearch returns bid listing items', () => {
       .post('/account/logout')
       .then((resp) => expect(resp.text).toContain('has been logged out!'))
       .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' }))
-      .then(() => ItemRegular.findOneAndDelete({ posterName: 'David Wang' })));
+      .then(() => ItemBid.findOneAndDelete({ posterName: 'David Wang' })));
 });

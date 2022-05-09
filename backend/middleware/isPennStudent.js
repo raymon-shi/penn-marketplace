@@ -34,7 +34,6 @@ const isPennStudent = async (req, res, next) => {
         || stringSimilarity.compareTwoStrings(data[i].list_title_or_major, major) > 0.5)
         && (data[i].list_organization.includes(school)
         || stringSimilarity.compareTwoStrings(data[i].list_organization, school) > 0.5)) {
-          console.log(data);
           return next();
         }
       }

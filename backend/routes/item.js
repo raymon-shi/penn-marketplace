@@ -44,7 +44,7 @@ router.post('/bidSearch', async (req, res, next) => {
 router.get('/getRegListings', async (req, res, next) => {
   try {
     const regListings = await ItemRegular.find();
-    res.json(regListings);
+    res.status(200).json(regListings);
   } catch (error) {
     next(new Error('Error with retrieving regular listings'));
   }
@@ -54,7 +54,7 @@ router.get('/getRegListings', async (req, res, next) => {
 router.get('/getBidListings', async (req, res, next) => {
   try {
     const bidListings = await ItemBid.find();
-    res.json(bidListings);
+    res.status(200).json(bidListings);
   } catch (error) {
     next(new Error('Error with retrieving bid listings'));
   }

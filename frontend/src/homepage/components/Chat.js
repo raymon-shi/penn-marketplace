@@ -143,7 +143,7 @@ const Chat = ({ showFriends, setShowFriends, username }) => {
         </Modal.Body>
         <Modal.Footer className="flex-column">
           <Form.Group className="my-3" style={{ width: '100%' }}>
-            <Form.Control as="textarea" value={msgInput} onChange={(e) => setMsgInput(e.target.value)} rows={3} />
+            <Form.Control id="text-input-message" as="textarea" value={msgInput} onChange={(e) => setMsgInput(e.target.value)} rows={3} />
           </Form.Group>
           <Button className="align-self-end border shadow-sm" onClick={() => setShowImage(true)}>Send Image</Button>
           <Modal show={showImage} onHide={() => setShowImage(false)}>

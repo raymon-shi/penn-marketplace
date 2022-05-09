@@ -57,7 +57,6 @@ router.post('/sendMessage', async (req, res, next) => {
     }
     res.status(200).json({ message: 'created message successfully' });
   } catch (error) {
-    console.log(error);
     next(new Error('Error sending a message!'));
   }
 });

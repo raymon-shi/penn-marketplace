@@ -11,9 +11,27 @@ const ItemCheckout = () => {
   const [first, setFirst] = useState('');
   const [last, setLast] = useState('');
   const { state } = useLocation();
-  const {
+  let {
     listing, bid, currBid, isBidItem,
-  } = state;
+  } = {
+    listing: {
+      _id: 0,
+      posterName: '',
+      itemName: '',
+      price: 0,
+      itemDescr: '',
+      tag: '',
+    },
+    bid: 0,
+    currBid: 0,
+    isBidItem: 0,
+  };
+  if (state) {
+    listing = state.listing;
+    isBidItem = state.isBidItem;
+    bid = state.bid;
+    currBid = state.currBid;
+  }
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
   const socket = useContext(SocketContext);

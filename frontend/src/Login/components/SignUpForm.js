@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Modal, Alert } from 'react-bootstrap';
+import {
+  Form, Button, Modal, Alert,
+} from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -117,19 +119,19 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
           <Form.Group className="mb-3" controlId="signUpFormBirthday">
             <Form.Label className="text-muted">Birthday</Form.Label>
             <Form.Group className="mb-3" controlId="signUpFormBirthdaySelect" style={{ display: 'flex', flexDirection: 'row' }}>
-              <Form.Select value={month} onChange={(e) => setMonth(e.target.value)} required>
+              <Form.Select id="monthSelect" value={month} onChange={(e) => setMonth(e.target.value)} required>
                 <option value="">Month</option>
                 {data.months.map((m) => (
                   <option key={uuidv4()}>{m}</option>
                 ))}
               </Form.Select>
-              <Form.Select value={day} onChange={(e) => setDay(e.target.value)} required>
+              <Form.Select id="daySelect" value={day} onChange={(e) => setDay(e.target.value)} required>
                 <option value="">Day</option>
                 {data.days.map((d) => (
                   <option key={uuidv4()}>{d}</option>
                 ))}
               </Form.Select>
-              <Form.Select value={year} onChange={(e) => setYear(e.target.value)} required>
+              <Form.Select id="yearSelect" value={year} onChange={(e) => setYear(e.target.value)} required>
                 <option value="">Year</option>
                 {data.years.map((y) => (
                   <option key={uuidv4()}>{y}</option>
@@ -140,13 +142,13 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
           <Form.Group className="mb-3" controlId="signUpFormSchoolAndYear">
             <Form.Label className="text-muted">School, Major, and Class Year</Form.Label>
             <Form.Group className="mb-3" controlId="signUpFormSchoolAndYearSelect" style={{ display: 'flex', flexDirection: 'row' }}>
-              <Form.Select value={school} onChange={(e) => setSchool(e.target.value)} required>
+              <Form.Select value={school} onChange={(e) => setSchool(e.target.value)} required id="schoolSelect">
                 <option value="">School</option>
                 {data.schools.map((s) => (
                   <option key={uuidv4()}>{s}</option>
                 ))}
               </Form.Select>
-              <Form.Select value={major} onChange={(e) => setMajor(e.target.value)} required>
+              <Form.Select value={major} onChange={(e) => setMajor(e.target.value)} required id="majorSelect">
                 <option value="">Major</option>
                 {data.majors
                   .sort((a, b) => a.name > b.name)
@@ -154,7 +156,7 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
                     <option key={uuidv4()}>{m.name}</option>
                   ))}
               </Form.Select>
-              <Form.Select value={classYear} onChange={(e) => setClassYear(e.target.value)} required>
+              <Form.Select value={classYear} onChange={(e) => setClassYear(e.target.value)} required id="classyearSelect">
                 <option value="">Class Year</option>
                 {data.schoolYears.map((cy) => (
                   <option key={uuidv4()}>{cy}</option>
@@ -172,7 +174,8 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
           variant="primary"
           type="submit"
           form="signup-form"
-          disabled={!firstName.match(/^[a-zA-Z]+$/) || (lastName && !lastName.match(/^[a-zA-Z]+$/)) || password.length < 8}>
+          disabled={!firstName.match(/^[a-zA-Z]+$/) || (lastName && !lastName.match(/^[a-zA-Z]+$/)) || password.length < 8}
+        >
           Create Account
         </Button>
       </Modal.Footer>

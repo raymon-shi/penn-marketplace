@@ -6,7 +6,6 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
-import renderer from 'react-test-renderer';
 import { BrowserRouter } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 

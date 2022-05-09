@@ -88,7 +88,7 @@ Coming soon...
 -   Cypress
 
 ## Mobile App Version
-Link to other repository
+https://github.com/cis350/project-penn-marketplace-mobile
 
 ## Credit
 | Name      | GitHub Username |

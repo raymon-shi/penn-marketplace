@@ -44,7 +44,7 @@ router.post('/bidSearch', async (req, res, next) => {
 router.get('/getRegListings', async (req, res, next) => {
   try {
     const regListings = await ItemRegular.find();
-    res.json(regListings);
+    res.status(200).json(regListings);
   } catch (error) {
     next(new Error('Error with retrieving regular listings'));
   }
@@ -54,7 +54,7 @@ router.get('/getRegListings', async (req, res, next) => {
 router.get('/getBidListings', async (req, res, next) => {
   try {
     const bidListings = await ItemBid.find();
-    res.json(bidListings);
+    res.status(200).json(bidListings);
   } catch (error) {
     next(new Error('Error with retrieving bid listings'));
   }
@@ -64,7 +64,7 @@ router.get('/getBidListings', async (req, res, next) => {
 router.get('/getSavedReg', async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.session.email });
-    const saved = await ItemRegular.find({ _id: { $in: user.watchlistRegular }});
+    const saved = await ItemRegular.find({ _id: { $in: user.watchlistRegular } });
     res.status(200).json(saved);
   } catch (error) {
     next(new Error('Error with retrieving watchlist'));
@@ -75,7 +75,7 @@ router.get('/getSavedReg', async (req, res, next) => {
 router.get('/getSavedBid', async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.session.email });
-    const saved = await ItemBid.find({ _id: { $in: user.watchlistBid }});
+    const saved = await ItemBid.find({ _id: { $in: user.watchlistBid } });
     res.status(200).json(saved);
   } catch (error) {
     next(new Error('Error with retrieving watchlist'));
@@ -95,7 +95,7 @@ router.post('/addRegListing', async (req, res, next) => {
       price,
       tag,
     });
-    res.status(201).send('Regular listing was successfully posted!');
+    res.status(201).send({ message: 'Regular listing was successfully posted!' });
   } catch (error) {
     next(new Error('Error with creating a regular listing'));
   }
@@ -116,7 +116,7 @@ router.post('/addRegListingPic', upload.single('imageFile'), async (req, res, ne
       price,
       tag,
     });
-    res.status(201).send('Regular listing was successfully posted!');
+    res.status(201).send({ message: 'Regular listing was successfully posted!' });
   } catch (error) {
     next(new Error('Error with creating a regular listing'));
   }
@@ -124,9 +124,7 @@ router.post('/addRegListingPic', upload.single('imageFile'), async (req, res, ne
 
 // route to list a bid listing
 router.post('/addBidListing', async (req, res, next) => {
-  const {
-    product, productDescr, tag,
-  } = req.body;
+  const { product, productDescr, tag } = req.body;
   try {
     await ItemBid.create({
       posterName: req.session.name,
@@ -135,7 +133,7 @@ router.post('/addBidListing', async (req, res, next) => {
       price: 0,
       tag,
     });
-    res.status(201).send('Bid listing was successfully posted!');
+    res.status(201).send({ message: 'Bid listing was successfully posted!' });
   } catch (error) {
     next(new Error('Error with creating a bid listing'));
   }
@@ -143,9 +141,7 @@ router.post('/addBidListing', async (req, res, next) => {
 
 // route to list a bid listing with picture
 router.post('/addBidListingPic', upload.single('imageFile'), async (req, res, next) => {
-  const {
-    product, productDescr, tag,
-  } = req.body;
+  const { product, productDescr, tag } = req.body;
   try {
     await ItemBid.create({
       posterName: req.session.name,
@@ -155,7 +151,7 @@ router.post('/addBidListingPic', upload.single('imageFile'), async (req, res, ne
       price: 0,
       tag,
     });
-    res.status(201).send('Bid listing was successfully posted!');
+    res.status(201).send({ message: 'Bid listing was successfully posted!' });
   } catch (error) {
     next(new Error('Error with creating a bid listing'));
   }

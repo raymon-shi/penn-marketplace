@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import pennLogo from '../assets/UniversityofPennsylvania_Shield_RGB.png';
+// import pennLogo from '../assets/UniversityofPennsylvania_Shield_RGB.png';
 import '../styles/Header.css';
 import Searchbar from '../../searchbar/components/Searchbar';
 import Chat from './Chat';
@@ -29,7 +29,7 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
     <Navbar className="header flex-column py-0" variant="dark" fixed="top">
       <Container className="m-0 top py-0" style={{ flexWrap: 'wrap', maxWidth: 'none' }}>
         <div style={{ display: 'flex' }}>
-          <img src={pennLogo} alt="penn logo" className="me-2 my-auto" width="25px" height="100%" />
+          {/* <img src={pennLogo} alt="penn logo" className="me-2 my-auto" width="25px" height="100%" /> */}
           <Navbar.Brand href="/">PENN MARKETPLACE</Navbar.Brand>
         </div>
         <Searchbar />

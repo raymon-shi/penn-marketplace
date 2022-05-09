@@ -6,9 +6,22 @@ import '../styles/Item.css';
 const RegularItem = ({ username }) => {
   // retrieve information about the specific item (from Homepage.js when you click on a slide)
   const { state } = useLocation();
-  const { itemId, posterName } = state;
+  let { itemId, posterName } = { itemId: 0, posterName: ' '};
+  if (state) {
+     itemId = state.itemId;
+     posterName = state.posterName;
+  }
+  const defaultListing = {
+    _id: 0,
+    posterName: '',
+    itemName: '',
+    price: 0,
+    tag: '',
+    media: '',
+    itemDescr: '',
+  };
 
-  const [listing, setListing] = useState({});
+  const [listing, setListing] = useState(defaultListing);
   const navigate = useNavigate();
 
   const getRegListing = async () => {

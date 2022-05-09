@@ -45,22 +45,6 @@ router.post('/addCartRegItem/:id', async (req, res) => {
   }
 });
 
-// route to add bid item to cart
-router.post('/addCartBidItem/:id', async (req, res) => {
-  try {
-    const { bid } = req.body;
-    const item = await ItemBid.findById(req.params.id);
-    await User.findOneAndUpdate(
-      { email: req.session.email,
-        'shoppingCart._id': { $ne: req.params.id }},
-      { $addToSet: { shoppingCart: {item , bid} }});
-    res.status(200).send('Regular listing successfully added to cart!');
-  } catch (error) {
-    res.status(500).send('An unknown error occured');
-    throw new Error('Error with adding bid item to cart');
-  }
-});
-
 // route to remove reg item from cart
 router.post('/removeCartRegItem/:id', async (req, res) => {
   try {
@@ -71,8 +55,7 @@ router.post('/removeCartRegItem/:id', async (req, res) => {
       { $pull: { shoppingCart: itemId }});
     res.status(200).send('Regular listing removed successfully from cart!');
   } catch (error) {
-    res.status(500).send('An unknown error occured');
-    throw new Error('Error with removing reg item from cart');
+    res.status(500).send('Error removing item from cart');
   }
 });
 
@@ -97,8 +80,7 @@ router.post('/addWatchRegItem/:id', async (req, res) => {
       { $addToSet: { watchlistRegular: item }});
     res.status(200).send('Regular listing successfully added to watchlist!');
   } catch (error) {
-    res.status(500).send('An unknown error occured');
-    throw new Error('Error with adding reg item to watchlist');
+    res.status(500).send('Error with adding reg item to watchlist');
   }
 });
 
@@ -112,11 +94,11 @@ router.post('/addWatchBidItem/:id', async (req, res) => {
       { $addToSet: { watchlistBid: item }});
     res.status(200).send('Bid listing successfully added to watchlist!');
   } catch (error) {
-    res.status(500).send('An unknown error occured');
-    throw new Error('Error with adding bid item to watchlist');
+    res.status(500).send('Error with adding bid item to watchlist');
   }
 });
 
+/*
 // route to remove reg item from watchlist
 router.post('/removeWatchRegItem/:id', async (req, res) => {
   try {
@@ -132,7 +114,7 @@ router.post('/removeWatchRegItem/:id', async (req, res) => {
 });
 
 // route to remove bid item from watchlist
-router.post('/removeWatchRegItem/:id', async (req, res) => {
+router.post('/removeWatchBidItem/:id', async (req, res) => {
   try {
     const item = await ItemBid.findById(req.params.id);
     await User.findOneAndUpdate(
@@ -144,6 +126,7 @@ router.post('/removeWatchRegItem/:id', async (req, res) => {
     throw new Error('Error with removing bid item from watchlist');
   }
 });
+*/
 
 // route to add bid to bidhistory
 router.post('/addBid/:id', async (req, res) => {
@@ -157,8 +140,7 @@ router.post('/addBid/:id', async (req, res) => {
     );
     res.status(200).send('Bid placed successfully');
   } catch (error) {
-    res.status(500).send('An unknown error occured');
-    throw new Error('Error with adding bid to item');
+    res.status(500).send('Error with adding bid to item');
   }
 });
 
@@ -179,30 +161,9 @@ router.post('/regTransaction', async (req, res) => {
     });
     res.status(201).json(transaction);
   } catch (error) {
-    throw new Error('Error with completing transaction');
+    res.status(500).send('Error with completing Transaction');
   }
 });
-
-// route to handle Bid transactions
-// router.post('/bidTransaction', async (req, res) => {
-//   const {
-//     sellerName, listingBid, totalCost, info,
-//   } = req.body;
-//   try {
-//     const sellerUser = await User.findOne({ name: sellerName });
-//     const buyerUser = await User.findOne({ email: req.session.email });
-//     const transaction = await Transaction.create({
-//       seller: sellerUser._id,
-//       buyer: buyerUser._id,
-//       listingBid,
-//       totalCost,
-//       info,
-//     });
-//     res.status(201).json(transaction);
-//   } catch (error) {
-//     throw new Error('Error with completing transaction');
-//   }
-// });
 
 // route to handle adding transaction to buyer's account
 // and seller's account WHEN buying regular items
@@ -217,10 +178,12 @@ router.post('/addTransaction', async (req, res) => {
       { name: transaction.seller },
       { $addToSet: { transactionHistory: transaction } },
     );
-    await ItemRegular.findByIdAndDelete(transaction.listingRegular._id);
-    res.status(200).send('Regular listing successfully added to watchlist!');
+    if (transaction.listingRegular) {
+      await ItemRegular.findByIdAndDelete(transaction.listingRegular._id);
+    }
+    res.status(200).send('Transaction successfully processed');
   } catch (error) {
-    throw new Error('Error with completeing transaction');
+    res.status(500).send('Error with completing Transaction');
   }
 });
 

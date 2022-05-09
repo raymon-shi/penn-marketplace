@@ -6,9 +6,9 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
+import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import Searchbar from '../components/Searchbar';
-import userEvent from '@testing-library/user-event';
 
 describe('UI Testing for SearchBar component', () => {
   test('Test 1: Filter Options and Submit Button', () => {

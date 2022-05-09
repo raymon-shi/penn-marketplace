@@ -329,46 +329,177 @@ describe('/resetpassword check', () => {
 // });
 
 // seller tests
-// describe('/addBidListing tests', () => {
-//   test('/signup status code 201', async () =>
-//     request(app)
-//       .post('/account/signup')
-//       .send({
-//         email: 'ddwang@seas.upenn.edu',
-//         firstName: 'David',
-//         lastName: 'Wang',
-//         password: 'password',
-//         month: 'January',
-//         day: '1',
-//         year: '1990',
-//         major: 'Computer Science',
-//         school: 'School of Engineering and Applied Sciences',
-//         classYear: 2022,
-//       })
-//       .expect(201)
-//       .then((resp) => expect(resp.text).toContain('was successfully created!')));
+describe('/addBidListing test', () => {
+  const agent = request.agent(app);
+  test('/signup status code 201', async () => agent
+    .post('/account/signup')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      firstName: 'David',
+      lastName: 'Wang',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2022,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!')));
 
-//   test('/login status code 200', async () =>
-//     request(app)
-//       .post('/account/login')
-//       .send({
-//         email: 'ddwang@seas.upenn.edu',
-//         password: 'password',
-//       })
-//       .expect(200));
+  test('/login status code 200', async () => agent
+    .post('/account/login')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      password: 'password',
+    })
+    .expect(200));
 
-//   test('/addBidListing 201', async () => request(app)
-//     .post('/item/addBidListing')
-//     .send({
-//       product: 'test77',
-//       productDescr: 'nice scent',
-//       tag: 'Housing & Furniture',
-//     })
-//     .expect(201)
-//     .then((resp) => expect(JSON.parse(resp.text).message).toContain('Bid listing was successfully posted!'))
-//     .then(() => ItemBid.findOneAndDelete({ product: 'test77' }))
-//     .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
-// });
+  test('/addBidListing 201', async () => agent
+    .post('/item/addBidListing')
+    .send({
+      product: 'test77',
+      productDescr: 'nice scent',
+      tag: 'Housing & Furniture',
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('Bid listing was successfully posted!'))
+    .then(() => ItemBid.findOneAndDelete({ product: 'test77' }))
+    .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
+});
+
+describe('/addBidListingPic test', () => {
+  const agent = request.agent(app);
+  test('/signup status code 201', async () => agent
+    .post('/account/signup')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      firstName: 'David',
+      lastName: 'Wang',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2022,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+  test('/login status code 200', async () => agent
+    .post('/account/login')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      password: 'password',
+    })
+    .expect(200));
+
+  test('/addBidListingPic 201', async () => agent
+    .post('/item/addBidListingPic')
+    .set('content-type', 'multipart/form-data')
+    .field('product', 'test22')
+    .field('productDescr', 'very cheap')
+    .field('tag', 'Services')
+    .attach('imageFile', './testImage.jpg')
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('Bid listing was successfully posted!'))
+    .then(() => ItemRegular.findOneAndDelete({ product: 'test22' }))
+    .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
+});
+
+describe('/addRegListing test', () => {
+  const agent = request.agent(app);
+  test('/signup status code 201', async () => agent
+    .post('/account/signup')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      firstName: 'David',
+      lastName: 'Wang',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2022,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+  test('/login status code 200', async () => agent
+    .post('/account/login')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      password: 'password',
+    })
+    .expect(200));
+
+  test('/addRegListing 201', async () => agent
+    .post('/item/addRegListing')
+    .send({
+      product: 'test45',
+      productDescr: 'very expensive',
+      price: 7,
+      tag: 'Services',
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('Regular listing was successfully posted!'))
+    .then(() => ItemRegular.findOneAndDelete({ product: 'test45' }))
+    .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
+});
+
+describe('/addRegListingPic test', () => {
+  const agent = request.agent(app);
+  test('/signup status code 201', async () => agent
+    .post('/account/signup')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      firstName: 'David',
+      lastName: 'Wang',
+      password: 'password',
+      month: 'January',
+      day: '1',
+      year: '1990',
+      major: 'Computer Science',
+      school: 'School of Engineering and Applied Sciences',
+      classYear: 2022,
+    })
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('was successfully created!')));
+
+  test('/login status code 200', async () => agent
+    .post('/account/login')
+    .send({
+      email: 'ddwang@seas.upenn.edu',
+      password: 'password',
+    })
+    .expect(200));
+
+  test('/addRegListingPic 201', async () => agent
+    .post('/item/addRegListingPic')
+    .set('content-type', 'multipart/form-data')
+    .field('product', 'test33')
+    .field('productDescr', 'very expensive')
+    .field('price', 7)
+    .field('tag', 'Services')
+    .attach('imageFile', './testImage.jpg')
+    .expect(201)
+    .then((resp) => expect(resp.text).toContain('Regular listing was successfully posted!'))
+    .then(() => ItemRegular.findOneAndDelete({ product: 'test33' }))
+    .then(() => User.findOneAndDelete({ email: 'ddwang@seas.upenn.edu' })));
+});
+
+test('/getRegListings 200', async () => request(app)
+  .get('/item/getRegListings')
+  .expect(200));
+
+test('/getBidListings 200', async () => request(app)
+  .get('/item/getBidListings')
+  .expect(200));
+
+// END SELLER/HOMEPAGE TESTS
 
 describe('/getRegListing/:id', () => {
   test('/buyer/getRegListing:id status code 200', async () =>

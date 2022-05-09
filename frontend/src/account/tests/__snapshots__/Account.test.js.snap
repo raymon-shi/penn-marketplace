@@ -1,0 +1,833 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UI testing for the Profile component Test 1: Snapshot on Profile Screen for user with a report 1`] = `
+<div
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <div
+    className="flex"
+  >
+    <h1>
+      Profile
+    </h1>
+    <div
+      className="flex"
+      id="reports"
+    >
+      <img
+        alt="Exclamation mark symbolizing warning."
+        height="18px"
+        src={
+          Object {
+            "process": [Function],
+          }
+        }
+        width="18px"
+      />
+       
+      1
+       other users have reported you.
+    </div>
+  </div>
+  <div
+    id="profile"
+  >
+    <div
+      style={
+        Object {
+          "padding": "1% 2%",
+        }
+      }
+    >
+      <div
+        className="flex"
+      >
+        <p>
+          Name
+        </p>
+        <p>
+          John Doe
+        </p>
+      </div>
+      <div
+        className="flex"
+      >
+        <p>
+          Email
+        </p>
+        <p>
+          jdoe@sas.upenn.edu
+        </p>
+      </div>
+      <div
+        className="flex"
+      >
+        <p>
+          Dark Mode
+        </p>
+        <button
+          id="dark-mode-btn"
+          type="button"
+        >
+          <img
+            alt="Dark mode icon: off"
+            src={
+              Object {
+                "process": [Function],
+              }
+            }
+            style={
+              Object {
+                "verticalAlign": "top",
+              }
+            }
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`UI testing for the Profile component Test 2: Snapshot on Profile screen for user with no reports 1`] = `
+<div
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <div
+    className="flex"
+  >
+    <h1>
+      Profile
+    </h1>
+    <div
+      className="flex"
+      id="reports"
+    />
+  </div>
+  <div
+    id="profile"
+  >
+    <div
+      style={
+        Object {
+          "padding": "1% 2%",
+        }
+      }
+    >
+      <div
+        className="flex"
+      >
+        <p>
+          Name
+        </p>
+        <p>
+          John Doe
+        </p>
+      </div>
+      <div
+        className="flex"
+      >
+        <p>
+          Email
+        </p>
+        <p>
+          jdoe@sas.upenn.edu
+        </p>
+      </div>
+      <div
+        className="flex"
+      >
+        <p>
+          Dark Mode
+        </p>
+        <button
+          id="dark-mode-btn"
+          type="button"
+        >
+          <img
+            alt="Dark mode icon: off"
+            src={
+              Object {
+                "process": [Function],
+              }
+            }
+            style={
+              Object {
+                "verticalAlign": "top",
+              }
+            }
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`UI testing for the blocked component Test 1: Snapshot test 1`] = `
+<div
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <div>
+    <div
+      className="flex"
+    >
+      <h1>
+        Blocked
+      </h1>
+      <div
+        className="flex pagination-bar"
+      >
+        <button
+          onClick={[Function]}
+          type="button"
+        >
+          <img
+            alt="Back Arrow Icon"
+            src={
+              Object {
+                "process": [Function],
+              }
+            }
+          />
+        </button>
+         
+        1
+         - 
+        1
+          of 
+        1
+         
+        <button
+          onClick={[Function]}
+          type="button"
+        >
+          <img
+            alt="Next Arrow Icon"
+            src={
+              Object {
+                "process": [Function],
+              }
+            }
+          />
+        </button>
+      </div>
+    </div>
+    <div
+      className="box"
+    >
+      <div
+        style={
+          Object {
+            "padding": "1% 2%",
+          }
+        }
+      >
+        <div
+          className="table-row"
+        >
+          <br />
+          <div>
+            <br />
+          </div>
+          <div
+            className="table-item"
+          >
+            Unblock
+          </div>
+        </div>
+        <div
+          className="table-row"
+        >
+          <p>
+            Levi Leipheimer
+          </p>
+          <div>
+            <br />
+          </div>
+          <div
+            className="table-item"
+          >
+            <button
+              onClick={[Function]}
+              type="button"
+              value={0}
+            >
+              <img
+                alt="Unblock Icon"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`UI testing for the follows component Test 1: Snapshot on Review screen for user with followers and followed users 1`] = `
+<div
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <div>
+    <div
+      className="flex"
+    >
+      <h1>
+        Followed
+      </h1>
+      <div
+        className="flex pagination-bar"
+      >
+        <button
+          onClick={[Function]}
+          type="button"
+        >
+          <img
+            alt="Back Arrow Icon"
+            src={
+              Object {
+                "process": [Function],
+              }
+            }
+          />
+        </button>
+         
+        1
+         - 
+        3
+          of 
+        3
+         
+        <button
+          onClick={[Function]}
+          type="button"
+        >
+          <img
+            alt="Next Arrow Icon"
+            src={
+              Object {
+                "process": [Function],
+              }
+            }
+          />
+        </button>
+      </div>
+    </div>
+    <div
+      className="box"
+    >
+      <div
+        style={
+          Object {
+            "padding": "1% 2%",
+          }
+        }
+      >
+        <div
+          className="table-row"
+        >
+          <br />
+          <div
+            className="table-item"
+          >
+            Review
+          </div>
+          <div
+            className="table-item"
+          >
+            Unfollow
+          </div>
+        </div>
+        <div
+          className="table-row"
+        >
+          <p>
+            Cadel Evans
+          </p>
+          <div
+            className="table-item"
+          >
+            <button
+              onClick={[Function]}
+              type="button"
+              value={0}
+            >
+              <img
+                alt="Review icon"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </button>
+          </div>
+          <div
+            className="table-item"
+          >
+            <button
+              onClick={[Function]}
+              type="button"
+              value={0}
+            >
+              <img
+                alt="Unfollow icon"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          className="table-row"
+        >
+          <p>
+            Alberto Contador
+          </p>
+          <div
+            className="table-item"
+          >
+            <button
+              onClick={[Function]}
+              type="button"
+              value={1}
+            >
+              <img
+                alt="Review icon"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </button>
+          </div>
+          <div
+            className="table-item"
+          >
+            <button
+              onClick={[Function]}
+              type="button"
+              value={1}
+            >
+              <img
+                alt="Unfollow icon"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          className="table-row"
+        >
+          <p>
+            Levi Leipheimer
+          </p>
+          <div
+            className="table-item"
+          >
+            <button
+              onClick={[Function]}
+              type="button"
+              value={2}
+            >
+              <img
+                alt="Review icon"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </button>
+          </div>
+          <div
+            className="table-item"
+          >
+            <button
+              onClick={[Function]}
+              type="button"
+              value={2}
+            >
+              <img
+                alt="Unfollow icon"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "marginTop": "3%",
+      }
+    }
+  >
+    <div
+      className="flex"
+    >
+      <h1>
+        Followers
+      </h1>
+      <div
+        className="flex pagination-bar"
+      >
+        <button
+          onClick={[Function]}
+          type="button"
+        >
+          <img
+            alt="Back Arrow Icon"
+            src={
+              Object {
+                "process": [Function],
+              }
+            }
+          />
+        </button>
+        3
+          of 
+        3
+         
+        <button
+          onClick={[Function]}
+          type="button"
+        >
+          <img
+            alt="Next Arrow Icon"
+            src={
+              Object {
+                "process": [Function],
+              }
+            }
+          />
+        </button>
+      </div>
+    </div>
+    <div
+      className="box"
+    >
+      <div
+        style={
+          Object {
+            "padding": "1% 2%",
+          }
+        }
+      >
+        <div
+          className="table-row"
+        >
+          <br />
+          <div>
+            <br />
+          </div>
+          <div
+            className="table-item"
+          >
+            Remove
+          </div>
+        </div>
+        <div
+          className="table-row"
+        >
+          <p>
+            Cadel Evans
+          </p>
+          <div>
+            <br />
+          </div>
+          <div
+            className="table-item"
+          >
+            <button
+              onClick={[Function]}
+              type="button"
+              value={0}
+            >
+              <img
+                alt="Remove icon"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          className="table-row"
+        >
+          <p>
+            Frank Schleck
+          </p>
+          <div>
+            <br />
+          </div>
+          <div
+            className="table-item"
+          >
+            <button
+              onClick={[Function]}
+              type="button"
+              value={1}
+            >
+              <img
+                alt="Remove icon"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          className="table-row"
+        >
+          <p>
+            Alex Dowsett
+          </p>
+          <div>
+            <br />
+          </div>
+          <div
+            className="table-item"
+          >
+            <button
+              onClick={[Function]}
+              type="button"
+              value={2}
+            >
+              <img
+                alt="Remove icon"
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`UI testing for the reviews component Test 1: Snapshot on Review Screen for user with reviews 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "width": "100%",
+      }
+    }
+  >
+    <h1>
+      Reviews - Average Rating: 
+      3.5
+    </h1>
+  </div>
+  <div
+    id="reviews"
+  >
+    <div
+      style={
+        Object {
+          "padding": "1% 2%",
+        }
+      }
+    >
+      <div
+        className="review"
+      >
+        <div
+          style={
+            Object {
+              "margin": "1%",
+            }
+          }
+        >
+          <div
+            className="flex"
+          >
+            <div
+              className="rating"
+            >
+              <img
+                alt="Yellow star."
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+              <img
+                alt="Yellow star."
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+              <img
+                alt="Yellow star."
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+              <img
+                alt="Yellow star."
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+              <img
+                alt="Yellow star."
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </div>
+             
+            Cadel Evans
+          </div>
+          <div>
+            Good experience with this seller.
+          </div>
+        </div>
+      </div>
+      <div
+        className="review"
+      >
+        <div
+          style={
+            Object {
+              "margin": "1%",
+            }
+          }
+        >
+          <div
+            className="flex"
+          >
+            <div
+              className="rating"
+            >
+              <img
+                alt="Yellow star."
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+              <img
+                alt="Yellow star."
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+              <img
+                alt="Yellow star."
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+              <img
+                alt="Yellow star."
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+              <img
+                alt="Yellow star."
+                src={
+                  Object {
+                    "process": [Function],
+                  }
+                }
+              />
+            </div>
+             
+            Frank Schleck
+          </div>
+          <div>
+            The chair I bought had a missing leg.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`UI testing for the reviews component Test 2: Snapshot on Review screen for user with no reviews 1`] = `
+<div>
+  <div
+    style={
+      Object {
+        "width": "100%",
+      }
+    }
+  >
+    <h1>
+      Reviews - Average Rating: 
+      0
+    </h1>
+  </div>
+  <div>
+    You have no reviews.
+  </div>
+</div>
+`;

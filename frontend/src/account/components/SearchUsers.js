@@ -1,7 +1,7 @@
 import React, { useRef, useState, useContext } from 'react';
 import axios from 'axios';
 import { Modal } from 'react-bootstrap';
-import { SocketContext } from '../../homepage/components/Socket';
+// import { SocketContext } from '../../homepage/components/Socket';
 
 const inputStyle = {
   padding: '5px',
@@ -34,7 +34,7 @@ const SearchUsers = ({ userProfile }) => {
   const [showReport, setShowReport] = useState(false);
   const [showFollow, setShowFollow] = useState(false);
   const [showBlock, setShowBlock] = useState(false);
-  const socket = useContext(SocketContext);
+  // const socket = useContext(SocketContext);
 
   async function searchUsers() {
     try {
@@ -58,7 +58,7 @@ const SearchUsers = ({ userProfile }) => {
     }
     if (!alreadyDone.current) {
       try {
-        socket.emit('new follow', selectedUser.current.name);
+        // socket.emit('new follow', selectedUser.current.name);
         await axios.post('/account/follow', {
           follower: userProfile,
           followedUser: selectedUser.current,

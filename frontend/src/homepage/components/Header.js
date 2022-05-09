@@ -38,7 +38,8 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
 
   const navigateHousing = () => {
     navigate('/results', { state: { query: '', category: 'housing' } });
-   
+  };
+
   const deleteUser = async () => {
     try {
       await axios.post('/account/deleteuser', { name: username });
@@ -132,4 +133,5 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
     </Navbar>
   );
 };
+
 export default Header;

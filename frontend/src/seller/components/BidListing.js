@@ -6,8 +6,6 @@ import Alert from 'react-bootstrap/Alert';
 import axios from 'axios';
 
 import { submitBidListing } from '../modules/api';
-import uploadIcon from '../assets/upload.svg';
-import imgIcon from '../assets/image.svg';
 // import uploadIcon from '../assets/upload.svg';
 // import imgIcon from '../assets/image.svg';
 
@@ -38,24 +36,6 @@ const BidListing = ({ onSubmit, onBack }) => {
     }
   };
 
-  const createFormData = () => {
-    const formData = new FormData();
-    formData.append('product', product);
-    formData.append('productDescr', productDescr);
-    formData.append('tag', tag);
-    formData.append('imageFile', imageFile.current);
-    return formData;
-  };
-
-  const formSubmit = () => {
-    if (imgLink && imgLink !== '') {
-      const formData = createFormData();
-      axios.post('/item/addBidListingPic', formData).then(() => onSubmit()).catch((err) => alert('Error in posting! Please try again.'));
-    } else {
-      axios.post('/item/addBidListing', { product, productDescr, tag }).then(() => onSubmit()).catch((err) => alert('Error in posting! Please try again.'));
-    }
-  };
-
   const renderImg = () => (
     imgLink !== '' ? (<img className="mt-2" src={imgLink} alt="product-pic" width="100%" />) : null
   );
@@ -64,7 +44,7 @@ const BidListing = ({ onSubmit, onBack }) => {
     <div className="reg-listing pb-5">
       <h1 className="title">Bid Listing</h1>
       <Card className="shadow rounded mx-auto p-5" border="light" style={{ width: '50%' }}>
-        <Form onSubmit={(e) => { e.preventDefault(); formSubmit(); }}>
+        <Form onSubmit={(e) => { e.preventDefault(); submitBidListing(product, productDescr, tag, imgLink, imageFile.current).then(() => onSubmit()).catch((err) => alert('Error in posting! Please try again.')); }}>
           <Form.Group className="mb-3">
             <Form.Label className="required">Product</Form.Label>
             <Form.Control type="text" value={product} name="product" placeholder="Enter product name" onChange={onChangeProduct} />

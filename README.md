@@ -19,7 +19,34 @@ Over the course of the years, many students buy and use a multitude of items and
 Furthermore, there are a variety of platforms and websites that students usually list their items on, oftentimes leading to meetups with strangers. By using our app, we can limit the transaction population to the Penn community and reduce the risk of “shady” meetups.
 
 ## Features
-Coming soon...
+* Users can create an account and signup with their Penn credentials
+* Users can login into their account with their Penn email and password
+  * Users will be locked out of their account for 30 minutes if they enter their password incorrectly more than 3 times
+  * Users can reset their password if they forgot their password
+* Users can access their dashboard to:
+  * View their own profile information
+  * View their transaction history
+  * View their reviews from other users
+  * View their followers
+  * View their blocked users
+  * Search for users to follow
+* Users can post two types of listings:
+  * A regular listing with a set price
+  * A bid listing with a bidding price that the seller can accept
+* Users can add images, descriptions, and tags to listings
+* Users can view the most recent listings on the homepage
+* Users can search for items using the search bar
+  * Users can create tagged searches by applying search tags
+* Users can add items to the watchlist
+* Users can add items to their shopping cart
+* Users can checkout their shopping cart and commit a transaction
+* Users can message other users that they follow or users that follow them
+* Users will be notified in real time when:
+  * Another user messages them
+  * Another user follows them
+  * Another user buys one of their items
+* Users have the ability to delete their account
+
 
 ## Project Folder Structure
     .

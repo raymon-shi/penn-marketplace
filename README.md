@@ -1,5 +1,7 @@
 # Penn Marketplace
 
+Deployed at: https://pennmarketplace.herokuapp.com/
+
 ## Description
 A Penn exclusive marketplace where people within the community can buy and sell goods and services to each other.
 

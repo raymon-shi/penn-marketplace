@@ -45,6 +45,7 @@ Furthermore, there are a variety of platforms and websites that students usually
   * Another user messages them
   * Another user follows them
   * Another user buys one of their items
+  * A seller accepts their bid on an item
 * Users have the ability to delete their account
 
 

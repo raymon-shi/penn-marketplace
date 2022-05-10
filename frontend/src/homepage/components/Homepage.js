@@ -20,7 +20,19 @@ const Homepage = () => {
   const [bidListings, setBidListings] = useState([]);
   const [savedRegListings, setSavedRegListings] = useState([]);
   const [savedBidListings, setSavedBidListings] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  const checkUserLoggedIn = async () => {
+    try {
+      const user = await axios.get('/account/user');
+      if (Object.keys(user.data).length > 0) {
+        setLoggedIn(true);
+      }
+    } catch (error) {
+      Error('There was an error with getting the user information');
+    }
+  };
 
   const getRegListings = async () => {
     try {
@@ -61,16 +73,25 @@ const Homepage = () => {
   useEffect(() => {
     getRegListings();
     getBidListings();
-    getSavedRegListings();
-    getSavedBidListings();
+    checkUserLoggedIn();
     const intervalID = setInterval(() => {
       getRegListings();
       getBidListings();
-      getSavedRegListings();
-      getSavedBidListings();
     }, 15000);
     return () => clearInterval(intervalID);
   }, []);
+
+  useEffect(() => {
+    if (loggedIn) {
+      getSavedRegListings();
+      getSavedBidListings();
+      const intervalIDAlt = setInterval(() => {
+        getSavedRegListings();
+        getSavedBidListings();
+        return () => clearInterval(intervalIDAlt);
+      }, 15000);
+    }
+  }, [loggedIn]);
 
   return (
     <div className="homepage pt-5">

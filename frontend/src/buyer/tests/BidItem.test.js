@@ -51,12 +51,8 @@ describe('UI Testing for RegularItem component', () => {
         </BrowserRouter>,
       );
     });
-    const seller = screen.getByText('Seller Information');
-    const follow = screen.getByText('Follow Seller');
-    const report = screen.getByText('Report Item');
+    const seller = screen.getByText('Seller');
     expect(seller).toBeInTheDocument();
-    expect(follow).toBeInTheDocument();
-    expect(report).toBeInTheDocument();
   });
   test('Test 3: Buttons', () => {
     act(() => {

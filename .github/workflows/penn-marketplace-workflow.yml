@@ -17,9 +17,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: cd frontend && npm install
-      - run: cd frontend && npm run test
-      - run: cd frontend && npm run lint
       - run: cd backend && npm install
       - run: cd backend && npm run test
       - run: cd backend && npm run lint
+      - run: cd frontend && npm install
+      - run: cd frontend && npm run test
+      - run: cd frontend && npm run lint

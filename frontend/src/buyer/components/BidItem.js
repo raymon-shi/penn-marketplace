@@ -34,7 +34,7 @@ const BidItem = ({ username }) => {
   const getBidListing = async () => {
     try {
       const item = await axios.get(`/buyer/getBidListing/${itemId}`);
-      if (item.data) { 
+      if (item.data) {
         setListing(item.data);
         if (item.data.bidHistory && item.data.bidHistory.length > 0) {
           setCurrBid(item.data.price);

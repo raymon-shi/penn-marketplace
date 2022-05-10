@@ -62,7 +62,7 @@ router.post('/login', async (req, res, next) => {
         if (user.loginAttempts >= 3) {
           await User.updateOne(
             { email },
-            { lockedOutTime: new Date(new Date().getTime() + 1 * 60000).getTime() },
+            { lockedOutTime: new Date(new Date().getTime() + 30 * 60000).getTime() },
           );
         }
         next(new Error('There was not a match!'));

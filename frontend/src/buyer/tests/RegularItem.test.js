@@ -9,6 +9,8 @@ import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
 import RegularItem from '../components/RegularItem';
 
+window.setImmediate = window.setTimeout;
+
 describe('UI Testing for RegularItem component', () => {
   test('Test 1: Item information', () => {
     render(

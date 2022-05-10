@@ -10,6 +10,8 @@ import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import Header from '../components/Header';
 
+window.setImmediate = window.setTimeout;
+
 describe('UI Testing for Header Component in Homepage', () => {
   test('Test 1: Penn Marketplace Header', () => {
     render(

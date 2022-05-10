@@ -9,6 +9,8 @@ import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
 import Cart from '../components/Cart';
 
+window.setImmediate = window.setTimeout;
+
 describe('UI Testing for Cart', () => {
   test('Test 1: Cart header text', () => {
     render(

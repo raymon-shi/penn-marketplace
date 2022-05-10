@@ -9,6 +9,8 @@ import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
 import ItemCheckout from '../components/ItemCheckout';
 
+window.setImmediate = window.setTimeout;
+
 describe('UI Testing for ItemCheckout component', () => {
   test('Test 1: Header', () => {
     render(

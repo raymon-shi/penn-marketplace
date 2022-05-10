@@ -15,7 +15,9 @@ const CartCheckout = () => {
   const getCart = async () => {
     try {
       const userCart = await axios.get('/buyer/cart');
-      setCart(userCart.data);
+      if (userCart.data) {
+        setCart(userCart.data);
+      }
     } catch (error) {
       throw new Error('Error with loading cart');
     }

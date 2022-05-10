@@ -34,9 +34,11 @@ const BidItem = ({ username }) => {
   const getBidListing = async () => {
     try {
       const item = await axios.get(`/buyer/getBidListing/${itemId}`);
-      setListing(item.data);
-      if (item.data.bidHistory && item.data.bidHistory.length > 0) {
-        setCurrBid(item.data.price);
+      if (item.data) { 
+        setListing(item.data);
+        if (item.data.bidHistory && item.data.bidHistory.length > 0) {
+          setCurrBid(item.data.price);
+        }
       }
     } catch (error) {
       throw new Error(`Error with retrieving item with id ${itemId}`);

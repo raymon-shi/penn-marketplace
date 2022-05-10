@@ -27,7 +27,9 @@ const RegularItem = ({ username }) => {
   const getRegListing = async () => {
     try {
       const item = await axios.get(`/buyer/getRegListing/${itemId}`);
-      setListing(item.data);
+      if (item.data) {
+        setListing(item.data);
+      }
     } catch (error) {
       throw new Error(`Error with retrieving item with id ${itemId}`);
     }

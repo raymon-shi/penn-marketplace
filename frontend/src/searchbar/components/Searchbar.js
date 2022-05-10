@@ -17,7 +17,7 @@ const Searchbar = () => {
   return (
     <div className="wrapper">
       <div className="searchBar">
-        <form onSubmit={handleSubmit}>
+        <form aria-label="queryForm" onSubmit={handleSubmit}>
           <select id="categoryInput" name="Filter" onChange={(e) => setFilter(e.target.value)}>
             <option value="">All</option>
             <option value="Textbooks">Textbooks</option>

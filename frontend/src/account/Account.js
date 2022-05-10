@@ -81,7 +81,7 @@ const Account = () => {
           <hr />
           <button type="button" className="side-nav-button" onClick={handleClick}>Blocked</button>
           <hr />
-          <button type="button" className="side-nav-button" onClick={handleClick}>Search Users</button>
+          <button type="button" id="search-user" className="side-nav-button" onClick={handleClick}>Search Users</button>
         </div>
       </div>
       <div>

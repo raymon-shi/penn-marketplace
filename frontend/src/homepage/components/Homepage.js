@@ -10,6 +10,10 @@ import { v4 as uuidv4 } from 'uuid';
 import links from '../assets/productimages.json';
 import '../styles/Homepage.css';
 
+import {
+  getRegListingsApi, getBidListingsApi, getSavedRegListingsApi, getSavedBidListingsApi,
+} from '../modules/api';
+
 const Homepage = () => {
   const [regListings, setRegListings] = useState([]);
   const [bidListings, setBidListings] = useState([]);
@@ -19,8 +23,8 @@ const Homepage = () => {
 
   const getRegListings = async () => {
     try {
-      const { data } = await axios.get('/item/getRegListings');
-      setRegListings(data.reverse());
+      const data = await getRegListingsApi();
+      setRegListings(data);
     } catch (err) {
       console.log('Error in retrieving regular listings');
     }
@@ -28,8 +32,8 @@ const Homepage = () => {
 
   const getBidListings = async () => {
     try {
-      const { data } = await axios.get('/item/getBidListings');
-      setBidListings(data.reverse());
+      const data = await getBidListingsApi();
+      setBidListings(data);
     } catch (err) {
       console.log('Error in retrieving bid listings');
     }
@@ -37,17 +41,17 @@ const Homepage = () => {
 
   const getSavedRegListings = async () => {
     try {
-      const savedReg = await axios.get('/item/getSavedReg');
-      setSavedRegListings(savedReg.data);
+      const data = await getSavedRegListingsApi();
+      setSavedRegListings(data);
     } catch (err) {
-      console.log('Error in retrieving saved reg listings');
+      console.log('Error in retrieving saved regular listings');
     }
   };
 
   const getSavedBidListings = async () => {
     try {
-      const savedBid = await axios.get('/item/getSavedBid');
-      setSavedBidListings(savedBid.data);
+      const data = await getSavedBidListingsApi();
+      setSavedBidListings(data);
     } catch (err) {
       console.log('Error in retrieving saved bid listings');
     }

@@ -21,7 +21,7 @@ const ResetPassword = ({ showResetPassword, setShowResetPassword }) => {
     <Modal show={showResetPassword} onHide={() => setShowResetPassword(false)}>
       {errorMessage ? <Alert variant="danger">{errorMessage}</Alert> : null}
       <Modal.Header closeButton>
-        <Modal.Title>Reset Password</Modal.Title>
+        <Modal.Title>Reset Password Form</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form

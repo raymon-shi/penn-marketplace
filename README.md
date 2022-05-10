@@ -10,7 +10,8 @@ A Penn exclusive marketplace where people within the community can buy and sell 
 4. [How to Run the Project](#how-to-run-the-project)
 5. [Technologies](#technologies)
 6. [Mobile App](#mobile-app-version)
-7. [Credit](#credit)
+7. [Additional)(#additional)
+8. [Credit](#credit)
 
 
 ## Problem Statement
@@ -117,6 +118,10 @@ Furthermore, there are a variety of platforms and websites that students usually
 
 ## Mobile App Version
 https://github.com/cis350/project-penn-marketplace-mobile
+
+## Additional
+Wireframes/Prototypes: https://www.figma.com/file/marQmxMbckwwOOu7QvdPoF/Sprint-2-Wireframes?node-id=0%3A1
+API Documentation: https://app.swaggerhub.com/apis/cis350-penn-mp/CIS350-Team22-Penn-Marketplace-API/1.0.0
 
 ## Credit
 | Name      | GitHub Username |

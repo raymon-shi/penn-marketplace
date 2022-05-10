@@ -43,7 +43,8 @@ router.post('/addCartRegItem/:id', async (req, res) => {
     );
     res.status(200).send('Regular listing successfully added to cart!');
   } catch (error) {
-    res.status(500).send('Error adding item to cart');  }
+    res.status(500).send('Error adding item to cart');
+  }
 });
 
 // route to remove reg item from cart

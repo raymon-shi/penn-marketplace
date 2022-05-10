@@ -2,6 +2,7 @@
 * @jest-environment jsdom
 */
 /* eslint-disable no-undef */
+/* eslint-disable no-console */
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import renderer from 'react-test-renderer';

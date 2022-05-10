@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, {
   useEffect, useState, useRef, useContext,
 } from 'react';

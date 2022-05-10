@@ -72,14 +72,16 @@ const addBid = async (itemId, bid) => {
   }
 };
 
-const acceptBid = async (listing, currBid ) => {
+const acceptBid = async (listing, currBid) => {
   try {
-    const { data } = await axios.post('/seller/acceptBid', 
-    { 
-      buyerName: listing.bidHistory[listing.bidHistory.length - 1].bidderName, 
-      listingBid: listing, 
-      totalCost: currBid 
-    });
+    const { data } = await axios.post(
+      '/seller/acceptBid',
+      {
+        buyerName: listing.bidHistory[listing.bidHistory.length - 1].bidderName,
+        listingBid: listing,
+        totalCost: currBid,
+      },
+    );
     return data;
   } catch (error) {
     throw new Error('Error in accepting bid');
@@ -108,7 +110,7 @@ const addTransaction = async (transaction) => {
     const { data } = await axios.post('/seller/addTransaction', { transaction });
     return data;
   } catch (error) {
-    throw new Error('Error in adding transaction')
+    throw new Error('Error in adding transaction');
   }
 };
 
@@ -124,4 +126,4 @@ module.exports = {
   acceptBid,
   regTransaction,
   addTransaction,
-}
+};

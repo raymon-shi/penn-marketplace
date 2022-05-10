@@ -44,6 +44,7 @@ const Header = ({ username, loggedIn, userLoggedOut }) => {
       await axios.post('/account/deleteuser', { name: username });
       window.location.href = 'http://localhost:3000/login';
     } catch (error) {
+      // eslint-disable-next-line no-alert
       alert('There was an error deleting the user!');
     }
   };

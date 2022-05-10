@@ -44,6 +44,7 @@ const BidListing = ({ onSubmit, onBack }) => {
     <div className="reg-listing pb-5">
       <h1 className="title">Bid Listing</h1>
       <Card className="shadow rounded mx-auto p-5" border="light" style={{ width: '50%' }}>
+        {/* eslint-disable-next-line no-alert */}
         <Form onSubmit={(e) => { e.preventDefault(); submitBidListing(product, productDescr, tag, imgLink, imageFile.current).then(() => onSubmit()).catch((err) => alert('Error in posting! Please try again.')); }}>
           <Form.Group className="mb-3">
             <Form.Label className="required">Product</Form.Label>

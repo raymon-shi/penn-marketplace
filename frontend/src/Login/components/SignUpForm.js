@@ -38,7 +38,6 @@ const SignUpForm = ({ showSignUp, setShowSignUp }) => {
 
   const signup = async (event) => {
     event.preventDefault();
-    console.log(`${email} | ${firstName} ${lastName} | ${password} | ${month} | ${day} | ${year} | ${major} | ${school} | ${classYear}`);
     const config = {
       headers: {
         'Content-Type': 'application/json',

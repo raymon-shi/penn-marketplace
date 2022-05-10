@@ -19,7 +19,6 @@ const login = async (event, email, password) => {
     );
     return data;
   } catch (error) {
-    console.log(error);
     throw new Error('There was an error in /account/login');
   }
 };
@@ -29,7 +28,6 @@ const failedLogin = async (email) => {
     const { data } = await axios.post('/account/failedLogin', { email });
     return data;
   } catch (error) {
-    console.log(error);
     throw new Error('There was an error in /account/failedLogin');
   }
 };
@@ -39,7 +37,6 @@ const resettingPassword = async (email, password) => {
     const { data } = await axios.post('/account/resetpassword', { email, password });
     return data;
   } catch (error) {
-    console.log(error);
     throw new Error('There was an issue resetting your password! Check the username and password');
   }
 };
@@ -78,7 +75,6 @@ const signup = async (
     });
     return data;
   } catch (error) {
-    console.log(error);
     throw new Error('There was an error in /account/signup');
   }
 };

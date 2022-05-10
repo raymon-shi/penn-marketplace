@@ -88,8 +88,14 @@ const RegularItem = ({ username }) => {
         ) : null}
       </div>
       <div className="item-seller">
-        <h1>Seller</h1>
+        <h1>Seller Information</h1>
         <h4>{listing.posterName}</h4>
+        <div>
+          <button type="submit">Follow Seller</button>
+        </div>
+        <div>
+          <button type="submit">Report Item</button>
+        </div>
       </div>
     </div>
   );

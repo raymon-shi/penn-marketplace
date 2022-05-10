@@ -10,7 +10,7 @@
  import BidItem from '../components/BidItem';
  import axios from 'axios';
  import MockAdapter from 'axios-mock-adapter';
-import { act } from 'react-test-renderer';
+  import { act } from 'react-test-renderer';
 
  let mockAxios;
 

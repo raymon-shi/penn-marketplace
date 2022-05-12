@@ -119,7 +119,7 @@ Furthermore, there are a variety of platforms and websites that students usually
 -   Cypress
 
 ## Mobile App Version
-https://github.com/cis350/project-penn-marketplace-mobile
+https://github.com/raymon-shi/penn-marketplace-mobile
 
 ## Additional
 Wireframes/Prototypes: https://www.figma.com/file/marQmxMbckwwOOu7QvdPoF/Sprint-2-Wireframes?node-id=0%3A1
